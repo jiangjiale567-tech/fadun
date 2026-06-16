@@ -1,0 +1,1357 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>法盾（FǎDùn）- 法律综合指导平台 v3.0</title>
+    <style>
+        :root {
+            --primary-color: #1a2744;
+            --accent-color: #c9a96e;
+            --bg-white: #ffffff;
+            --bg-light: #f5f7fa;
+            --text-primary: #333333;
+            --text-secondary: #666666;
+            --border-radius: 12px;
+            --transition-speed: 0.3s;
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.12);
+            --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.15);
+            --success-color: #52c41a;
+            --warning-color: #faad14;
+            --error-color: #ff4d4f;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif; background-color: var(--bg-light); color: var(--text-primary); line-height: 1.6; min-height: 100vh; }
+        
+        .navbar { background-color: var(--bg-white); box-shadow: var(--shadow-sm); padding: 16px 0; position: sticky; top: 0; z-index: 100; }
+        .navbar-container { max-width: 1200px; margin: 0 auto; padding: 0 24px; display: flex; justify-content: space-between; align-items: center; }
+        .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; cursor: pointer; }
+        .logo-icon { width: 40px; height: 40px; background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 20px; }
+        .logo-text { font-size: 24px; font-weight: 600; color: var(--primary-color); }
+        
+        .nav-links a:hover { color: var(--accent-color); border-bottom: 2px solid var(--accent-color); }
+
+        .btn { padding: 10px 24px; border-radius: 6px; font-size: 14px; cursor: pointer; transition: all var(--transition-speed); border: none; font-family: inherit; min-height: 44px; }
+        .btn-outline { background: transparent; border: 1px solid var(--primary-color); color: var(--primary-color); }
+        .btn-primary { background-color: var(--primary-color); color: white; }
+        .btn-primary:hover { background-color: #0f1a2e; transform: translateY(-2px); box-shadow: var(--shadow-md); }
+
+        .nav-links a:hover { color: var(--accent-color); border-bottom: 2px solid var(--accent-color); }
+
+        .hero { background: linear-gradient(135deg, var(--primary-color) 0%, #2a3f5f 100%); padding: 80px 24px; text-align: center; color: white; }
+        .hero-title { font-size: 42px; font-weight: 600; margin-bottom: 16px; letter-spacing: 2px; }
+        .search-container { max-width: 700px; margin: 0 auto 24px; position: relative; }
+        .search-input { width: 100%; padding: 16px 24px; padding-right: 120px; border: none; border-radius: 50px; font-size: 16px; outline: none; box-shadow: var(--shadow-lg); }
+        .search-btn { position: absolute; right: 6px; top: 50%; transform: translateY(-50%); background-color: var(--accent-color); color: white; border: none; padding: 10px 24px; border-radius: 50px; cursor: pointer; }
+        
+        .identity-section { max-width: 1200px; margin: -40px auto 60px; padding: 0 24px; }
+        .identity-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+        .identity-card { background: var(--bg-white); border-radius: var(--border-radius); padding: 32px; box-shadow: var(--shadow-md); cursor: pointer; transition: all var(--transition-speed); border: 1px solid transparent; }
+        .identity-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-lg); border-color: var(--accent-color); }
+        .card-title { font-size: 22px; font-weight: 600; margin-bottom: 12px; color: var(--primary-color); }
+        .card-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+        .card-tag { background-color: #f0f2f5; color: var(--text-secondary); padding: 4px 12px; border-radius: 12px; font-size: 12px; }
+        .card-description { color: var(--text-secondary); font-size: 14px; line-height: 1.6; }
+
+        .identity-page, .tool-page { display: none; max-width: 1200px; margin: 40px auto; padding: 0 24px; }
+        .page-header { margin-bottom: 32px; }
+        .back-btn { display: inline-block; margin-bottom: 16px; color: var(--text-secondary); text-decoration: none; cursor: pointer; }
+        .page-title { font-size: 28px; font-weight: 600; color: var(--primary-color); }
+        
+        .chat-panel { background: var(--bg-white); border-radius: var(--border-radius); padding: 24px; box-shadow: var(--shadow-sm); margin-bottom: 32px; }
+        .chat-messages { height: 280px; overflow-y: auto; padding: 24px; background-color: var(--bg-light); border-radius: 8px; margin-bottom: 16px; }
+        .message { margin-bottom: 16px; display: flex; align-items: flex-start; gap: 12px; }
+        .message.ai { flex-direction: row; }
+        .message.user { flex-direction: row-reverse; }
+        .message-avatar { width: 36px; height: 36px; border-radius: 50%; background-color: #e6f7ff; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+        .message-content { max-width: 70%; padding: 12px 16px; border-radius: 12px; background-color: white; box-shadow: var(--shadow-sm); font-size: 14px; }
+        .message.user .message-content { background-color: var(--primary-color); color: white; }
+        .chat-input-area { display: flex; gap: 12px; }
+        .chat-input { flex: 1; padding: 12px 16px; border: 1px solid #d9d9d9; border-radius: 6px; outline: none; }
+        .send-btn { padding: 12px 24px; background-color: var(--primary-color); color: white; border: none; border-radius: 6px; cursor: pointer; }
+
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
+        .feature-card { background: var(--bg-white); border-radius: var(--border-radius); padding: 24px; box-shadow: var(--shadow-sm); cursor: pointer; transition: all var(--transition-speed); text-align: center; border: 1px solid transparent; }
+        .feature-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: var(--accent-color); }
+        .feature-icon { font-size: 32px; margin-bottom: 12px; }
+        .feature-title { font-size: 16px; font-weight: 600; margin-bottom: 8px; color: var(--primary-color); }
+        .feature-desc { font-size: 13px; color: var(--text-secondary); }
+
+        .tool-form { background: var(--bg-white); border-radius: var(--border-radius); padding: 32px; box-shadow: var(--shadow-sm); margin-bottom: 32px; }
+        .form-group { margin-bottom: 20px; }
+        .form-label { display: block; margin-bottom: 8px; font-weight: 500; color: var(--text-primary); }
+        .form-input, .form-select { width: 100%; padding: 12px; border: 1px solid #d9d9d9; border-radius: 6px; outline: none; transition: border-color var(--transition-speed); }
+        .form-input:focus, .form-select:focus { border-color: var(--accent-color); }
+        
+        .result-box { background: var(--bg-white); border-radius: var(--border-radius); padding: 32px; box-shadow: var(--shadow-sm); border-left: 4px solid var(--accent-color); }
+        .result-title { font-size: 20px; font-weight: 600; margin-bottom: 20px; color: var(--primary-color); }
+        .result-item { padding: 12px 0; border-bottom: 1px solid #f0f0f0; font-size: 14px; }
+        .highlight-number { font-size: 24px; font-weight: 600; color: var(--accent-color); }
+
+        .footer { background-color: var(--primary-color); color: white; padding: 40px 24px; text-align: center; margin-top: 60px; }
+        .disclaimer-bar { position: sticky; bottom: 0; background: #fff7e6; border-left: 4px solid #faad14; padding: 12px 24px; z-index: 99; font-size: 14px; color: #d48806; box-shadow: 0 -2px 8px rgba(0,0,0,0.05); }
+        .toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background-color: rgba(0,0,0,0.8); color: white; padding: 12px 24px; border-radius: 6px; font-size: 14px; z-index: 1000; display: none; }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); z-index: 200; display: flex; align-items: center; justify-content: center; }
+        .modal-content { background: white; padding: 32px; border-radius: var(--border-radius); max-width: 500px; width: 90%; }
+    </style>
+</head>
+<body>
+    <!-- 顶部导航栏 -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="logo" onclick="showHomePage()">
+                <div class="logo-icon">法</div>
+                <span class="logo-text">法盾 FǎDùn</span>
+            </div>
+            <div class="nav-links" style="display: flex; gap: 24px; align-items: center;">
+            </div>
+            <div class="nav-actions">
+                <button class="btn btn-outline" style="opacity: 0.6; cursor: not-allowed;">登录（即将上线）</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 首页内容 -->
+    <div id="homePage">
+        <section class="hero">
+            <h1 class="hero-title">法盾 · 您的智能法律助手</h1>
+            <p class="hero-subtitle">专业、高效、触手可及的法律科普与自助评估平台</p>
+            <div class="search-container">
+                <input type="text" class="search-input" placeholder="搜索法律问题，如：离婚财产分割、工伤赔偿..." id="searchInput" onkeypress="handleSearch(event)">
+                <button class="search-btn" onclick="performSearch()">搜索</button>
+            </div>
+        </section>
+
+        <section class="identity-section">
+            <div class="identity-grid">
+                <div class="identity-card" onclick="showIdentityPage('citizen')">
+                    <h2 class="card-title">普通市民</h2>
+                    <div class="card-tags"><span class="card-tag">婚姻家庭</span><span class="card-tag">劳动纠纷</span></div>
+                    <p class="card-description">遇到婚姻、劳动、交通事故问题？一键评估你的法律风险，获取维权步骤</p>
+                </div>
+                <div class="identity-card" onclick="showIdentityPage('entrepreneur')">
+                    <h2 class="card-title">企业主/创业者</h2>
+                    <div class="card-tags"><span class="card-tag">合同纠纷</span><span class="card-tag">股权架构</span></div>
+                    <p class="card-description">创业路上合同、股权、用工风险多？用智能工具提前排查，避免踩坑</p>
+                </div>
+                <div class="identity-card" onclick="showIdentityPage('legal_hr')">
+                    <h2 class="card-title">企业法务/HR</h2>
+                    <div class="card-tags"><span class="card-tag">用工合规</span><span class="card-tag">规章制度</span></div>
+                    <p class="card-description">劳动合同、合规审查、劳动争议处理，帮你高效搞定企业法务与HR难题</p>
+                </div>
+                <div class="identity-card" onclick="showIdentityPage('lawyer')">
+                    <h2 class="card-title">法律从业者</h2>
+                    <div class="card-tags"><span class="card-tag">案例检索</span><span class="card-tag">文书生成</span></div>
+                    <p class="card-description">诉讼费计算、文书模板、证据清单、类案检索，提升法律工作的效率</p>
+                </div>
+                <div class="identity-card" onclick="showIdentityPage('student')">
+                    <h2 class="card-title">学生/求职者</h2>
+                    <div class="card-tags"><span class="card-tag">租房避坑</span><span class="card-tag">实习权益</span></div>
+                    <p class="card-description">租房怕被坑？实习没保障？Offer有陷阱？这里有学生专属的法律自保指南</p>
+                </div>
+                <div class="identity-card" onclick="showIdentityPage('special')">
+                    <h2 class="card-title">权益保护专区</h2>
+                    <div class="card-tags"><span class="card-tag">未成年人</span><span class="card-tag">老年人</span></div>
+                    <p class="card-description">为未成年人、老年人、残障人士等提供免费法律援助指引与权益保护知识</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- 身份专属页面容器 -->
+    <div id="identityPages"></div>
+    <!-- 功能工具页面容器 -->
+    <div id="toolPages"></div>
+
+    <!-- 搜索结果弹窗 -->
+    <div id="searchResultsModal" class="modal-overlay" style="display:none;" onclick="closeSearchModal(event)">
+        <div class="modal-content" style="max-width: 800px; max-height: 80vh; overflow-y: auto;" onclick="event.stopPropagation()">
+            <h3 style="margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center;">
+                搜索结果
+                <span style="cursor:pointer;font-size:24px;" onclick="document.getElementById('searchResultsModal').style.display='none'">×</span>
+            </h3>
+            <div id="searchResultsList"></div>
+            <button class="btn btn-primary" style="margin-top: 20px; width: 100%;" onclick="document.getElementById('searchResultsModal').style.display='none'">关闭</button>
+        </div>
+    </div>
+
+    <!-- 简单文本弹窗 -->
+    <div id="infoModal" class="modal-overlay" style="display:none;" onclick="if(event.target===this)this.style.display='none'">
+        <div class="modal-content" style="max-width:600px;">
+            <h3 id="modalTitle"></h3>
+            <div id="modalBody" style="white-space:pre-wrap;font-size:14px;line-height:1.8;margin: 20px 0;"></div>
+            <button class="btn btn-primary" style="margin-top:20px;width:100%;" onclick="document.getElementById('infoModal').style.display='none'">关闭</button>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-links" style="margin-bottom: 16px;">
+                <a href="#" class="footer-link" onclick="showInfoModal('about')" style="color: white; margin: 0 12px; text-decoration: none;">关于我们</a>
+                <a href="#" class="footer-link" onclick="showInfoModal('terms')" style="color: white; margin: 0 12px; text-decoration: none;">服务条款</a>
+                <a href="#" class="footer-link" onclick="showInfoModal('privacy')" style="color: white; margin: 0 12px; text-decoration: none;">隐私政策</a>
+            </div>
+            <p class="footer-copyright">© 2026 法盾（FǎDùn）法律综合指导平台 版权所有</p>
+        </div>
+    </footer>
+
+    <!-- 全局免责声明 -->
+    <div class="disclaimer-bar">
+        ⚠️ 本平台内容仅供参考，不构成正式法律意见。重要案件请咨询执业律师。
+    </div>
+
+    <!-- 提示弹窗 -->
+    <div id="toast" class="toast"></div>
+
+    <script>
+
+        // ============================================
+        // 身份和功能配置（包含可交互工具）
+        // ============================================
+        const identityConfig = {
+            citizen: {
+                title: '普通市民',
+                tags: ['婚姻家庭', '劳动纠纷', '交通事故', '消费维权', '房产继承'],
+                features: [
+                    { 
+                        id: 'citizen_divorce_calc',
+                        icon: '💰', 
+                        title: '离婚财产分割计算器', 
+                        desc: '快速计算夫妻共同财产分配方案',
+                        type: 'calculator',
+                        toolConfig: {
+                            fields: [
+                                { name: '房产价值', key: 'property', type: 'number', placeholder: '请输入房产当前市值（元）' },
+                                { name: '存款总额', key: 'savings', type: 'number', placeholder: '夫妻共同存款（元）' },
+                                { name: '车辆价值', key: 'vehicle', type: 'number', placeholder: '车辆当前估值（元）' },
+                                { name: '其他资产', key: 'other', type: 'number', placeholder: '股票、基金等其他资产（元）' },
+                                { name: '共同债务', key: 'debt', type: 'number', placeholder: '夫妻共同债务（元）' },
+                                { name: '是否有过错方', key: 'fault', type: 'select', options: ['无', '男方有过错', '女方有过错', '双方都有过错'] }
+                            ],
+                            calculate: (data) => {
+                                const totalAssets = parseFloat(data.property || 0) + parseFloat(data.savings || 0) + parseFloat(data.vehicle || 0) + parseFloat(data.other || 0);
+                                const netAssets = totalAssets - parseFloat(data.debt || 0);
+                                let maleShare = 0.5, femaleShare = 0.5;
+                                if (data.fault === '男方有过错') { maleShare = 0.4; femaleShare = 0.6; }
+                                else if (data.fault === '女方有过错') { maleShare = 0.6; femaleShare = 0.4; }
+                                
+                                return {
+                                    title: '财产分割建议方案',
+                                    items: [
+                                        `总资产价值：¥${totalAssets.toLocaleString()}`,
+                                        `扣除债务后净值：¥${netAssets.toLocaleString()}`,
+                                        `男方应得（${maleShare*100}%）：¥${(netAssets * maleShare).toLocaleString()}`,
+                                        `女方应得（${femaleShare*100}%）：¥${(netAssets * femaleShare).toLocaleString()}`,
+                                        '',
+                                        '<strong>📖 法律依据：</strong>',
+                                        '《民法典》第1087条：离婚时，夫妻的共同财产由双方协议处理；协议不成的，由人民法院根据财产的具体情况，按照照顾子女、女方和无过错方权益的原则判决。',
+                                        '《民法典》第1091条：有下列情形之一，导致离婚的，无过错方有权请求损害赔偿：（一）重婚；（二）与他人同居；（三）实施家庭暴力；（四）虐待、遗弃家庭成员；（五）有其他重大过错。'
+                                    ]
+                                };
+                            }
+                        }
+                    },
+                    { 
+                        id: 'citizen_labor_compensation',
+                        icon: '⚖️', 
+                        title: '劳动赔偿金计算器', 
+                        desc: '计算违法解除劳动合同赔偿金',
+                        type: 'calculator',
+                        toolConfig: {
+                            fields: [
+                                { name: '工作年限', key: 'years', type: 'number', placeholder: '在公司工作的年数' },
+                                { name: '月平均工资', key: 'salary', type: 'number', placeholder: '离职前12个月平均工资（元）' },
+                                { name: '解除原因', key: 'reason', type: 'select', options: ['公司违法解除', '协商一致解除', '员工主动辞职', '合同到期不续签'] }
+                            ],
+                            calculate: (data) => {
+                                const years = parseFloat(data.years || 0);
+                                const salary = parseFloat(data.salary || 0);
+                                let compensation = 0, explanation = '';
+                                
+                                if (data.reason === '公司违法解除') { compensation = years * salary * 2; explanation = '违法解除，应支付赔偿金（2N）'; }
+                                else if (data.reason === '协商一致解除' || data.reason === '合同到期不续签') { compensation = years * salary; explanation = '经济补偿金（N）'; }
+                                else { compensation = 0; explanation = '员工主动辞职，通常无补偿'; }
+                                
+                                return {
+                                    title: '赔偿金计算结果',
+                                    items: [
+                                        `工作年限：${years}年`,
+                                        `月平均工资：¥${salary.toLocaleString()}`,
+                                        `<span class="highlight-number">¥${compensation.toLocaleString()}</span>`,
+                                        explanation,
+                                        '',
+                                        '<strong>📖 法律依据：</strong>',
+                                        '《劳动合同法》第47条：经济补偿按劳动者在本单位工作的年限，每满一年支付一个月工资的标准向劳动者支付。六个月以上不满一年的，按一年计算；不满六个月的，向劳动者支付半个月工资的经济补偿。',
+                                        data.reason === '公司违法解除' ? '《劳动合同法》第87条：用人单位违反本法规定解除或者终止劳动合同的，应当依照本法第四十七条规定的经济补偿标准的二倍向劳动者支付赔偿金。' : ''
+                                    ].filter(Boolean)
+                                };
+                            }
+                        }
+                    },
+                    { 
+                        id: 'citizen_contract_gen',
+                        icon: '📝', 
+                        title: '简易合同生成器', 
+                        desc: '快速生成常用合同模板',
+                        type: 'generator',
+                        toolConfig: {
+                            fields: [
+                                { name: '合同类型', key: 'contractType', type: 'select', options: ['借款合同', '租赁合同'] },
+                                { name: '甲方姓名', key: 'partyA', type: 'text', placeholder: '甲方姓名' },
+                                { name: '乙方姓名', key: 'partyB', type: 'text', placeholder: '乙方姓名' },
+                                { name: '金额/租金', key: 'amount', type: 'number', placeholder: '金额（元）' },
+                                { name: '期限', key: 'duration', type: 'text', placeholder: '如：12个月' }
+                            ],
+                            generate: (data) => {
+                                const tmpl = data.contractType === '借款合同' 
+                                    ? `借 款 合 同\n\n甲方（出借人）：${data.partyA}\n乙方（借款人）：${data.partyB}\n\n第一条 借款金额\n乙方向甲方借款人民币${parseFloat(data.amount||0).toLocaleString()}元。\n\n第二条 借款期限\n借款期限为${data.duration}。\n\n第三条 还款方式\n乙方应于借款到期之日一次性归还全部本金及利息。\n\n甲方（签字）：_____________    日期：____年__月__日\n乙方（签字）：_____________    日期：____年__月__日`
+                                    : `房 屋 租 赁 合 同\n\n甲方（出租人）：${data.partyA}\n乙方（承租人）：${data.partyB}\n\n第一条 租赁期限\n租赁期限为${data.duration}。\n\n第二条 租金\n每月租金为人民币${parseFloat(data.amount||0).toLocaleString()}元。\n\n第三条 押金\n乙方应向甲方支付押金人民币____元。\n\n甲方（签字）：_____________    日期：____年__月__日\n乙方（签字）：_____________    日期：____年__月__日`;
+                                
+                                return { title: `${data.contractType}（草稿）`, content: tmpl, note: '⚠️ 仅供参考，重要合同请律师审查。' };
+                            }
+                        }
+                    },
+                    { 
+                        id: 'citizen_risk_check',
+                        icon: '🛡️', 
+                        title: '法律风险评估', 
+                        desc: '评估您的法律风险等级',
+                        type: 'assessment',
+                        toolConfig: {
+                            questions: [
+                                { question: '是否签订了书面合同？', options: ['是', '口头约定', '无'] },
+                                { question: '是否保留了证据？', options: ['完整', '部分', '几乎没有'] },
+                                { question: '对方履约情况？', options: ['正常', '轻微违约', '严重违约'] },
+                                { question: '争议金额？', options: ['1万以下', '1-10万', '10万以上'] }
+                            ],
+                            evaluate: (answers) => {
+                                let score = 0;
+                                const details = [];
+                                if (answers[0] === '是') { score += 0; details.push('✓ 已签合同'); } else if (answers[0] === '口头约定') { score += 1; details.push('⚠ 仅口头约定'); } else { score += 2; details.push('✗ 无合同'); }
+                                if (answers[1] === '完整') { score += 0; details.push('✓ 证据完整'); } else if (answers[1] === '部分') { score += 1; details.push('⚠ 证据不足'); } else { score += 2; details.push('✗ 缺乏证据'); }
+                                if (answers[2] === '正常') { score += 0; } else if (answers[2] === '轻微违约') { score += 1; } else { score += 2; details.push('✗ 对方严重违约'); }
+                                if (answers[3] === '1万以下') { score += 0; } else if (answers[3] === '1-10万') { score += 1; } else { score += 2; }
+                                
+                                let level = score <= 2 ? '低风险' : score <= 5 ? '中风险' : '高风险';
+                                let color = score <= 2 ? 'var(--success-color)' : score <= 5 ? 'var(--warning-color)' : 'var(--error-color)';
+                                
+                                return { title: '风险评估报告', riskLevel: level, riskColor: color, score: `${score}/8`, details: details, suggestion: score <= 2 ? '风险较低，继续保持。' : '建议尽快咨询律师，采取法律行动！' };
+                            }
+                        }
+                    },
+                    { 
+                        id: 'citizen_traffic_calc',
+                        icon: '🚗', 
+                        title: '交通事故赔偿估算', 
+                        desc: '估算人身损害赔偿',
+                        type: 'calculator',
+                        toolConfig: {
+                            fields: [
+                                { name: '医疗费用', key: 'medical', type: 'number', placeholder: '医疗费（元）' },
+                                { name: '误工天数', key: 'lostDays', type: 'number', placeholder: '误工天数' },
+                                { name: '日工资', key: 'dailySalary', type: 'number', placeholder: '日均工资（元）' },
+                                { name: '伤残等级', key: 'disability', type: 'select', options: ['无', '十级', '九级', '八级', '七级', '六级及以上'] }
+                            ],
+                            calculate: (data) => {
+                                const medical = parseFloat(data.medical || 0);
+                                const lostComp = parseFloat(data.lostDays || 0) * parseFloat(data.dailySalary || 0);
+                                const disRatio = {'无':0,'十级':0.1,'九级':0.2,'八级':0.3,'七级':0.4,'六级及以上':0.5}[data.disability] || 0;
+                                const disComp = 50000 * disRatio; // 简化计算
+                                const total = medical + lostComp + disComp;
+                                
+                                return {
+                                    title: '赔偿估算',
+                                    items: [
+                                        `医疗费：¥${medical.toLocaleString()}`, 
+                                        `误工费：¥${lostComp.toLocaleString()}`, 
+                                        `残疾赔偿金：约¥${disComp.toLocaleString()}`, 
+                                        '', 
+                                        `<span class="highlight-number">总计：¥${total.toLocaleString()}</span>`,
+                                        '',
+                                        '<strong>📖 法律依据：</strong>',
+                                        '《民法典》第1179条：侵害他人造成人身损害的，应当赔偿医疗费、护理费、交通费、营养费、住院伙食补助费等为治疗和康复支出的合理费用，以及因误工减少的收入。造成残疾的，还应当赔偿辅助器具费和残疾赔偿金。'
+                                    ]
+                                };
+                            }
+                        }
+                    },
+                    { 
+                        id: 'citizen_legal_aid_test',
+                        icon: '📞', 
+                        title: '法律援助资格自测', 
+                        desc: '测试是否符合援助条件',
+                        type: 'quiz',
+                        toolConfig: {
+                            questions: [
+                                { question: '月收入是否低于当地最低标准？', options: ['是', '否'] },
+                                { question: '是否属于低保户等特殊群体？', options: ['是', '否'] },
+                                { question: '是否有能力聘请律师？', options: ['无力承担', '勉强可以', '完全可以'] }
+                            ],
+                            evaluate: (answers) => {
+                                const eligible = answers[0] === '是' || answers[1] === '是' || answers[2] === '无力承担';
+                                return {
+                                    title: '援助资格评估',
+                                    result: eligible ? '✓ 可能符合' : '✗ 可能不符合',
+                                    color: eligible ? 'var(--success-color)' : 'var(--text-secondary)',
+                                    reasons: eligible ? ['收入符合标准', '属于困难群体'] : ['建议联系公益律所获取帮助'],
+                                    nextStep: eligible ? '请携带身份证、经济困难证明到当地法律援助中心申请。' : '可尝试高校法律诊所或公益组织。'
+                                };
+                            }
+                        }
+                    }
+                ]
+            },
+            entrepreneur: {
+                title: '企业主/创业者',
+                tags: ['合同纠纷', '股权架构', '劳动用工合规', '知识产权'],
+                features: [
+                    { 
+                        id: 'entre_contract_risk',
+                        icon: '🔍', 
+                        title: '合同风险检查器', 
+                        desc: '系统化识别合同风险点',
+                        type: 'assessment',
+                        toolConfig: {
+                            questions: [
+                                { question: '违约金条款', options: ['明确且合理（不超过损失30%）', '过高或未约定上限', '无违约金条款'] },
+                                { question: '管辖法院约定', options: ['己方所在地或中立地', '对方所在地', '未约定'] },
+                                { question: '免责条款范围', options: ['仅限不可抗力', '包含一般违约', '免除一切责任'] },
+                                { question: '付款条件', options: ['明确具体（时间/方式/验收标准）', '模糊不清', '先款后货/服务'] },
+                                { question: '争议解决方式', options: ['仲裁或诉讼二选一', '仅约定诉讼', '未约定'] }
+                            ],
+                            evaluate: (answers) => {
+                                let riskScore = 0;
+                                const details = [];
+                                
+                                if (answers[0] === '过高或未约定上限') { riskScore += 2; details.push('⚠️ 违约金可能过高，法院可调整'); }
+                                else if (answers[0] === '无违约金条款') { riskScore += 1; details.push('ℹ️ 缺少违约金约束'); }
+                                
+                                if (answers[1] === '对方所在地') { riskScore += 2; details.push('⚠️ 管辖地对己方不利'); }
+                                else if (answers[1] === '未约定') { riskScore += 1; details.push('ℹ️ 未约定管辖，按法定'); }
+                                
+                                if (answers[2] === '免除一切责任') { riskScore += 3; details.push('❌ "免除一切责任"条款无效'); }
+                                else if (answers[2] === '包含一般违约') { riskScore += 2; details.push('⚠️ 免责范围过宽'); }
+                                
+                                if (answers[3] === '模糊不清') { riskScore += 2; details.push('⚠️ 付款条件不明确'); }
+                                else if (answers[3] === '先款后货/服务') { riskScore += 1; details.push('ℹ️ 预付款风险较高'); }
+                                
+                                if (answers[4] === '未约定') { riskScore += 1; details.push('ℹ️ 未约定争议解决方式'); }
+                                
+                                let level = riskScore <= 3 ? '低风险' : riskScore <= 7 ? '中风险' : '高风险';
+                                let color = riskScore <= 3 ? 'var(--success-color)' : riskScore <= 7 ? 'var(--warning-color)' : 'var(--error-color)';
+                                
+                                return { 
+                                    title: '合同风险评估', 
+                                    riskLevel: level, 
+                                    riskColor: color, 
+                                    score: `${riskScore}/10`, 
+                                    details: details, 
+                                    suggestion: riskScore <= 3 ? '合同条款相对完善，建议律师最终审查。' : '存在较多风险点，建议重新谈判或聘请律师审查！' 
+                                };
+                            }
+                        }
+                    },
+                    { 
+                        id: 'entre_equity_sim',
+                        icon: '🏛️', 
+                        title: '股权分配模拟器', 
+                        desc: '模拟不同股权方案',
+                        type: 'calculator',
+                        toolConfig: {
+                            fields: [
+                                { name: '创始人A持股%', key: 'founderA', type: 'number', placeholder: '60' },
+                                { name: '创始人B持股%', key: 'founderB', type: 'number', placeholder: '30' },
+                                { name: '期权池%', key: 'optionPool', type: 'number', placeholder: '10' },
+                                { name: '融资轮次', key: 'rounds', type: 'select', options: ['天使轮', 'A轮', 'B轮'] }
+                            ],
+                            calculate: (data) => {
+                                const a = parseFloat(data.founderA||0), b = parseFloat(data.founderB||0), pool = parseFloat(data.optionPool||0);
+                                const total = a + b + pool;
+                                const dilution = {'天使轮':0.15,'A轮':0.20,'B轮':0.15}[data.rounds] || 0.15;
+                                const afterA = (a/total*100*(1-dilution)).toFixed(2);
+                                const afterB = (b/total*100*(1-dilution)).toFixed(2);
+                                
+                                let control = a > 67 ? '✓ A绝对控股' : a > 50 ? '⚠ A相对控股' : '✗ A未控股';
+                                
+                                return {
+                                    title: '股权分析',
+                                    items: [`当前：A ${a}%, B ${b}%, 期权池 ${pool}%`, `融资后(${data.rounds})：A ${afterA}%, B ${afterB}%`, '', control, '', '💡 建议设置股权成熟机制（vesting）。']
+                                };
+                            }
+                        }
+                    },
+                    { 
+                        id: 'entre_ip_checklist',
+                        icon: '®️', 
+                        title: '知识产权保护清单', 
+                        desc: '生成IP保护待办',
+                        type: 'checklist',
+                        toolConfig: {
+                            fields: [
+                                { name: '公司名称', key: 'companyName', type: 'text', placeholder: '公司全称' },
+                                { name: '是否有核心技术', key: 'hasTech', type: 'select', options: ['是', '否'] },
+                                { name: '商标状态', key: 'hasTrademark', type: 'select', options: ['已注册', '申请中', '未申请'] }
+                            ],
+                            generate: (data) => {
+                                const list = ['□ 商标注册', '□ 域名注册', '□ 著作权登记', data.hasTech==='是'?'□ 专利申请':'□ 评估可专利技术', '□ 商业秘密保护', '□ 监控侵权'];
+                                if (data.hasTrademark !== '已注册') list.unshift('🔴 紧急：立即启动商标注册！');
+                                return { title: `${data.companyName} IP清单`, items: list, note: '每季度review此清单。' };
+                            }
+                        }
+                    },
+                    { 
+                        id: 'entre_labor_check',
+                        icon: '👥', 
+                        title: '用工合规自查', 
+                        desc: '检查用工合规性',
+                        type: 'assessment',
+                        toolConfig: {
+                            questions: [
+                                { question: '是否全员签订劳动合同？', options: ['全部', '大部分', '部分未签'] },
+                                { question: '社保公积金缴纳？', options: ['全员足额', '部分缴纳', '基本未缴'] },
+                                { question: '是否有员工手册？', options: ['完善已公示', '有但未公示', '没有'] },
+                                { question: '加班费支付？', options: ['严格执行', '偶尔', '基本没有'] }
+                            ],
+                            evaluate: (answers) => {
+                                let score = 0;
+                                const issues = [];
+                                answers.forEach((a, i) => {
+                                    if (a === '全部' || a === '全员足额' || a === '完善已公示' || a === '严格执行') score += 2;
+                                    else if (a === '大部分' || a === '部分缴纳' || a === '有但未公示' || a === '偶尔') { score += 1; issues.push(`⚠️ 第${i+1}项需改进`); }
+                                    else issues.push(`❌ 第${i+1}项存在高风险`);
+                                });
+                                const level = score >= 6 ? '合规良好' : score >= 4 ? '基本合规' : '风险高';
+                                const color = score >= 6 ? 'var(--success-color)' : score >= 4 ? 'var(--warning-color)' : 'var(--error-color)';
+                                return { title: '用工合规报告', complianceLevel: level, color: color, score: `${score}/8`, issues: issues, suggestion: score >= 6 ? '继续保持。' : '建议尽快整改！' };
+                            }
+                        }
+                    },
+                    { 
+                        id: 'entre_due_diligence',
+                        icon: '📊', 
+                        title: '尽调清单生成器', 
+                        desc: '生成定制化尽调清单',
+                        type: 'checklist',
+                        toolConfig: {
+                            fields: [
+                                { name: '融资轮次', key: 'round', type: 'select', options: ['天使轮', 'A轮', 'B轮'] },
+                                { name: '特别关注项', key: 'special', type: 'text', placeholder: '如：关联交易' }
+                            ],
+                            generate: (data) => {
+                                const base = ['【公司治理】公司章程、股东会决议、股权结构图', '【财务】近3年审计报告、财务报表', '【业务】主要客户/供应商合同', '【人力】员工花名册、劳动合同', '【IP】商标、专利、软著证书', '【合规】营业执照、行业许可证'];
+                                const special = data.special ? [`【特别关注】${data.special}`] : [];
+                                return { title: `${data.round}尽调清单`, items: [...base, ...special], note: '建议聘请专业律所和会计师事务所协助。' };
+                            }
+                        }
+                    },
+                    { 
+                        id: 'entre_dispute_ai',
+                        icon: '⚖️', 
+                        title: '商业纠纷策略分析', 
+                        desc: 'AI分析解决方案优劣',
+                        type: 'ai_analysis',
+                        toolConfig: {
+                            instruction: '请描述商业纠纷情况（性质、金额、对方态度、诉求等），AI将分析各种解决途径。',
+                            analyze: (text) => {
+                                return {
+                                    title: '纠纷解决策略',
+                                    strategies: [
+                                        '【协商和解】成本低、效率高，但需双方诚意',
+                                        '【调解】第三方介入更公正，成功率较高',
+                                        '【仲裁】一裁终局、保密性强，需事先约定',
+                                        '【诉讼】强制力强，但周期长（6-12个月）'
+                                    ],
+                                    recommendation: '建议先尝试协商或调解，如无果再考虑仲裁或诉讼。做好证据准备。'
+                                };
+                            }
+                        }
+                    }
+                ]
+            },
+            legal_hr: {
+                title: '企业法务/HR',
+                tags: ['合同审查', '合规风控', '劳动争议处理', '法律培训'],
+                features: [
+                    { 
+                        id: 'hr_contract_tmpl',
+                        icon: '📋', 
+                        title: '劳动合同模板', 
+                        desc: '生成标准化劳动合同',
+                        type: 'generator',
+                        toolConfig: {
+                            fields: [
+                                { name: '员工姓名', key: 'empName', type: 'text', placeholder: '员工姓名' },
+                                { name: '职位', key: 'position', type: 'text', placeholder: '岗位' },
+                                { name: '月薪', key: 'salary', type: 'number', placeholder: '月工资（元）' },
+                                { name: '合同期限', key: 'term', type: 'select', options: ['3年', '1年', '无固定'] }
+                            ],
+                            generate: (data) => {
+                                return {
+                                    title: '劳动合同（草案）',
+                                    content: `劳 动 合 同\n\n甲方：____________________\n乙方：${data.empName}\n\n第一条 期限\n本合同为${data.term}，自____年__月__日起。\n\n第二条 岗位\n乙方从事${data.position}工作。\n\n第三条 报酬\n月工资人民币${parseFloat(data.salary||0).toLocaleString()}元。\n\n第四条 社保\n甲方依法为乙方缴纳社会保险。\n\n甲方（盖章）：_____________    日期：____年__月__日\n乙方（签字）：_____________    日期：____年__月__日`,
+                                    note: '⚠️ 简化版模板，正式使用前请完善。'
+                                };
+                            }
+                        }
+                    },
+                    { 
+                        id: 'hr_case_assessment',
+                        icon: '🔎', 
+                        title: '劳动争议胜算评估器', 
+                        desc: '系统化评估案件走向',
+                        type: 'assessment',
+                        toolConfig: {
+                            questions: [
+                                { question: '是否有书面劳动合同？', options: ['有且完整', '有但缺失关键页', '无（事实劳动关系）'] },
+                                { question: '工资发放记录', options: ['银行流水完整', '部分现金/微信', '无明确记录'] },
+                                { question: '考勤证据', options: ['打卡记录/钉钉完整', '部分', '几乎没有'] },
+                                { question: '解除劳动关系证明', options: ['书面通知', '口头/微信通知', '未正式解除'] },
+                                { question: '是否超过仲裁时效（1年）', options: ['未超过', '刚超过不久', '已超过较久'] }
+                            ],
+                            evaluate: (answers) => {
+                                let winRate = 0;
+                                const strengths = [];
+                                const weaknesses = [];
+                                
+                                // 评估各项
+                                if (answers[0] === '有且完整') { winRate += 25; strengths.push('✓ 书面合同完整'); }
+                                else if (answers[0] === '有但缺失关键页') { winRate += 15; weaknesses.push('⚠️ 合同不完整'); }
+                                else { winRate += 5; weaknesses.push('❌ 无书面合同，需证明事实劳动关系'); }
+                                
+                                if (answers[1] === '银行流水完整') { winRate += 20; strengths.push('✓ 工资记录完整'); }
+                                else if (answers[1] === '部分现金/微信') { winRate += 10; weaknesses.push('⚠️ 工资记录不完整'); }
+                                else { winRate += 0; weaknesses.push('❌ 缺乏工资证据'); }
+                                
+                                if (answers[2] === '打卡记录/钉钉完整') { winRate += 20; strengths.push('✓ 考勤证据充分'); }
+                                else if (answers[2] === '部分') { winRate += 10; weaknesses.push('⚠️ 考勤证据不足'); }
+                                else { winRate += 0; weaknesses.push('❌ 缺乏考勤证据'); }
+                                
+                                if (answers[3] === '书面通知') { winRate += 15; strengths.push('✓ 解除证明明确'); }
+                                else if (answers[3] === '口头/微信通知') { winRate += 8; weaknesses.push('⚠️ 解除证据较弱'); }
+                                else { winRate += 0; weaknesses.push('❌ 未正式解除'); }
+                                
+                                if (answers[4] === '未超过') { winRate += 20; strengths.push('✓ 时效内'); }
+                                else if (answers[4] === '刚超过不久') { winRate += 5; weaknesses.push('⚠️ 可能超时效'); }
+                                else { winRate += 0; weaknesses.push('❌ 已超仲裁时效'); }
+                                
+                                let level = winRate >= 70 ? '胜算较高' : winRate >= 40 ? '有一定胜算' : '胜算较低';
+                                let color = winRate >= 70 ? 'var(--success-color)' : winRate >= 40 ? 'var(--warning-color)' : 'var(--error-color)';
+                                
+                                return { 
+                                    title: '案件胜算评估', 
+                                    riskLevel: `${level}（约${winRate}%）`, 
+                                    riskColor: color, 
+                                    details: [...strengths, ...weaknesses], 
+                                    suggestion: winRate >= 70 ? '建议积极维权，可申请劳动仲裁。' : '建议补充证据或考虑调解。',
+                                    legalBasis: [
+                                        '<strong>📖 法律依据：</strong>',
+                                        '《劳动合同法》第10条：建立劳动关系，应当订立书面劳动合同。已建立劳动关系，未同时订立书面劳动合同的，应当自用工之日起一个月内订立书面劳动合同。',
+                                        '《劳动争议调解仲裁法》第27条：劳动争议申请仲裁的时效期间为一年。仲裁时效期间从当事人知道或者应当知道其权利被侵害之日起计算。'
+                                    ]
+                                };
+                            }
+                        }
+                    },
+                    { 
+                        id: 'hr_compliance_score',
+                        icon: '📈', 
+                        title: '合规评分系统', 
+                        desc: '评估企业合规水平',
+                        type: 'assessment',
+                        toolConfig: {
+                            questions: [
+                                { question: '劳动合同签订率', options: ['100%', '90-99%', '<90%'] },
+                                { question: '社保缴纳', options: ['全员足额', '部分', '基本未缴'] },
+                                { question: '规章制度', options: ['完善已公示', '有但未公示', '无'] },
+                                { question: '加班管理', options: ['规范', '偶尔违规', '混乱'] }
+                            ],
+                            evaluate: (answers) => {
+                                let score = 0;
+                                answers.forEach(a => { if (a === '100%' || a === '全员足额' || a === '完善已公示' || a === '规范') score += 2; else if (a.includes('90') || a === '部分' || a === '有但未公示' || a === '偶尔') score += 1; });
+                                const level = score >= 6 ? '优秀' : score >= 4 ? '合格' : '需改进';
+                                return { title: '合规评分', complianceLevel: level, color: score >= 6 ? 'var(--success-color)' : score >= 4 ? 'var(--warning-color)' : 'var(--error-color)', score: `${score}/8`, suggestion: score >= 6 ? '表现优秀！' : '建议制定整改计划。' };
+                            }
+                        }
+                    },
+                    { 
+                        id: 'hr_training_plan',
+                        icon: '📚', 
+                        title: '培训计划生成器', 
+                        desc: '定制法律培训方案',
+                        type: 'checklist',
+                        toolConfig: {
+                            fields: [
+                                { name: '培训对象', key: 'audience', type: 'select', options: ['新员工', '管理层', '全体员工'] },
+                                { name: '重点主题', key: 'topic', type: 'select', options: ['劳动法基础', '合同法实务', '合规风控', '综合'] }
+                            ],
+                            generate: (data) => {
+                                const topics = {'劳动法基础':['劳动合同签订','社保公积金','加班与休假','离职管理'],'合同法实务':['合同起草要点','风险条款识别','履约管理','争议解决'],'合规风控':['反商业贿赂','数据合规','反垄断法基础','出口管制'],'综合':['劳动法基础','合同法实务','合规案例分享','互动问答']};
+                                return { title: `${data.audience}法律培训计划`, items: topics[data.topic].map(t => `□ ${t}（2小时）`), note: '建议结合真实案例进行讲解，增强培训效果。' };
+                            }
+                        }
+                    },
+                    { 
+                        id: 'hr_policy_review',
+                        icon: '📖', 
+                        title: '制度文件审查清单', 
+                        desc: '审查内部制度合法性',
+                        type: 'checklist',
+                        toolConfig: {
+                            fields: [{ name: '制度类型', key: 'policyType', type: 'select', options: ['员工手册', '考勤制度', '薪酬制度', '奖惩制度'] }],
+                            generate: (data) => {
+                                return {
+                                    title: `${data.policyType}审查清单`,
+                                    items: ['□ 内容是否符合法律法规', '□ 是否经过民主程序（职工代表大会讨论）', '□ 是否已向员工公示', '□ 是否存在歧视性条款', '□ 处罚措施是否合理', '□ 是否与劳动合同冲突'],
+                                    note: '制度违法或未公示，不能作为管理依据！'
+                                };
+                            }
+                        }
+                    },
+                    { 
+                        id: 'hr_severance_calc',
+                        icon: '🧮', 
+                        title: '离职补偿计算器', 
+                        desc: '计算经济补偿金',
+                        type: 'calculator',
+                        toolConfig: {
+                            fields: [
+                                { name: '工作年限', key: 'years', type: 'number', placeholder: '年数' },
+                                { name: '月平均工资', key: 'salary', type: 'number', placeholder: '平均工资（元）' },
+                                { name: '离职原因', key: 'reason', type: 'select', options: ['公司提出协商解除', '合同到期不续签', '员工辞职', '违法解除'] }
+                            ],
+                            calculate: (data) => {
+                                const y = parseFloat(data.years||0), s = parseFloat(data.salary||0);
+                                let comp = 0, desc = '';
+                                if (data.reason === '违法解除') { comp = y * s * 2; desc = '赔偿金（2N）'; }
+                                else if (data.reason === '公司提出协商解除' || data.reason === '合同到期不续签') { comp = y * s; desc = '经济补偿金（N）'; }
+                                else { comp = 0; desc = '无补偿'; }
+                                return { title: '补偿计算', items: [`年限：${y}年`, `月均工资：¥${s.toLocaleString()}`, `<span class="highlight-number">¥${comp.toLocaleString()}</span>`, desc] };
+                            }
+                        }
+                    }
+                ]
+            },
+            lawyer: {
+                title: '法律从业者',
+                tags: ['法规检索', '案例检索', '文书模板', '专业计算工具'],
+                features: [
+                    { id: 'law_fee_calc', icon: '🧮', title: '诉讼费计算器', desc: '计算案件受理费', type: 'calculator', toolConfig: { fields: [{ name: '标的额', key: 'amount', type: 'number', placeholder: '诉讼标的（元）' }], calculate: (data) => { const a = parseFloat(data.amount||0); let fee = 0; if (a <= 10000) fee = 50; else if (a <= 100000) fee = a * 0.025 - 200; else if (a <= 200000) fee = a * 0.02 + 300; else if (a <= 500000) fee = a * 0.015 + 1300; else if (a <= 1000000) fee = a * 0.01 + 3800; else fee = a * 0.005 + 8800; return { title: '诉讼费估算', items: [`标的额：¥${a.toLocaleString()}`, `<span class="highlight-number">受理费：约¥${fee.toFixed(0).toLocaleString()}</span>`, '💡 减半收取情形：简易程序、调解结案、撤诉'] }; } } },
+                    { id: 'law_interest_calc', icon: '📊', title: '迟延履行利息计算器', desc: '计算加倍部分债务利息', type: 'calculator', toolConfig: { fields: [{ name: '债务本金', key: 'principal', type: 'number', placeholder: '元' }, { name: '迟延天数', key: 'days', type: 'number', placeholder: '天' }], calculate: (data) => { const p = parseFloat(data.principal||0), d = parseFloat(data.days||0); const interest = p * 0.000175 * d; return { title: '迟延利息', items: [`本金：¥${p.toLocaleString()}`, `天数：${d}天`, `<span class="highlight-number">利息：¥${interest.toFixed(2).toLocaleString()}</span>`, '💡 日利率万分之一点七五'] }; } } },
+                    { id: 'law_doc_template', icon: '📝', title: '文书模板库', desc: '常用法律文书模板', type: 'checklist', toolConfig: { fields: [{ name: '文书类型', key: 'docType', type: 'select', options: ['民事起诉状', '答辩状', '上诉状', '代理词'] }], generate: (data) => { const templates = {'民事起诉状':'民 事 起 诉 状\n\n原告：__________，性别__，民族__，____年__月__日生\n被告：__________，性别__，民族__，____年__月__日生\n\n诉讼请求：\n1. ________________\n2. ________________\n\n事实与理由：\n________________\n\n此致\n__________人民法院\n\n具状人：__________\n____年__月__日','答辩状':'民 事 答 辩 状\n\n答辩人：__________\n\n针对原告__________诉__________一案，提出答辩如下：\n\n一、_______________\n二、_______________\n\n此致\n__________人民法院\n\n答辩人：__________\n____年__月__日'}; return { title: data.docType, content: templates[data.docType] || '请选择类型', note: '请根据具体案情修改完善。' }; } } },
+                    { id: 'law_case_search_guide', icon: '🔎', title: '类案检索指南', desc: '高效检索相似案例', type: 'checklist', toolConfig: { fields: [], generate: () => ({ title: '类案检索步骤', items: ['1. 确定检索关键词（案由+争议焦点）', '2. 选择数据库（裁判文书网/Alpha/威科先行）', '3. 设定筛选条件（法院层级、年份、裁判结果）', '4. 阅读裁判要旨，提取观点', '5. 整理成类案检索报告'], note: '建议检索10-20个相似案例，重点关注最高院和指导性案例。' }) } },
+                    { id: 'law_limitation_check', icon: '📅', title: '诉讼时效核查', desc: '检查是否超过时效', type: 'assessment', toolConfig: { questions: [{ question: '知道权利被侵害的时间', options: ['1年内', '1-2年', '2-3年', '超过3年'] }, { question: '是否有中断事由', options: ['有（起诉/催告/承认）', '无'] }], evaluate: (answers) => { const expired = answers[0] === '超过3年' && answers[1] === '无'; return { title: '时效核查', result: expired ? '✗ 可能已超过' : '✓ 时效内', color: expired ? 'var(--error-color)' : 'var(--success-color)', reasons: expired ? ['普通诉讼时效3年', '无中断事由'] : ['时效未届满'], suggestion: expired ? '尝试寻找中断证据或对方自愿履行。' : '尽快采取行动，避免时效届满。' }; } } },
+                    { id: 'law_evidence_checklist', icon: '📋', title: '证据清单生成器', desc: '生成举证清单', type: 'checklist', toolConfig: { fields: [{ name: '案件类型', key: 'caseType', type: 'select', options: ['合同纠纷', '侵权纠纷', '劳动争议', '婚姻家庭'] }], generate: (data) => { const lists = {'合同纠纷':['□ 合同文本','□ 履行凭证（付款记录、交货单）','□ 违约证据','□ 损失证明'],'侵权纠纷':['□ 侵权行为证据','□ 损害后果证明','□ 因果关系证明','□ 过错证据'],'劳动争议':['□ 劳动合同','□ 工资发放记录','□ 考勤记录','□ 解除通知'],'婚姻家庭':['□ 结婚证','□ 财产证明','□ 子女出生证明','□ 过错证据']}; return { title: `${data.caseType}证据清单`, items: lists[data.caseType], note: '证据应形成完整链条，注意原件保管。' }; } } }
+                ]
+            },
+            student: {
+                title: '学生/求职者',
+                tags: ['租房纠纷', '实习权益', '校园法律', '法考资讯'],
+                features: [
+                    { id: 'stu_rental_check', icon: '🏠', title: '租房合同检查器', desc: '系统化识别租房陷阱', type: 'assessment', toolConfig: { questions: [{ question: '押金条款', options: ['明确退还条件和时间', '模糊不清', '未约定退还'] }, { question: '维修责任', options: ['房东承担主要维修', '各自承担', '全部由承租人承担'] }, { question: '提前退租', options: ['可协商/违约金合理', '扣除全部押金', '禁止提前退租'] }, { question: '房屋现状确认', options: ['有详细清单和照片', '简单描述', '无任何记录'] }], evaluate: (answers) => { let riskScore = 0; const risks = []; if (answers[0] === '未约定退还') { riskScore += 3; risks.push('❌ 押金退还无保障'); } else if (answers[0] === '模糊不清') { riskScore += 2; risks.push('⚠️ 押金退还条件不明确'); } if (answers[1] === '全部由承租人承担') { riskScore += 2; risks.push('⚠️ 维修责任分配不合理'); } if (answers[2] === '禁止提前退租' || answers[2] === '扣除全部押金') { riskScore += 2; risks.push('⚠️ 退租条款过于苛刻'); } if (answers[3] === '无任何记录') { riskScore += 1; risks.push('ℹ️ 缺乏房屋现状证据'); } if (risks.length === 0) risks.push('✓ 未发现明显陷阱条款'); let level = riskScore <= 2 ? '低风险' : riskScore <= 5 ? '中风险' : '高风险'; let color = riskScore <= 2 ? 'var(--success-color)' : riskScore <= 5 ? 'var(--warning-color)' : 'var(--error-color)'; return { title: '租房合同风险评估', riskLevel: level, riskColor: color, score: `${riskScore}/8`, details: risks, suggestion: riskScore <= 2 ? '合同相对完善。' : '建议重新谈判或更换房源！签约前务必查验房东身份证和房产证原件。' }; } } },
+                    { id: 'stu_internship_rights', icon: '💼', title: '实习权益自查', desc: '检查实习是否合规', type: 'assessment', toolConfig: { questions: [{ question: '是否签订实习协议？', options: ['是', '否'] }, { question: '是否有报酬？', options: ['有，合理', '有，偏低', '无报酬'] }, { question: '工作时间', options: ['每日≤8小时', '偶尔加班', '经常超时'] }], evaluate: (answers) => { let score = 0; if (answers[0] === '是') score += 2; if (answers[1] === '有，合理') score += 2; else if (answers[1] === '有，偏低') score += 1; if (answers[2] === '每日≤8小时') score += 2; else if (answers[2] === '偶尔加班') score += 1; const level = score >= 5 ? '合规' : score >= 3 ? '基本合规' : '存在风险'; return { title: '实习合规评估', complianceLevel: level, color: score >= 5 ? 'var(--success-color)' : score >= 3 ? 'var(--warning-color)' : 'var(--error-color)', score: `${score}/6`, suggestion: score < 5 ? '建议与单位沟通改善，必要时向学校反映。' : '实习环境良好。' }; } } },
+                    { id: 'stu_offer_review', icon: '✍️', title: 'Offer条款检查器', desc: '系统化识别offer陷阱', type: 'assessment', toolConfig: { questions: [{ question: '试用期长度', options: ['合理（合同3年以下≤2个月）', '较长（3-6个月）', '过长（>6个月）'] }, { question: '竞业限制条款', options: ['无竞业限制', '有竞业且有补偿', '有竞业但无补偿约定'] }, { question: '五险一金缴纳', options: ['按实际工资足额缴纳', '按最低标准缴纳', '未明确说明'] }, { question: '薪资结构', options: ['固定月薪明确', '底薪+绩效（比例合理）', '主要靠提成/不明确'] }], evaluate: (answers) => { let riskScore = 0; const issues = []; if (answers[0] === '过长（>6个月）') { riskScore += 3; issues.push('❌ 试用期过长，违反劳动法'); } else if (answers[0] === '较长（3-6个月）') { riskScore += 1; issues.push('ℹ️ 试用期偏长'); } if (answers[1] === '有竞业但无补偿约定') { riskScore += 3; issues.push('❌ 竞业限制未约定经济补偿，可能无效'); } if (answers[2] === '按最低标准缴纳') { riskScore += 2; issues.push('⚠️ 社保公积金未按实际工资缴纳'); } else if (answers[2] === '未明确说明') { riskScore += 1; issues.push('ℹ️ 五险一金缴纳方式不明确'); } if (answers[3] === '主要靠提成/不明确') { riskScore += 2; issues.push('⚠️ 薪资结构不透明，收入不稳定'); } if (issues.length === 0) issues.push('✓ offer条款基本合理'); let level = riskScore <= 2 ? '低风险' : riskScore <= 5 ? '中风险' : '高风险'; let color = riskScore <= 2 ? 'var(--success-color)' : riskScore <= 5 ? 'var(--warning-color)' : 'var(--error-color)'; return { title: 'Offer风险评估', riskLevel: level, riskColor: color, score: `${riskScore}/9`, details: issues, suggestion: riskScore <= 2 ? 'offer相对完善。' : '建议与HR沟通澄清或重新谈判！入职前应签订书面劳动合同，明确各项待遇。' }; } } },
+                    { id: 'stu_exam_plan', icon: '📚', title: '法考备考规划', desc: '定制复习计划', type: 'checklist', toolConfig: { fields: [{ name: '备考时间', key: 'time', type: 'select', options: ['3个月', '6个月', '1年'] }, { name: '基础情况', key: 'base', type: 'select', options: ['零基础', '有一定基础', '法学本科'] }], generate: (data) => { const plans = {'3个月':['第1月：快速过一遍精讲卷','第2月：做题+查漏补缺','第3月：模拟考+背诵'],'6个月':['第1-2月：系统学习各科','第3-4月：做题巩固','第5月：真题训练','第6月：冲刺模拟'],'1年':['第1-3月：基础阶段（听课+看书）','第4-6月：强化阶段（做题）','第7-9月：真题阶段','第10-12月：冲刺阶段']}; return { title: `${data.time}备考计划`, items: plans[data.time].map(p => `□ ${p}`), note: '建议每天保持4-6小时有效学习时间。' }; } } },
+                    { id: 'stu_campus_dispute', icon: '🎓', title: '校园纠纷处理指南', desc: '应对校园常见问题', type: 'checklist', toolConfig: { fields: [{ name: '纠纷类型', key: 'disputeType', type: 'select', options: ['宿舍矛盾', '奖学金争议', '处分申诉', '知识产权归属'] }], generate: (data) => { const guides = {'宿舍矛盾':['1. 与室友友好沟通','2. 寻求辅导员调解','3. 申请调换宿舍'],'奖学金争议':['1. 查阅评定办法','2. 收集证明材料','3. 向学院申诉'],'处分申诉':['1. 收到处分决定书','2. 10日内提出申诉','3. 提交申诉书和证据','4. 等待复查决定'],'知识产权归属':['1. 确认是否利用学校资源','2. 查看学校相关规定','3. 与导师协商','4. 必要时签订协议']}; return { title: `${data.disputeType}处理指南`, items: guides[data.disputeType], note: '保留好相关证据，理性维权。' }; } } },
+                    { id: 'stu_part_time_contract', icon: '📝', title: '兼职协议生成器', desc: '生成简单兼职协议', type: 'generator', toolConfig: { fields: [{ name: '甲方（雇主）', key: 'employer', type: 'text', placeholder: '雇主姓名/公司' }, { name: '乙方（学生）', key: 'student', type: 'text', placeholder: '您的姓名' }, { name: '工作内容', key: 'job', type: 'text', placeholder: '如：家教、促销' }, { name: '报酬', key: 'pay', type: 'text', placeholder: '如：100元/天' }], generate: (data) => { return { title: '兼职协议', content: `兼 职 协 议\n\n甲方：${data.employer}\n乙方：${data.student}\n\n一、工作内容：${data.job}\n二、工作时间：________________\n三、报酬：${data.pay}\n四、支付方式：________________\n五、协议期限：________________\n\n甲方签字：_____________    日期：____年__月__日\n乙方签字：_____________    日期：____年__月__日`, note: '兼职通常不构成劳动关系，但应注意人身安全。' }; } } }
+                ]
+            },
+            special: {
+                title: '权益保护专区',
+                tags: ['未成年人', '老年人', '残疾人权益保护', '法律援助'],
+                features: [
+                    { id: 'sp_elderly_fraud', icon: '👴', title: '养老诈骗识别器', desc: '识别常见养老诈骗手段', type: 'checklist', toolConfig: { fields: [], generate: () => ({ title: '常见养老诈骗类型', items: ['❌ "高回报"理财产品', '❌ "特效药"保健品推销', '❌ "以房养老"骗局', '❌ "中奖"电话诈骗', '❌ "冒充公检法"诈骗', '✅ 正规渠道购买金融产品', '✅ 大额支出与子女商量'], note: '遇到可疑情况立即拨打110或96110反诈热线。' }) } },
+                    { id: 'sp_minor_bullying', icon: '👶', title: '校园欺凌应对指南', desc: '帮助孩子应对欺凌', type: 'checklist', toolConfig: { fields: [], generate: () => ({ title: '应对校园欺凌', items: ['1. 保持冷静，不要激怒对方', '2. 记住欺凌者特征和时间地点', '3. 及时告诉家长和老师', '4. 保存证据（伤痕照片、聊天记录）', '5. 严重情况报警处理', '6. 寻求心理咨询支持'], note: '家长应与学校保持沟通，必要时寻求法律保护。' }) } },
+                    { id: 'sp_disabled_benefits', icon: '♿', title: '残疾人福利查询', desc: '了解可享受的福利政策', type: 'checklist', toolConfig: { fields: [{ name: '残疾等级', key: 'level', type: 'select', options: ['一级', '二级', '三级', '四级'] }], generate: (data) => { return { title: `残疾${data.level}可享福利`, items: ['□ 残疾人两项补贴（困难残疾人生活补贴+重度残疾人护理补贴）', '□ 免费乘坐市内公共交通', '□ 景区门票优惠或免费', '□ 就业创业扶持', '□ 康复救助', '□ 辅助器具适配补贴'], note: '具体政策因地区而异，请咨询当地残联。' }; } } },
+                    { id: 'sp_legal_aid_apply', icon: '🆓', title: '法律援助申请指引', desc: '指导申请流程', type: 'checklist', toolConfig: { fields: [], generate: () => ({ title: '法律援助申请流程', items: ['1. 准备材料：身份证、经济困难证明、案件相关材料', '2. 到当地法律援助中心提交申请', '3. 填写申请表', '4. 等待审核（通常7个工作日内）', '5. 审核通过后指派律师', '6. 与律师沟通案件'], note: '也可通过12348热线咨询或网上申请。' }) } },
+                    { id: 'sp_guardianship', icon: '📜', title: '意定监护协议指南', desc: '了解意定监护制度', type: 'checklist', toolConfig: { fields: [], generate: () => ({ title: '意定监护知识', items: ['✓ 适用于成年人预先指定监护人', '✓ 需在意识清醒时签订', '✓ 应选择信任的人作为监护人', '✓ 建议公证增强效力', '✓ 可随时变更或撤销', '✓ 监护人职责：照顾生活、管理财产、医疗决策'], note: '适合独居老人、丁克家庭等群体。' }) } },
+                    { id: 'sp_emergency_help', icon: '🆘', title: '紧急求助通道', desc: '快速获取帮助', type: 'checklist', toolConfig: { fields: [], generate: () => ({ title: '紧急联系方式', items: ['<a href="tel:110" style="color:var(--primary-color);text-decoration:none;font-weight:bold;">📞 报警：110</a>', '<a href="tel:12348" style="color:var(--primary-color);text-decoration:none;">📞 法律援助热线：12348</a>', '<a href="tel:12338" style="color:var(--primary-color);text-decoration:none;">📞 妇女维权热线：12338</a>', '<a href="tel:12355" style="color:var(--primary-color);text-decoration:none;">📞 青少年服务热线：12355</a>', '<a href="tel:12385" style="color:var(--primary-color);text-decoration:none;">📞 残疾人服务热线：12385</a>', '<a href="tel:12349" style="color:var(--primary-color);text-decoration:none;">📞 老年人维权热线：12349</a>'], note: '紧急情况请直接拨打110。' }) } }
+                ]
+            }
+        };
+
+        const legalKnowledgeBase = [
+            { keywords: ['借钱', '欠款', '借条'], category: '债权债务', title: '民间借贷纠纷处理', content: '借钱应出具借条，写明借款人、金额、利率、还款时间。诉讼时效为3年。年利率超过LPR四倍的部分不受法律保护。', tags: ['普通市民'] },
+            { keywords: ['工伤', '受伤', '职业病'], category: '劳动工伤', title: '工伤认定与赔偿', content: '单位应在30日内申请工伤认定。赔偿包括医疗费、停工留薪期工资、伤残补助金等。未缴社保的由单位承担全部赔偿责任。', tags: ['普通市民', '企业法务/HR'] },
+            { keywords: ['社保', '公积金', '五险一金'], category: '劳动社保', title: '社保缴纳义务', content: '用人单位必须为员工缴纳社保，这是法定义务。员工可以要求补缴，也可以以此为由解除合同并要求经济补偿。', tags: ['普通市民', '企业法务/HR'] },
+            { keywords: ['退货', '消费者', '七天无理由'], category: '消费维权', title: '消费者权益保护', content: '网购商品享有七天无理由退货权（定制、鲜活易腐等除外）。遇到欺诈可要求退一赔三（最低500元）。', tags: ['普通市民'] },
+            { keywords: ['交通事故', '责任认定', '交警'], category: '交通事故', title: '交通事故责任认定', content: '发生事故后立即报警并保护现场。责任认定书是索赔的关键证据。对认定不服可在3日内申请复核。', tags: ['普通市民'] },
+            { keywords: ['租房押金', '房东不退'], category: '房屋租赁', title: '租房押金退还纠纷', content: '租期届满且无违约，房东应全额退还押金。若房东无故克扣，可向居委会调解或向法院起诉。', tags: ['学生/求职者', '普通市民'] },
+            { keywords: ['房东违约', '提前收房'], category: '房屋租赁', title: '房东违约责任', content: '租期内房东不得随意涨租或收房。若违约，应支付违约金并赔偿搬家费等实际损失。', tags: ['学生/求职者'] },
+            { keywords: ['加班费', '996', '调休'], category: '劳动争议', title: '加班费计算标准', content: '工作日加班1.5倍，周末2倍，法定节假日3倍。单位安排调休不能抵消法定节假日加班费。', tags: ['普通市民', '企业法务/HR'] },
+            { keywords: ['试用期', '辞退', '转正'], category: '劳动争议', title: '试用期权益保护', content: '试用期包含在劳动合同期限内。试用期工资不得低于转正后的80%。单位在试用期辞退需证明不符合录用条件。', tags: ['学生/求职者', '普通市民'] },
+            { keywords: ['竞业限制', '跳槽', '补偿金'], category: '劳动争议', title: '竞业限制协议效力', content: '竞业限制期限不得超过2年。单位必须按月支付经济补偿，否则协议可能失效。', tags: ['企业主/创业者', '企业法务/HR'] },
+            { keywords: ['股权转让', '股东变更'], category: '公司治理', title: '股权转让流程', content: '有限责任公司股东对外转让股权，其他股东有优先购买权。转让需修改公司章程并办理工商变更登记。', tags: ['企业主/创业者'] },
+            { keywords: ['商标注册', 'logo', '品牌'], category: '知识产权', title: '商标注册指南', content: '商标申请周期约9-12个月。建议先进行近似查询。注册成功后有效期10年，可无限续展。', tags: ['企业主/创业者'] },
+            { keywords: ['劳动仲裁', '流程', '申请书'], category: '劳动争议', title: '劳动仲裁申请流程', content: '携带身份证、劳动合同、证据材料到单位所在地仲裁委申请。时效为1年。仲裁不收费。', tags: ['普通市民'] },
+            { keywords: ['离婚冷静期', '30天'], category: '��姻家庭', title: '离婚冷静期规定', content: '协议离婚需经过30天冷静期。冷静期内任何一方可撤回申请。期满后30天内需双方亲自到场领证。', tags: ['普通市民'] },
+            { keywords: ['子女抚养权', '抚养费'], category: '婚姻家庭', title: '子女抚养权判定', content: '2周岁以下原则上随母方。8周岁以上尊重孩子真实意愿。抚养费通常为月收入的20%-30%。', tags: ['普通市民'] },
+            { keywords: ['遗产继承', '遗嘱', '法定继承'], category: '婚姻家庭', title: '遗产继承顺序', content: '第一顺序：配偶、子女、父母。有遗嘱的按遗嘱执行。公证遗嘱效力最高。', tags: ['普通市民'] },
+            { keywords: ['遛狗伤人', '宠物', '侵权责任'], category: '侵权责任', title: '饲养动物损害责任', content: '饲养的动物造成他人损害的，动物饲养人应承担侵权责任。违反管理规定未戴牵引绳的，责任更重。', tags: ['普通市民'] },
+            { keywords: ['噪音扰民', '邻居', '投诉'], category: '邻里纠纷', title: '噪音扰民处理', content: '夜间（22:00-6:00）噪音超标可拨打12345或110投诉。长期扰民可提起相邻权诉讼。', tags: ['普通市民'] },
+            { keywords: ['网络诽谤', '造谣', '名誉权'], category: '侵权责任', title: '网络诽谤维权', content: '保存截图和链接证据。情节严重可构成诽谤罪（刑事）。一般情况可提起民事诉讼要求删帖、道歉、赔偿。', tags: ['普通市民'] },
+            { keywords: ['合同解除', '违约', '终止'], category: '合同纠纷', title: '合同法定解除权', content: '一方迟延履行主要债务经催告后仍未履行，或致使合同目的无法实现的，另一方可以解除合同。', tags: ['企业主/创业者', '普通市民'] },
+            { keywords: ['离婚', '财产', '出轨', '婚姻'], category: '婚姻家庭', title: '离婚财产分割与过错', content: '根据《民法典》第1087条，离婚时夫妻共同财产由双方协议处理；协议不成的，由人民法院根据财产的具体情况，按照照顾子女、女方和无过错方权益的原则判决。如一方有重大过错（如出轨、家暴），无过错方有权请求损害赔偿（第1091条）。', tags: ['普通市民'] },
+            { keywords: ['杀人', '故意杀人', '刑事', '犯罪'], category: '刑法', title: '故意杀人罪法律规定', content: '《刑法》第232条：故意杀人的，处死刑、无期徒刑或者十年以上有期徒刑；情节较轻的，处三年以上十年以下有期徒刑。未遂犯可以比照既遂犯从轻或者减轻处罚。受害人可在刑事诉讼中提起附带民事诉讼，要求赔偿医疗费、丧葬费等损失。', tags: ['普通市民'] },
+            { keywords: ['收益', '赔偿', '最大化', '权益'], category: '诉讼策略', title: '民事赔偿最大化策略', content: '要最大化合法权益：1.全面收集证据（医疗记录、费用票据、收入证明等）；2.准确计算各项损失（医疗费、误工费、护理费、残疾赔偿金、精神损害抚慰金等）；3.选择合适的诉讼时机和管辖法院；4.必要时申请财产保全；5.考虑刑事附带民事诉讼或单独提起民事诉讼。', tags: ['普通市民'] },
+            { keywords: ['劳动', '工资', '加班', '解除'], category: '劳动争议', title: '劳动者权益保护', content: '用人单位应按时足额支付劳动报酬。拖欠工资可向劳动监察投诉或申请仲裁。违法解除劳动合同应支付赔偿金（2N）。加班费：工作日1.5倍，休息日2倍，法定节假日3倍。', tags: ['普通市民', '企业法务/HR'] },
+            { keywords: ['租房', '押金', '房东', '合同'], category: '房屋租赁', title: '租房纠纷处理', content: '租房应签书面合同。押金应在租期届满且无违约时全额退还。提前退租需按约承担违约责任。房屋非承租人原因损坏由房东维修。', tags: ['学生/求职者'] },
+            { keywords: ['合同', '违约', '审查'], category: '合同纠纷', title: '合同审查要点', content: '审查重点：当事人资格、标的物描述、价款支付、违约责任、争议解决方式、生效条件、是否存在霸王条款。重大合同建议律师审查。', tags: ['企业主/创业者', '企业法务/HR'] },
+            { keywords: ['股权', '股东', '公司'], category: '公司治理', title: '股权架构设计', content: '初创公司应避免平均分配，创始人保持相对控股（>50%）或绝对控股（>67%）。设置股权成熟机制（vesting），通常4年成熟期。预留期权池（10-20%）。', tags: ['企业主/创业者'] },
+            { keywords: ['知识产权', '商标', '专利'], category: '知识产权', title: 'IP保护策略', content: '商标注册先查询，提交后约9-12个月下证。发明专利审查2-3年。著作权自创作完成即产生，但建议登记。商业秘密应采取保密措施。', tags: ['企业主/创业者'] }
+        ];
+
+        // ============================================
+        // 复杂案例分析引擎
+        // ============================================
+        function analyzeComplexCase(userQuestion) {
+            const q = userQuestion.toLowerCase();
+            
+            // 检测是否涉及刑事案件
+            const hasCriminal = q.includes('杀人') || q.includes('伤害') || q.includes('盗窃') || q.includes('诈骗');
+            // 检测是否涉及婚姻问题
+            const hasMarriage = q.includes('离婚') || q.includes('出轨') || q.includes('婚姻') || q.includes('妻子') || q.includes('丈夫');
+            // 检测是否询问收益/赔偿
+            const hasCompensation = q.includes('收益') || q.includes('赔偿') || q.includes('最大化') || q.includes('利益');
+            
+            if (hasCriminal && hasMarriage && hasCompensation) {
+                return generateComplexCaseResponse('criminal_marriage_compensation');
+            } else if (hasCriminal) {
+                return generateComplexCaseResponse('criminal_case');
+            } else if (hasMarriage && hasCompensation) {
+                return generateComplexCaseResponse('divorce_compensation');
+            }
+            
+            return null; // 让通用AI处理
+        }
+
+        function generateComplexCaseResponse(caseType) {
+            const responses = {
+                criminal_marriage_compensation: {
+                    title: '🔴 复杂案件综合分析报告',
+                    sections: [
+                        {
+                            subtitle: '⚖️ 法律定性',
+                            content: '本案涉及两个法律关系：<br>1. <strong>刑事法律关系</strong>：情夫涉嫌故意杀人罪（未遂），属于严重刑事犯罪<br>2. <strong>民事法律关系</strong>：您与妻子的婚姻关系及可能的离婚财产分割'
+                        },
+                        {
+                            subtitle: '📋 刑事责任部分',
+                            content: '• 情夫行为已构成<strong>故意杀人罪（未遂）</strong>（《刑法》第232条、第23条）<br>• 未遂犯可以比照既遂犯从轻或减轻处罚，但仍面临严厉刑罚<br>• 您应立即报警，配合公安机关调查取证<br>• 可在刑事诉讼中提起<strong>附带民事诉讼</strong>，要求赔偿医疗费、误工费、护理费等实际损失'
+                        },
+                        {
+                            subtitle: '💰 民事权益最大化策略',
+                            content: '<strong>方案一：维持婚姻</strong><br>• 要求情夫承担刑事附带民事赔偿责任<br>• 与妻子协商婚内财产协议，保障您的财产权益<br><br><strong>方案二：离婚并争取最大利益</strong><br>• 以妻子出轨为由主张其为过错方（《民法典》第1091条）<br>• 要求多分共同财产（照顾无过错方原则，可争取60%-70%）<br>• 要求妻子支付精神损害赔偿（通常1-5万元）<br>• 要求情夫承担侵权损害赔偿责任（另行提起民事诉讼）<br><br><strong>关键证据</strong>：出轨证据（聊天记录、照片、视频等）、杀人未遂的刑事判决书、您的损失证明（医疗费票据、误工证明等）'
+                        },
+                        {
+                            subtitle: '⚠️ 重要提醒',
+                            content: '• <strong>切勿采取私力救济</strong>（如报复情夫），否则您可能从受害者变为加害者<br>• 所有行动应在法律框架内进行<br>• 建议立即聘请专业律师，制定综合维权策略<br>• 注意保护个人安全，必要时申请人身安全保护令'
+                        }
+                    ]
+                },
+                criminal_case: {
+                    title: '🔴 刑事案件分析',
+                    sections: [
+                        { subtitle: '法律定性', content: '对方行为可能构成刑事犯罪，建议您立即报警。' },
+                        { subtitle: '维权步骤', content: '1. 立即报警并保留证据<br>2. 配合警方调查<br>3. 提起刑事附带民事诉讼<br>4. 要求赔偿实际损失' },
+                        { subtitle: '注意事项', content: '不要私下和解刑事案件，应由司法机关依法处理。' }
+                    ]
+                },
+                divorce_compensation: {
+                    title: '💰 离婚权益最大化方案',
+                    sections: [
+                        { subtitle: '法律依据', content: '《民法典》第1087条（财产分割照顾无过错方）、第1091条（过错方损害赔偿）' },
+                        { subtitle: '具体策略', content: '• 收集对方过错证据（出轨、家暴等）<br>• 清查全部夫妻共同财产<br>• 主张多分财产（60%-70%）<br>• 要求精神损害赔偿<br>• 争取子女抚养权（如有）' },
+                        { subtitle: '建议', content: '建议聘请专业婚姻家事律师，制定详细诉讼策略。' }
+                    ]
+                }
+            };
+            
+            return responses[caseType];
+        }
+
+        // ============================================
+        // 页面初始化与生成
+        // ============================================
+        function initPages() {
+            const identityContainer = document.getElementById('identityPages');
+            const toolContainer = document.getElementById('toolPages');
+            
+            Object.keys(identityConfig).forEach(key => {
+                const config = identityConfig[key];
+                
+                // 生成身份页面
+                identityContainer.innerHTML += createIdentityPage(key, config);
+                
+                // 生成每个功能的工具页面
+                config.features.forEach(feature => {
+                    toolContainer.innerHTML += createToolPage(feature.id, feature, config.title);
+                });
+            });
+        }
+
+        function createIdentityPage(id, config) {
+            const featuresHtml = config.features.map(f => `
+                <div class="feature-card" onclick="showToolPage('${f.id}')">
+                    <div class="feature-icon">${f.icon}</div>
+                    <h3 class="feature-title">${f.title}</h3>
+                    <p class="feature-desc">${f.desc}</p>
+                </div>
+            `).join('');
+
+            // 为不同身份定制提示词
+            const promptTips = {
+                citizen: '💡 提问技巧：描述具体情况（时间/地点/人物）+ 明确诉求（想离婚/要赔偿/维权）+ 用文字描述关键证据内容（如合同条款、聊天要点、损失金额）',
+                entrepreneur: '💡 提问技巧：说明商业场景（融资/合作/纠纷）+ 核心关切（股权/合同/IP）+ 当前进展（已签约/谈判中/已违约）+ 关键条款或争议点',
+                legal_hr: '💡 提问技巧：描述员工情况（入职/在职/离职）+ 具体问题（合同/社保/违纪）+ 公司诉求（解除/调岗/赔偿）+ 相关事实经过',
+                lawyer: '💡 提问技巧：案件类型（民事/刑事/行政）+ 争议焦点 + 用文字概述已掌握证据要点 + 需要帮助（检索/文书/策略）',
+                student: '💡 提问技巧：身份场景（租房/实习/求职）+ 遇到的问题 + 用文字描述合同/Offer关键条款 + 期望结果',
+                special: '💡 提问技巧：说明群体身份（老人/未成年/残疾人）+ 遇到的困难 + 已尝试的解决方式 + 需要的帮助'
+            };
+
+            return `
+                <div id="${id}Page" class="identity-page">
+                    <div class="page-header">
+                        <a class="back-btn" onclick="showHomePage()">← 返回首页</a>
+                        <h1 class="page-title">${config.title}专属服务</h1>
+                        <div class="page-tags">${config.tags.map(t => `<span class="page-tag">${t}</span>`).join('')}</div>
+                    </div>
+                    <div class="chat-panel">
+                        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 12px 16px; border-radius: 8px; margin-bottom: 12px; font-size: 13px; color: white;">
+                            💡 智能问答助手（基于规则匹配）：请描述您的具体情况，我将为您匹配相关知识和工具。
+                        </div>
+                        <div class="chat-container">
+                            <div class="chat-messages" id="${id}ChatMessages">
+                                <div class="message ai">
+                                    <div class="message-avatar">🤖</div>
+                                    <div class="message-content">您好！我是${config.title}专属AI法律助手，请问有什么可以帮您？</div>
+                                </div>
+                            </div>
+                            <div class="chat-input-area">
+                                <input type="text" class="chat-input" placeholder="输入您的问题..." id="${id}ChatInput" onkeypress="handleChatInput(event, '${id}')">
+                                <button class="send-btn" onclick="sendChatMessage('${id}')">发送</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="features-section">
+                        <h2 class="features-title">实用工具</h2>
+                        <div class="features-grid">${featuresHtml}</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function createToolPage(toolId, feature, identityTitle) {
+            let toolContent = '';
+            
+            if (feature.type === 'calculator') {
+                const fieldsHtml = feature.toolConfig.fields.map(f => {
+                    if (f.type === 'select') {
+                        return `<div class="form-group"><label class="form-label">${f.name}</label><select class="form-select" id="${toolId}_${f.key}">${f.options.map(o => `<option value="${o}">${o}</option>`).join('')}</select></div>`;
+                    } else {
+                        return `<div class="form-group"><label class="form-label">${f.name}</label><input type="${f.type}" class="form-input" id="${toolId}_${f.key}" placeholder="${f.placeholder}"></div>`;
+                    }
+                }).join('');
+                
+                toolContent = `
+                    <div class="tool-card">
+                        <h3 class="tool-section-title">参数输入</h3>
+                        ${fieldsHtml}
+                        <div class="action-buttons">
+                            <button class="btn btn-primary" onclick="runCalculator('${toolId}')">计算</button>
+                            <button class="btn btn-outline" onclick="resetForm('${toolId}')">重置</button>
+                        </div>
+                        <div id="${toolId}_result"></div>
+                    </div>
+                `;
+            } else if (feature.type === 'generator' || feature.type === 'checklist') {
+                const fieldsHtml = (feature.toolConfig.fields || []).map(f => {
+                    if (f.type === 'select') {
+                        return `<div class="form-group"><label class="form-label">${f.name}</label><select class="form-select" id="${toolId}_${f.key}">${f.options.map(o => `<option value="${o}">${o}</option>`).join('')}</select></div>`;
+                    } else if (f.type === 'text' || f.type === 'number') {
+                        return `<div class="form-group"><label class="form-label">${f.name}</label><input type="${f.type}" class="form-input" id="${toolId}_${f.key}" placeholder="${f.placeholder}"></div>`;
+                    }
+                    return '';
+                }).join('');
+                
+                toolContent = `
+                    <div class="tool-card">
+                        <h3 class="tool-section-title">信息填写</h3>
+                        ${fieldsHtml}
+                        <div class="action-buttons">
+                            <button class="btn btn-primary" onclick="runGenerator('${toolId}')">生成</button>
+                        </div>
+                        <div id="${toolId}_result"></div>
+                    </div>
+                `;
+            } else if (feature.type === 'assessment' || feature.type === 'quiz') {
+                const questionsHtml = feature.toolConfig.questions.map((q, idx) => `
+                    <div class="form-group">
+                        <label class="form-label">${idx + 1}. ${q.question}</label>
+                        <select class="form-select" id="${toolId}_q${idx}">
+                            ${q.options.map(o => `<option value="${o}">${o}</option>`).join('')}
+                        </select>
+                    </div>
+                `).join('');
+                
+                toolContent = `
+                    <div class="tool-card">
+                        <h3 class="tool-section-title">回答问题</h3>
+                        ${questionsHtml}
+                        <div class="action-buttons">
+                            <button class="btn btn-primary" onclick="runAssessment('${toolId}')">评估</button>
+                        </div>
+                        <div id="${toolId}_result"></div>
+                    </div>
+                `;
+            } else if (feature.type === 'ai_analysis') {
+                toolContent = `
+                    <div class="tool-card">
+                        <h3 class="tool-section-title">案情描述</h3>
+                        <p style="margin-bottom: 16px; color: var(--text-secondary); font-size: 14px;">${feature.toolConfig.instruction}</p>
+                        <textarea class="form-textarea" id="${toolId}_text" placeholder="请在此详细描述..."></textarea>
+                        <div class="action-buttons">
+                            <button class="btn btn-primary" onclick="runAIAnalysis('${toolId}')">AI分析</button>
+                        </div>
+                        <div id="${toolId}_result"></div>
+                    </div>
+                `;
+            }
+
+            return `
+                <div id="${toolId}Tool" class="tool-page">
+                    <div class="tool-header">
+                        <a class="tool-back-btn" onclick="backToIdentity('${toolId}')">← 返回${identityTitle}</a>
+                        <h1 class="tool-title">${feature.icon} ${feature.title}</h1>
+                        <p class="tool-subtitle">${feature.desc}</p>
+                    </div>
+                    <div class="tool-content">
+                        ${toolContent}
+                    </div>
+                </div>
+            `;
+        }
+
+        // ============================================
+        // 页面切换逻辑
+        // ============================================
+        function showHomePage() {
+            document.getElementById('homePage').style.display = 'block';
+            document.querySelectorAll('.identity-page, .tool-page').forEach(p => p.style.display = 'none');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function showIdentityPage(id) {
+            document.getElementById('homePage').style.display = 'none';
+            document.querySelectorAll('.identity-page, .tool-page').forEach(p => p.style.display = 'none');
+            document.getElementById(`${id}Page`).style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function showToolPage(toolId) {
+            document.getElementById('homePage').style.display = 'none';
+            document.querySelectorAll('.identity-page, .tool-page').forEach(p => p.style.display = 'none');
+            document.getElementById(`${toolId}Tool`).style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function backToIdentity(toolId) {
+            let identityId = null;
+            Object.keys(identityConfig).forEach(key => {
+                if (identityConfig[key].features.find(f => f.id === toolId)) identityId = key;
+            });
+            if (identityId) showIdentityPage(identityId);
+        }
+
+        // ============================================
+        // 工具执行函数
+        // ============================================
+        function runCalculator(toolId) {
+            let identityId = null, feature = null;
+            Object.keys(identityConfig).forEach(key => {
+                const found = identityConfig[key].features.find(f => f.id === toolId);
+                if (found) { identityId = key; feature = found; }
+            });
+            
+            if (!feature) return;
+            
+            const data = {};
+            feature.toolConfig.fields.forEach(f => {
+                data[f.key] = document.getElementById(`${toolId}_${f.key}`).value;
+            });
+            
+            const result = feature.toolConfig.calculate(data);
+            displayResult(toolId, result);
+        }
+
+        function runGenerator(toolId) {
+            let feature = null;
+            Object.keys(identityConfig).forEach(key => {
+                const found = identityConfig[key].features.find(f => f.id === toolId);
+                if (found) feature = found;
+            });
+            
+            if (!feature) return;
+            
+            const data = {};
+            (feature.toolConfig.fields || []).forEach(f => {
+                data[f.key] = document.getElementById(`${toolId}_${f.key}`)?.value || '';
+            });
+            
+            const result = feature.toolConfig.generate(data);
+            displayResult(toolId, result);
+        }
+
+        function runAssessment(toolId) {
+            let feature = null;
+            Object.keys(identityConfig).forEach(key => {
+                const found = identityConfig[key].features.find(f => f.id === toolId);
+                if (found) feature = found;
+            });
+            
+            if (!feature) return;
+            
+            const answers = [];
+            feature.toolConfig.questions.forEach((q, idx) => {
+                answers.push(document.getElementById(`${toolId}_q${idx}`).value);
+            });
+            
+            const result = feature.toolConfig.evaluate(answers);
+            displayResult(toolId, result);
+        }
+
+        function runAIAnalysis(toolId) {
+            let feature = null;
+            Object.keys(identityConfig).forEach(key => {
+                const found = identityConfig[key].features.find(f => f.id === toolId);
+                if (found) feature = found;
+            });
+            
+            if (!feature) return;
+            
+            const text = document.getElementById(`${toolId}_text`).value.trim();
+            if (!text) { showToast('请输入内容'); return; }
+            
+            const result = feature.toolConfig.analyze(text);
+            displayResult(toolId, result);
+        }
+
+        function displayResult(toolId, result) {
+            const resultDiv = document.getElementById(`${toolId}_result`);
+            let html = `<div class="result-box"><h4 class="result-title">${result.title}</h4><div class="result-content">`;
+            
+            // 强制添加免责声明
+            html += `<p style="color: var(--error-color); font-size: 12px; margin-bottom: 16px; padding: 8px; background: #fff1f0; border-radius: 4px;">⚠️ 本结果仅为粗略估算，实际案件复杂，请以律师或法院意见为准。</p>`;
+
+            if (result.riskLevel) {
+                html += `<p style="font-size: 20px; font-weight: 600; color: ${result.riskColor}; margin-bottom: 12px;">风险等级：${result.riskLevel}（${result.score}）</p>`;
+            }
+            if (result.complianceLevel) {
+                html += `<p style="font-size: 20px; font-weight: 600; color: ${result.color}; margin-bottom: 12px;">${result.complianceLevel}（${result.score}）</p>`;
+            }
+            if (result.result) {
+                html += `<p style="font-size: 18px; font-weight: 600; color: ${result.color}; margin-bottom: 12px;">${result.result}</p>`;
+            }
+            
+            if (result.items) {
+                html += result.items.map(item => `<div class="result-item">${item}</div>`).join('');
+            }
+            if (result.details) {
+                html += result.details.map(d => `<div class="result-item">${d}</div>`).join('');
+            }
+            if (result.issues) {
+                html += result.issues.map(i => `<div class="result-item">${i}</div>`).join('');
+            }
+            if (result.reasons) {
+                html += result.reasons.map(r => `<div class="result-item">${r}</div>`).join('');
+            }
+            if (result.risks) {
+                html += result.risks.map(r => `<div class="result-item">${r}</div>`).join('');
+            }
+            if (result.strategies) {
+                html += result.strategies.map(s => `<div class="result-item">${s}</div>`).join('');
+            }
+            if (result.analysis) {
+                html += result.analysis.map(a => `<div class="result-item">${a}</div>`).join('');
+            }
+            if (result.sections) {
+                html += result.sections.map(s => `<h5 style="margin: 16px 0 8px; color: var(--primary-color);">${s.subtitle}</h5><p>${s.content}</p>`).join('');
+            }
+            if (result.content) {
+                html += `<pre style="white-space: pre-wrap; font-family: inherit; background: white; padding: 16px; border-radius: 6px; margin-top: 12px;">${result.content}</pre>`;
+            }
+            if (result.suggestion) {
+                html += `<p style="margin-top: 16px; padding: 12px; background: #fff7e6; border-left: 3px solid var(--accent-color); border-radius: 4px;">💡 ${result.suggestion}</p>`;
+            }
+            if (result.note) {
+                html += `<p style="margin-top: 12px; font-size: 13px; color: var(--text-secondary);">${result.note}</p>`;
+            }
+            if (result.nextStep) {
+                html += `<p style="margin-top: 12px; padding: 12px; background: #e6f7ff; border-left: 3px solid #1890ff; border-radius: 4px;">📌 ${result.nextStep}</p>`;
+            }
+            if (result.legalBasis) {
+                html += `<div style="margin-top: 16px; padding: 16px; background: linear-gradient(135deg, #fff9e6 0%, #fff3cd 100%); border-left: 4px solid var(--accent-color); border-radius: 8px;">${result.legalBasis.join('<br>')}</div>`;
+            }
+            
+            html += '</div></div>';
+            resultDiv.innerHTML = html;
+            resultDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function resetForm(toolId) {
+            document.querySelectorAll(`[id^="${toolId}_"]`).forEach(el => {
+                if (el.tagName === 'INPUT') el.value = '';
+                else if (el.tagName === 'SELECT') el.selectedIndex = 0;
+            });
+            document.getElementById(`${toolId}_result`).innerHTML = '';
+        }
+
+        // ============================================
+        // 搜索功能
+        // ============================================
+        function handleSearch(event) {
+            if (event.key === 'Enter') performSearch();
+        }
+
+        function performSearch() {
+            const query = document.getElementById('searchInput').value.trim();
+            if (!query) { showToast('请输入搜索内容'); return; }
+            
+            const results = legalKnowledgeBase.filter(item => 
+                item.keywords.some(kw => query.includes(kw)) || 
+                item.title.includes(query) || 
+                item.content.includes(query)
+            ).slice(0, 10);
+            
+            const modal = document.getElementById('searchResultsModal');
+            const list = document.getElementById('searchResultsList');
+            
+            if (results.length === 0) {
+                const recommendations = legalKnowledgeBase.map(r => 
+                    `<div class="result-item-search" onclick="quickSearch('${r.keywords[0]}')" style="cursor:pointer;opacity:0.7;">
+                        <div class="result-title-search">💡 推荐：${r.title}</div>
+                    </div>`
+                ).join('');
+                list.innerHTML = `<p style="margin-bottom:16px;color:var(--text-secondary);font-size:14px;">暂无精确匹配，您可以：</p>${recommendations}<p style="margin-top:16px;font-size:12px;color:var(--text-secondary);">如需更精准帮助，请使用对应身份的专属工具</p>`;
+            } else {
+                list.innerHTML = `<p style="margin-bottom:16px;color:var(--text-secondary);font-size:14px;">找到 ${results.length} 条结果</p>` +
+                    results.map(r => `
+                        <div class="result-item-search">
+                            <div class="result-title-search">${r.title}</div>
+                            <div class="result-desc-search">${r.content.substring(0, 100)}...</div>
+                            <div class="result-meta">${r.tags.map(t => `#${t}`).join(' ')} | ${r.category}</div>
+                        </div>
+                    `).join('');
+            }
+            
+            modal.style.display = 'flex';
+            document.getElementById('searchInput').value = '';
+        }
+
+        function quickSearch(keyword) {
+            document.getElementById('searchInput').value = keyword;
+            performSearch();
+        }
+
+        function closeSearchModal(event) {
+            if (!event || event.target.id === 'searchResultsModal') {
+                document.getElementById('searchResultsModal').style.display = 'none';
+            }
+        }
+
+        // ============================================
+        // 增强版AI对话（支持复杂案例分析）
+        // ============================================
+        function handleChatInput(event, identityId) {
+            if (event.key === 'Enter') sendChatMessage(identityId);
+        }
+
+        function sendChatMessage(identityId) {
+            const inputEl = document.getElementById(`${identityId}ChatInput`);
+            const message = inputEl.value.trim();
+            if (!message) { showToast('请输入问题'); return; }
+            
+            addMessage(identityId, message, 'user');
+            inputEl.value = '';
+            
+            // 即时回复逻辑
+            let response;
+            const complexResponse = analyzeComplexCase(message);
+            
+            if (complexResponse) {
+                response = `<strong>${complexResponse.title}</strong><br><br>`;
+                complexResponse.sections.forEach(section => {
+                    response += `<strong>${section.subtitle}</strong><br>${section.content}<br><br>`;
+                });
+            } else {
+                const matched = legalKnowledgeBase.find(item => 
+                    item.keywords.some(kw => message.toLowerCase().includes(kw))
+                );
+                
+                if (matched) {
+                    response = `<strong>${matched.title}</strong><br><br>${matched.content}<br><br>💡 建议：如需进一步帮助，可使用下方的专业工具进行自助评估。`;
+                } else {
+                    response = "抱歉，我暂时无法精准回答这个问题。建议您：<br>[1] 使用下方的专业工具进行自助评估；<br>[2] 或咨询执业律师获取针对性意见。";
+                }
+            }
+            
+            addMessage(identityId, response, 'ai');
+        }
+
+        function addMessage(identityId, content, sender) {
+            const container = document.getElementById(`${identityId}ChatMessages`);
+            const div = document.createElement('div');
+            div.className = `message ${sender}`;
+            div.innerHTML = `<div class="message-avatar">${sender === 'user' ? '👤' : '🤖'}</div><div class="message-content">${content}</div>`;
+            container.appendChild(div);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function generateGenericResponse(message, identityId) {
+            const title = identityConfig[identityId].title;
+            const responses = [
+                `感谢您的提问。作为${title}专属助手，建议您：<br>1. 详细描述具体情况<br>2. 提供相关证据<br>3. 明确诉求<br>这样我可以提供更精准的建议。`,
+                `这个问题涉及多个法律层面。从${title}角度，需要明确法律关系、收集证据、选择解决途径。建议补充更多细节。`,
+                `我理解您的关切。这类问题在${title}群体中较常见。您可以使用平台的实用工具进行初步评估，或联系专业律师获取详细咨询。`
+            ];
+            return responses[Math.floor(Math.random() * responses.length)];
+        }
+
+        // ============================================
+        // 提示弹窗
+        // ============================================
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.style.display = 'block';
+            setTimeout(() => { toast.style.display = 'none'; }, 3000);
+        }
+
+        // ============================================
+        // 初始化
+        // ============================================
+        
+        function showInfoModal(type) {
+            const modal = document.getElementById('infoModal');
+            const title = document.getElementById('modalTitle');
+            const body = document.getElementById('modalBody');
+            const data = {
+                about: { t: '关于法盾', c: '法盾是一个法律科普与自助评估平台，旨在帮助用户了解基础法律知识。\n\n我们并非律师事务所，不提供正式法律代理服务。' },
+                terms: { t: '服务条款', c: '本平台内容仅供学习参考，不构成法律意见。使用工具产生的结果仅供参考，我们不承担因参考本平台内容而产生的任何法律后果。' },
+                privacy: { t: '隐私政策', c: '本网站不主动收集用户个人信息。您使用计算工具时输入的数据仅在本地处理，不会上传服务器。' }
+            };
+            if (data[type]) {
+                title.textContent = data[type].t;
+                body.textContent = data[type].c;
+                modal.style.display = 'flex';
+            }
+        }
+
+        window.onload = function() {
+            initPages();
+        };
+    
+    </script>
+</body>
+</html>
