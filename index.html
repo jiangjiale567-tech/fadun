@@ -548,23 +548,61 @@
                         }
                     },
                     { 
-                        id: 'entre_dispute_ai',
+                        id: 'entre_dispute_resolution',
                         icon: '⚖️', 
-                        title: '商业纠纷策略分析', 
-                        desc: 'AI分析解决方案优劣',
-                        type: 'ai_analysis',
+                        title: '纠纷解决方案评估器', 
+                        desc: '系统化评估各种解决途径',
+                        type: 'assessment',
                         toolConfig: {
-                            instruction: '请描述商业纠纷情况（性质、金额、对方态度、诉求等），AI将分析各种解决途径。',
-                            analyze: (text) => {
-                                return {
-                                    title: '纠纷解决策略',
-                                    strategies: [
-                                        '【协商和解】成本低、效率高，但需双方诚意',
-                                        '【调解】第三方介入更公正，成功率较高',
-                                        '【仲裁】一裁终局、保密性强，需事先约定',
-                                        '【诉讼】强制力强，但周期长（6-12个月）'
-                                    ],
-                                    recommendation: '建议先尝试协商或调解，如无果再考虑仲裁或诉讼。做好证据准备。'
+                            questions: [
+                                { question: '争议金额', options: ['5万以下', '5-50万', '50万以上'] },
+                                { question: '对方态度', options: ['愿意协商', '态度强硬', '失联/逃避'] },
+                                { question: '证据充分性', options: ['完整（合同+履行记录）', '部分', '缺乏关键证据'] },
+                                { question: '是否有仲裁条款', options: ['有明确约定', '无约定', '约定不明'] }
+                            ],
+                            evaluate: (answers) => {
+                                let strategy = [];
+                                const suggestions = [];
+                                
+                                if (answers[0] === '5万以下') {
+                                    strategy.push('✓ 小额纠纷，优先协商或调解');
+                                    suggestions.push('成本低、效率高，可考虑人民调解委员会调解');
+                                } else if (answers[0] === '50万以上') {
+                                    strategy.push('⚠️ 大额纠纷，建议聘请律师');
+                                    suggestions.push('涉及金额较大，专业律师介入可提高胜算');
+                                }
+                                
+                                if (answers[1] === '愿意协商') {
+                                    strategy.push('✓ 对方有诚意，可先尝试和解');
+                                } else if (answers[1] === '失联/逃避') {
+                                    strategy.push('❌ 对方不配合，需考虑诉讼');
+                                    suggestions.push('可申请财产保全防止转移资产');
+                                }
+                                
+                                if (answers[2] === '完整（合同+履行记录）') {
+                                    strategy.push('✓ 证据充分，胜算较高');
+                                } else if (answers[2] === '缺乏关键证据') {
+                                    strategy.push('❌ 证据不足，需补充或考虑调解');
+                                    suggestions.push('尽快收集微信记录、转账凭证、证人证言等');
+                                }
+                                
+                                if (answers[3] === '有明确约定') {
+                                    strategy.push('ℹ️ 有仲裁条款，应走仲裁程序');
+                                    suggestions.push('仲裁一裁终局，保密性强，但费用较高');
+                                } else {
+                                    strategy.push('ℹ️ 无仲裁约定，可向法院起诉');
+                                }
+                                
+                                return { 
+                                    title: '纠纷解决策略评估', 
+                                    details: strategy, 
+                                    suggestion: suggestions.join('\n\n'),
+                                    legalBasis: [
+                                        '<strong>📖 法律依据：</strong>',
+                                        '《民法典》第233条：物权受到侵害的，权利人可以通过和解、调解、仲裁、诉讼等途径解决。',
+                                        '《民事诉讼法》第93条：人民法院审理民事案件，根据当事人自愿的原则，在事实清楚的基础上，分清是非，进行调解。',
+                                        '《仲裁法》第4条：当事人采用仲裁方式解决纠纷，应当双方自愿，达成仲裁协议。没有仲裁协议，一方申请仲裁的，仲裁委员会不予受理。'
+                                    ]
                                 };
                             }
                         }
@@ -762,12 +800,286 @@
                 title: '权益保护专区',
                 tags: ['未成年人', '老年人', '残疾人权益保护', '法律援助'],
                 features: [
-                    { id: 'sp_elderly_fraud', icon: '👴', title: '养老诈骗识别器', desc: '识别常见养老诈骗手段', type: 'checklist', toolConfig: { fields: [], generate: () => ({ title: '常见养老诈骗类型', items: ['❌ "高回报"理财产品', '❌ "特效药"保健品推销', '❌ "以房养老"骗局', '❌ "中奖"电话诈骗', '❌ "冒充公检法"诈骗', '✅ 正规渠道购买金融产品', '✅ 大额支出与子女商量'], note: '遇到可疑情况立即拨打110或96110反诈热线。' }) } },
-                    { id: 'sp_minor_bullying', icon: '👶', title: '校园欺凌应对指南', desc: '帮助孩子应对欺凌', type: 'checklist', toolConfig: { fields: [], generate: () => ({ title: '应对校园欺凌', items: ['1. 保持冷静，不要激怒对方', '2. 记住欺凌者特征和时间地点', '3. 及时告诉家长和老师', '4. 保存证据（伤痕照片、聊天记录）', '5. 严重情况报警处理', '6. 寻求心理咨询支持'], note: '家长应与学校保持沟通，必要时寻求法律保护。' }) } },
-                    { id: 'sp_disabled_benefits', icon: '♿', title: '残疾人福利查询', desc: '了解可享受的福利政策', type: 'checklist', toolConfig: { fields: [{ name: '残疾等级', key: 'level', type: 'select', options: ['一级', '二级', '三级', '四级'] }], generate: (data) => { return { title: `残疾${data.level}可享福利`, items: ['□ 残疾人两项补贴（困难残疾人生活补贴+重度残疾人护理补贴）', '□ 免费乘坐市内公共交通', '□ 景区门票优惠或免费', '□ 就业创业扶持', '□ 康复救助', '□ 辅助器具适配补贴'], note: '具体政策因地区而异，请咨询当地残联。' }; } } },
-                    { id: 'sp_legal_aid_apply', icon: '🆓', title: '法律援助申请指引', desc: '指导申请流程', type: 'checklist', toolConfig: { fields: [], generate: () => ({ title: '法律援助申请流程', items: ['1. 准备材料：身份证、经济困难证明、案件相关材料', '2. 到当地法律援助中心提交申请', '3. 填写申请表', '4. 等待审核（通常7个工作日内）', '5. 审核通过后指派律师', '6. 与律师沟通案件'], note: '也可通过12348热线咨询或网上申请。' }) } },
-                    { id: 'sp_guardianship', icon: '📜', title: '意定监护协议指南', desc: '了解意定监护制度', type: 'checklist', toolConfig: { fields: [], generate: () => ({ title: '意定监护知识', items: ['✓ 适用于成年人预先指定监护人', '✓ 需在意识清醒时签订', '✓ 应选择信任的人作为监护人', '✓ 建议公证增强效力', '✓ 可随时变更或撤销', '✓ 监护人职责：照顾生活、管理财产、医疗决策'], note: '适合独居老人、丁克家庭等群体。' }) } },
-                    { id: 'sp_emergency_help', icon: '🆘', title: '紧急求助通道', desc: '快速获取帮助', type: 'checklist', toolConfig: { fields: [], generate: () => ({ title: '紧急联系方式', items: ['<a href="tel:110" style="color:var(--primary-color);text-decoration:none;font-weight:bold;">📞 报警：110</a>', '<a href="tel:12348" style="color:var(--primary-color);text-decoration:none;">📞 法律援助热线：12348</a>', '<a href="tel:12338" style="color:var(--primary-color);text-decoration:none;">📞 妇女维权热线：12338</a>', '<a href="tel:12355" style="color:var(--primary-color);text-decoration:none;">📞 青少年服务热线：12355</a>', '<a href="tel:12385" style="color:var(--primary-color);text-decoration:none;">📞 残疾人服务热线：12385</a>', '<a href="tel:12349" style="color:var(--primary-color);text-decoration:none;">📞 老年人维权热线：12349</a>'], note: '紧急情况请直接拨打110。' }) } }
+                    { 
+                        id: 'sp_elderly_fraud',
+                        icon: '👴', 
+                        title: '养老诈骗风险评估器', 
+                        desc: '评估遭遇诈骗的风险等级',
+                        type: 'assessment',
+                        toolConfig: {
+                            questions: [
+                                { question: '是否接到"高回报理财"电话？', options: ['是', '否'] },
+                                { question: '是否被推销"特效保健品"？', options: ['是', '否'] },
+                                { question: '是否有人推荐"以房养老"项目？', options: ['是', '否'] },
+                                { question: '是否收到"中奖通知"？', options: ['是', '否'] },
+                                { question: '是否有"冒充公检法"来电？', options: ['是', '否'] }
+                            ],
+                            evaluate: (answers) => {
+                                let riskScore = 0;
+                                const risks = [];
+                                
+                                answers.forEach((a, i) => {
+                                    if (a === '是') {
+                                        riskScore += 2;
+                                        const types = ['高回报理财诈骗', '保健品推销诈骗', '以房养老骗局', '中奖诈骗', '冒充公检法诈骗'];
+                                        risks.push(`⚠️ 可能遭遇${types[i]}`);
+                                    }
+                                });
+                                
+                                if (risks.length === 0) risks.push('✓ 暂未发现明显诈骗风险');
+                                
+                                let level = riskScore <= 2 ? '低风险' : riskScore <= 6 ? '中风险' : '高风险';
+                                let color = riskScore <= 2 ? 'var(--success-color)' : riskScore <= 6 ? 'var(--warning-color)' : 'var(--error-color)';
+                                
+                                return { 
+                                    title: '养老诈骗风险评估', 
+                                    riskLevel: level, 
+                                    riskColor: color, 
+                                    score: `${riskScore}/10`, 
+                                    details: risks, 
+                                    suggestion: riskScore >= 4 ? '❗ 建议立即停止与对方联系，告知子女或报警！拨打96110反诈热线咨询。' : '保持警惕，大额支出前务必与子女商量。',
+                                    legalBasis: [
+                                        '<strong>📖 法律依据：</strong>',
+                                        '《刑法》第266条：诈骗公私财物，数额较大的，处三年以下有期徒刑、拘役或者管制，并处或者单处罚金；数额巨大或者有其他严重情节的，处三年以上十年以下有期徒刑，并处罚金；数额特别巨大或者有其他特别严重情节的，处十年以上有期徒刑或者无期徒刑，并处罚金或者没收财产。',
+                                        '《老年人权益保障法》第75条：干涉老年人婚姻自由，对老年人负有赡养义务、扶养义务而拒绝赡养、扶养，虐待老年人或者对老年人实施家庭暴力的，由有关单位给予批评教育；构成违反治安管理行为的，依法给予治安管理处罚；构成犯罪的，依法追究刑事责任。'
+                                    ]
+                                };
+                            }
+                        }
+                    },
+                    { 
+                        id: 'sp_minor_bullying',
+                        icon: '👶', 
+                        title: '校园欺凌严重程度评估器', 
+                        desc: '评估欺凌情况并获取应对策略',
+                        type: 'assessment',
+                        toolConfig: {
+                            questions: [
+                                { question: '欺凌频率', options: ['偶尔（每月1-2次）', '经常（每周）', '每天'] },
+                                { question: '是否有身体伤害？', options: ['无', '轻微（淤青等）', '严重（需就医）'] },
+                                { question: '是否影响学习/生活？', options: ['基本无影响', '有些影响', '严重影响（厌学/失眠）'] },
+                                { question: '是否已告知家长/老师？', options: ['已告知', '打算告知', '不敢告知'] }
+                            ],
+                            evaluate: (answers) => {
+                                let severity = 0;
+                                const actions = [];
+                                
+                                // 评估频率
+                                if (answers[0] === '每天') severity += 3;
+                                else if (answers[0] === '经常（每周）') severity += 2;
+                                else severity += 1;
+                                
+                                // 评估伤害
+                                if (answers[1] === '严重（需就医）') { severity += 3; actions.push('🚨 立即就医并保留医疗记录'); }
+                                else if (answers[1] === '轻微（淤青等）') { severity += 2; actions.push('📸 拍照保存伤痕证据'); }
+                                
+                                // 评估影响
+                                if (answers[2] === '严重影响（厌学/失眠）') { severity += 3; actions.push('💊 寻求心理咨询支持'); }
+                                else if (answers[2] === '有些影响') severity += 2;
+                                
+                                // 评估告知情况
+                                if (answers[3] === '不敢告知') { severity += 2; actions.push('🆘 可拨打12355青少年服务热线求助'); }
+                                else if (answers[3] === '打算告知') actions.push('📞 尽快告知家长和老师');
+                                
+                                let level = severity <= 4 ? '轻度' : severity <= 8 ? '中度' : '严重';
+                                let color = severity <= 4 ? 'var(--warning-color)' : severity <= 8 ? 'var(--error-color)' : '#dc3545';
+                                
+                                actions.unshift('1. 保持冷静，不要激怒对方', '2. 记住欺凌者特征和时间地点', '3. 保存证据（聊天记录、照片）');
+                                if (severity >= 6) actions.push('4. 严重情况立即报警处理');
+                                
+                                return { 
+                                    title: '校园欺凌评估报告', 
+                                    riskLevel: `${level}欺凌（严重程度：${severity}/11）`, 
+                                    riskColor: color, 
+                                    details: actions, 
+                                    suggestion: severity >= 8 ? '❗ 情况严重，请立即报警并联系学校、教育局！' : severity >= 5 ? '建议家长与学校沟通，必要时寻求法律保护。' : '持续关注，与孩子保持沟通。',
+                                    legalBasis: [
+                                        '<strong>📖 法律依据：</strong>',
+                                        '《未成年人保护法》第39条：学校应当建立学生欺凌防控工作制度，对教职员工、学生等开展防治学生欺凌的教育和培训。学校对学生欺凌行为应当立即制止，通知实施欺凌和被欺凌未成年学生的父母或者其他监护人参与欺凌行为的认定和处理。',
+                                        '《预防未成年人犯罪法》第20条：教育行政部门应当会同有关部门建立学生欺凌防控制度。学校应当加强日常安全管理，完善学生欺凌发现和处置的工作流程，严格排查并及时消除可能导致学生欺凌行为的各种隐患。'
+                                    ]
+                                };
+                            }
+                        }
+                    },
+                    { 
+                        id: 'sp_disabled_benefits',
+                        icon: '♿', 
+                        title: '残疾人补贴计算器', 
+                        desc: '计算可享受的补贴金额',
+                        type: 'calculator',
+                        toolConfig: {
+                            fields: [
+                                { name: '残疾等级', key: 'level', type: 'select', options: ['一级', '二级', '三级', '四级'] },
+                                { name: '残疾类别', key: 'type', type: 'select', options: ['视力残疾', '听力残疾', '言语残疾', '肢体残疾', '智力残疾', '精神残疾', '多重残疾'] },
+                                { name: '是否低保户', key: 'isLowIncome', type: 'select', options: ['是', '否'] },
+                                { name: '所在地区', key: 'region', type: 'select', options: ['一线城市（北上广深）', '二线城市', '三四线城市', '农村地区'] }
+                            ],
+                            calculate: (data) => {
+                                let monthlySubsidy = 0;
+                                const benefits = [];
+                                
+                                // 困难残疾人生活补贴
+                                if (data.isLowIncome === '是') {
+                                    const baseAmount = {'一线城市（北上广深）': 500, '二线城市': 350, '三四线城市': 250, '农村地区': 200}[data.region] || 300;
+                                    monthlySubsidy += baseAmount;
+                                    benefits.push(`✓ 困难残疾人生活补贴：约¥${baseAmount}/月`);
+                                }
+                                
+                                // 重度残疾人护理补贴（一级、二级）
+                                if (data.level === '一级' || data.level === '二级') {
+                                    const careAmount = {'一线城市（北上广深）': 400, '二线城市': 300, '三四线城市': 200, '农村地区': 150}[data.region] || 250;
+                                    monthlySubsidy += careAmount;
+                                    benefits.push(`✓ 重度残疾人护理补贴：约¥${careAmount}/月`);
+                                }
+                                
+                                // 其他福利
+                                benefits.push('✓ 免费乘坐市内公共交通');
+                                benefits.push('✓ 景区门票优惠或免费');
+                                benefits.push('✓ 就业创业扶持政策');
+                                benefits.push('✓ 康复救助服务');
+                                benefits.push('✓ 辅助器具适配补贴');
+                                
+                                if (data.level === '一级' || data.level === '二级') {
+                                    benefits.push('✓ 优先享受居家托养服务');
+                                }
+                                
+                                return {
+                                    title: '残疾人补贴估算',
+                                    items: [
+                                        `残疾等级：${data.level}`,
+                                        `残疾类别：${data.type}`,
+                                        '',
+                                        ...benefits,
+                                        '',
+                                        `<span class="highlight-number">月度补贴总额：约¥${monthlySubsidy}/月</span>`,
+                                        '',
+                                        '💡 具体标准因地区而异，请咨询当地残联获取准确信息。'
+                                    ],
+                                    legalBasis: [
+                                        '<strong>📖 法律依据：</strong>',
+                                        '《残疾人保障法》第48条：各级人民政府对生活确有困难的残疾人，通过多种渠道给予生活、教育、住房和其他社会救助。县级以上地方人民政府对享受最低生活保障待遇后生活仍有特别困难的残疾人家庭，应当采取其他措施保障其基本生活。',
+                                        '《国务院关于全面建立困难残疾人生活补贴和重度残疾人护理补贴制度的意见》：困难残疾人生活补贴主要补助残疾人因残疾产生的额外生活支出，对象为低保家庭中的残疾人。重度残疾人护理补贴主要补助残疾人因残疾产生的额外长期照护支出，对象为残疾等级被评定为一级、二级且需要长期照护的重度残疾人。'
+                                    ]
+                                };
+                            }
+                        }
+                    },
+                    { 
+                        id: 'sp_legal_aid_apply',
+                        icon: '🆓', 
+                        title: '法律援助资格自测器', 
+                        desc: '测试是否符合援助条件',
+                        type: 'assessment',
+                        toolConfig: {
+                            questions: [
+                                { question: '月收入水平', options: ['低于当地最低生活保障', '略高于低保线', '中等收入', '较高收入'] },
+                                { question: '是否属于特殊群体？', options: ['是（老年人/残疾人/未成年人/农民工等）', '否'] },
+                                { question: '案件类型', options: ['请求支付劳动报酬', '请求给付赡养费/抚养费', '工伤事故赔偿', '交通事故赔偿', '其他民事纠纷', '刑事案件'] },
+                                { question: '是否有能力聘请律师？', options: ['完全无力承担', '勉强可以但很困难', '可以承担'] }
+                            ],
+                            evaluate: (answers) => {
+                                let eligible = false;
+                                let reasons = [];
+                                let score = 0;
+                                
+                                // 收入评估
+                                if (answers[0] === '低于当地最低生活保障') { score += 3; reasons.push('✓ 收入符合经济困难标准'); }
+                                else if (answers[0] === '略高于低保线') { score += 2; reasons.push('ℹ️ 收入接近困难标准'); }
+                                
+                                // 特殊群体
+                                if (answers[1] === '是（老年人/残疾人/未成年人/农民工等）') { score += 2; reasons.push('✓ 属于重点援助群体'); }
+                                
+                                // 案件类型
+                                const priorityCases = ['请求支付劳动报酬', '请求给付赡养费/抚养费', '工伤事故赔偿'];
+                                if (priorityCases.includes(answers[2])) { score += 2; reasons.push('✓ 案件属于优先援助范围'); }
+                                else if (answers[2] === '刑事案件') { score += 1; reasons.push('ℹ️ 刑事案件可申请指定辩护'); }
+                                
+                                // 支付能力
+                                if (answers[3] === '完全无力承担') { score += 3; reasons.push('✓ 确无支付律师费能力'); }
+                                else if (answers[3] === '勉强可以但很困难') { score += 1; }
+                                
+                                eligible = score >= 5;
+                                
+                                if (!eligible) reasons.push('⚠️ 可能不符合经济困难标准，但仍可尝试申请');
+                                
+                                const steps = [
+                                    '1. 准备材料：身份证、经济困难证明（低保证明/失业证明等）、案件相关材料',
+                                    '2. 到当地法律援助中心提交申请',
+                                    '3. 填写申请表',
+                                    '4. 等待审核（通常7个工作日内）',
+                                    '5. 审核通过后指派律师',
+                                    '6. 与律师沟通案件'
+                                ];
+                                
+                                return { 
+                                    title: '法律援助资格评估', 
+                                    result: eligible ? '✓ 很可能符合条件' : 'ℹ️ 需进一步审核',
+                                    color: eligible ? 'var(--success-color)' : 'var(--warning-color)',
+                                    details: reasons,
+                                    suggestion: eligible ? '建议您尽快准备材料并提交申请。也可先拨打12348热线咨询。' : '虽然可能不符合标准条件，但仍建议您联系当地法律援助中心咨询，部分地区有更宽松的政策。',
+                                    nextStep: steps.join('<br>'),
+                                    legalBasis: [
+                                        '<strong>📖 法律依据：</strong>',
+                                        '《法律援助法》第31条：下列事项的当事人，因经济困难没有委托代理人的，可以向法律援助机构申请法律援助：（一）依法请求国家赔偿；（二）请求给予社会保险待遇或者社会救助；（三）请求发给抚恤金；（四）请求给付赡养费、抚养费、扶养费；（五）请求确认劳动关系或者支付劳动报酬；（六）请求认定公民无民事行为能力或者限制民事行为能力；（七）请求工伤事故、交通事故、食品药品安全事故、医疗事故人身损害赔偿；（八）请求环境污染、生态破坏损害赔偿；（九）法律、法规、规章规定的其他情形。',
+                                        '《法律援助法》第32条：有下列情形之一，当事人申请法律援助的，不受经济困难条件的限制：（一）英雄烈士近亲属为维护英雄烈士的人格权益；（二）因见义勇为行为主张相关民事权益；（三）再审改判无罪请求国家赔偿；（四）遭受虐待、遗弃或者家庭暴力的受害人主张相关权益；（五）法律、法规、规章规定的其他情形。'
+                                    ]
+                                };
+                            }
+                        }
+                    },
+                    { 
+                        id: 'sp_guardianship',
+                        icon: '📜', 
+                        title: '意定监护协议生成器', 
+                        desc: '生成个性化监护协议草案',
+                        type: 'generator',
+                        toolConfig: {
+                            fields: [
+                                { name: '委托人姓名', key: 'principal', type: 'text', placeholder: '您的姓名' },
+                                { name: '监护人姓名', key: 'guardian', type: 'text', placeholder: '您信任的人' },
+                                { name: '与监护人关系', key: 'relation', type: 'select', options: ['配偶', '子女', '兄弟姐妹', '朋友', '其他亲属'] },
+                                { name: '是否需要医疗决策权', key: 'medicalDecision', type: 'select', options: ['是', '否'] },
+                                { name: '是否需要财产管理权', key: 'propertyManage', type: 'select', options: ['是', '否'] }
+                            ],
+                            generate: (data) => {
+                                const medicalClause = data.medicalDecision === '是' 
+                                    ? '\n第三条 医疗决策\n监护人有权在委托人丧失或部分丧失民事行为能力时，代为做出医疗决策，包括选择医疗机构、签署手术同意书等。'
+                                    : '';
+                                const propertyClause = data.propertyManage === '是'
+                                    ? '\n第四条 财产管理\n监护人有权管理委托人的财产，包括但不限于银行存款、房产、投资等，应用于委托人的生活、医疗等合理支出。'
+                                    : '';
+                                
+                                return {
+                                    title: '意定监护协议（草案）',
+                                    content: `意 定 监 护 协 议\n\n委托人（甲方）：${data.principal}\n身份证号：____________________\n\n监护人（乙方）：${data.guardian}\n身份证号：____________________\n与委托人关系：${data.relation}\n\n第一条 监护事项\n甲方在意识清醒状态下，自愿指定乙方为其监护人。当甲方丧失或部分丧失民事行为能力时，由乙方担任甲方的监护人。\n\n第二条 监护职责\n乙方应照顾甲方的生活，保护甲方的人身权利、财产权利以及其他合法权益。${medicalClause}${propertyClause}\n\n第五条 协议生效\n本协议自双方签字并经公证后生效。\n\n第六条 协议变更\n甲方可随时变更或撤销本协议，但应以书面形式通知乙方。\n\n甲方（签字）：_____________    日期：____年__月__日\n乙方（签字）：_____________    日期：____年__月__日`,
+                                    note: '⚠️ 此为简化版草案，正式使用前建议咨询律师并进行公证。意定监护协议需在委托人意识清醒时签订，公证可增强法律效力。'
+                                };
+                            }
+                        }
+                    },
+                    { 
+                        id: 'sp_emergency_help',
+                        icon: '🆘', 
+                        title: '紧急求助通道', 
+                        desc: '快速获取帮助',
+                        type: 'checklist',
+                        toolConfig: { 
+                            fields: [], 
+                            generate: () => ({ 
+                                title: '紧急联系方式', 
+                                items: [
+                                    '<a href="tel:110" style="color:var(--primary-color);text-decoration:none;font-weight:bold;">📞 报警：110</a>', 
+                                    '<a href="tel:12348" style="color:var(--primary-color);text-decoration:none;">📞 法律援助热线：12348</a>', 
+                                    '<a href="tel:12338" style="color:var(--primary-color);text-decoration:none;">📞 妇女维权热线：12338</a>', 
+                                    '<a href="tel:12355" style="color:var(--primary-color);text-decoration:none;">📞 青少年服务热线：12355</a>', 
+                                    '<a href="tel:12385" style="color:var(--primary-color);text-decoration:none;">📞 残疾人服务热线：12385</a>', 
+                                    '<a href="tel:12349" style="color:var(--primary-color);text-decoration:none;">📞 老年人维权热线：12349</a>'
+                                ], 
+                                note: '紧急情况请直接拨打110。' 
+                            }) 
+                        }
+                    }
                 ]
             }
         };
@@ -786,7 +1098,7 @@
             { keywords: ['股权转让', '股东变更'], category: '公司治理', title: '股权转让流程', content: '有限责任公司股东对外转让股权，其他股东有优先购买权。转让需修改公司章程并办理工商变更登记。', tags: ['企业主/创业者'] },
             { keywords: ['商标注册', 'logo', '品牌'], category: '知识产权', title: '商标注册指南', content: '商标申请周期约9-12个月。建议先进行近似查询。注册成功后有效期10年，可无限续展。', tags: ['企业主/创业者'] },
             { keywords: ['劳动仲裁', '流程', '申请书'], category: '劳动争议', title: '劳动仲裁申请流程', content: '携带身份证、劳动合同、证据材料到单位所在地仲裁委申请。时效为1年。仲裁不收费。', tags: ['普通市民'] },
-            { keywords: ['离婚冷静期', '30天'], category: '��姻家庭', title: '离婚冷静期规定', content: '协议离婚需经过30天冷静期。冷静期内任何一方可撤回申请。期满后30天内需双方亲自到场领证。', tags: ['普通市民'] },
+            { keywords: ['离婚冷静期', '30天'], category: '  姻家庭', title: '离婚冷静期规定', content: '协议离婚需经过30天冷静期。冷静期内任何一方可撤回申请。期满后30天内需双方亲自到场领证。', tags: ['普通市民'] },
             { keywords: ['子女抚养权', '抚养费'], category: '婚姻家庭', title: '子女抚养权判定', content: '2周岁以下原则上随母方。8周岁以上尊重孩子真实意愿。抚养费通常为月收入的20%-30%。', tags: ['普通市民'] },
             { keywords: ['遗产继承', '遗嘱', '法定继承'], category: '婚姻家庭', title: '遗产继承顺序', content: '第一顺序：配偶、子女、父母。有遗嘱的按遗嘱执行。公证遗嘱效力最高。', tags: ['普通市民'] },
             { keywords: ['遛狗伤人', '宠物', '侵权责任'], category: '侵权责任', title: '饲养动物损害责任', content: '饲养的动物造成他人损害的，动物饲养人应承担侵权责任。违反管理规定未戴牵引绳的，责任更重。', tags: ['普通市民'] },
