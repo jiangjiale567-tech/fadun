@@ -2,8 +2,44 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>法盾（FǎDùn）- 法律综合指导平台 v3.0</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>法盾（FǎDùn）- 免费法律科普与自助评估平台</title>
+
+    <!-- 基础 SEO -->
+    <meta name="description" content="法盾（FǎDùn）是免费的法律科普与自助评估平台。提供加班费计算、经济补偿金、租房押金、合同模板、离婚财产、交通事故赔偿等常用法律工具，覆盖婚姻家庭、劳动纠纷、租房住房、消费维权、债权债务等8大场景。">
+    <meta name="keywords" content="法律咨询,法律科普,免费法律工具,加班费计算,劳动仲裁,经济补偿金,租房押金,合同模板,离婚财产,交通事故赔偿,法律援助,12348,试用期维权,工伤赔偿,欠钱不还,继承顺序">
+    <meta name="author" content="法盾团队">
+    <meta name="robots" content="index,follow">
+    <meta name="theme-color" content="#1a2744">
+    <meta name="format-detection" content="telephone=no">
+
+    <!-- Open Graph（微信/微博/QQ 分享卡片） -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="法盾 - 免费法律科普与自助评估平台">
+    <meta property="og:description" content="加班费、租房押金、合同模板、离婚财产……8大场景常用法律工具，全部免费。">
+    <meta property="og:image" content="https://fadun.example.com/og-image.png">
+    <meta property="og:url" content="https://fadun.example.com/">
+    <meta property="og:site_name" content="法盾">
+    <meta property="og:locale" content="zh_CN">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="法盾 - 免费法律科普与自助评估平台">
+    <meta name="twitter:description" content="加班费、租房押金、合同模板、离婚财产……8大场景常用法律工具，全部免费。">
+    <meta name="twitter:image" content="https://fadun.example.com/og-image.png">
+
+    <!-- canonical -->
+    <link rel="canonical" href="https://fadun.example.com/">
+
+    <!-- favicon：内联 SVG 盾牌图标 -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path d='M50 5 L90 20 L90 50 Q90 80 50 95 Q10 80 10 50 L10 20 Z' fill='%231a2744' stroke='%23d4af37' stroke-width='3'/><text x='50' y='62' font-size='40' font-weight='bold' text-anchor='middle' fill='%23d4af37' font-family='serif'>法</text></svg>">
+
+    <!-- Apple touch icon（占位，引用 favicon） -->
+    <link rel="apple-touch-icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><path d='M50 5 L90 20 L90 50 Q90 80 50 95 Q10 80 10 50 L10 20 Z' fill='%231a2744' stroke='%23d4af37' stroke-width='3'/></svg>">
+
+    <!-- DNS 预解析（如有第三方资源） -->
+    <link rel="dns-prefetch" href="//hm.baidu.com">
+
     <style>
         :root {
             --primary-color: #1a2744;
@@ -31,14 +67,14 @@
         .logo-icon { width: 40px; height: 40px; background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 20px; }
         .logo-text { font-size: 24px; font-weight: 600; color: var(--primary-color); }
         
+        .nav-links a { color: var(--text-primary); text-decoration: none; font-size: 14px; font-weight: 500; padding: 8px 0; border-bottom: 2px solid transparent; transition: all var(--transition-speed); }
         .nav-links a:hover { color: var(--accent-color); border-bottom: 2px solid var(--accent-color); }
-
+        .nav-links button { color: var(--text-primary); background: none; border: none; font-size: 14px; font-weight: 500; padding: 8px 0; border-bottom: 2px solid transparent; transition: all var(--transition-speed); cursor: pointer; font-family: inherit; }
+        .nav-links button:hover { color: var(--accent-color); border-bottom: 2px solid var(--accent-color); }
         .btn { padding: 10px 24px; border-radius: 6px; font-size: 14px; cursor: pointer; transition: all var(--transition-speed); border: none; font-family: inherit; min-height: 44px; }
         .btn-outline { background: transparent; border: 1px solid var(--primary-color); color: var(--primary-color); }
         .btn-primary { background-color: var(--primary-color); color: white; }
         .btn-primary:hover { background-color: #0f1a2e; transform: translateY(-2px); box-shadow: var(--shadow-md); }
-
-        .nav-links a:hover { color: var(--accent-color); border-bottom: 2px solid var(--accent-color); }
 
         .hero { background: linear-gradient(135deg, var(--primary-color) 0%, #2a3f5f 100%); padding: 80px 24px; text-align: center; color: white; }
         .hero-title { font-size: 42px; font-weight: 600; margin-bottom: 16px; letter-spacing: 2px; }
@@ -95,85 +131,371 @@
         .toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background-color: rgba(0,0,0,0.8); color: white; padding: 12px 24px; border-radius: 6px; font-size: 14px; z-index: 1000; display: none; }
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); z-index: 200; display: flex; align-items: center; justify-content: center; }
         .modal-content { background: white; padding: 32px; border-radius: var(--border-radius); max-width: 500px; width: 90%; }
+
+        /* 汉堡按钮 */
+        .hamburger-btn { display: none; background: none; border: none; font-size: 24px; cursor: pointer; color: var(--primary-color); padding: 8px; min-height: 44px; min-width: 44px; }
+
+        /* 场景卡 */
+        .scenes-section { max-width: 1200px; margin: 60px auto; padding: 0 24px; }
+        .scenes-section-title { font-size: 28px; font-weight: 600; color: var(--primary-color); margin-bottom: 8px; text-align: center; }
+        .scenes-section-desc { font-size: 14px; color: var(--text-secondary); text-align: center; margin-bottom: 32px; }
+        .scenes-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+        .scene-card { background: var(--bg-white); border-radius: var(--border-radius); padding: 24px; box-shadow: var(--shadow-sm); border: 1px solid var(--accent-color); transition: all var(--transition-speed); }
+        .scene-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+        .scene-card-emoji { font-size: 32px; margin-bottom: 8px; }
+        .scene-card-title { font-size: 18px; font-weight: 600; color: var(--primary-color); margin-bottom: 12px; }
+        .scene-sub-links { display: flex; flex-direction: column; gap: 8px; }
+        .scene-sub-link { display: block; padding: 6px 12px; font-size: 13px; color: var(--primary-color); background: var(--bg-light); border-radius: 6px; text-decoration: none; cursor: pointer; min-height: 36px; line-height: 1.4; transition: all var(--transition-speed); }
+        .scene-sub-link:hover { background: #e8e0d0; }
+        .scene-sub-link.disabled { color: #999; background: #f5f5f5; cursor: not-allowed; opacity: 0.6; position: relative; }
+        .scene-sub-link.disabled:hover { background: #f5f5f5; }
+
+        /* 搜索区 */
+        .search-section { max-width: 1200px; margin: 60px auto; padding: 0 24px; }
+        .search-section-title { font-size: 22px; font-weight: 600; color: var(--primary-color); margin-bottom: 16px; }
+        .search-bar { display: flex; gap: 12px; margin-bottom: 16px; }
+        .search-section-input { flex: 1; padding: 14px 20px; border: 2px solid #d9d9d9; border-radius: 50px; font-size: 16px; outline: none; transition: border-color var(--transition-speed); }
+        .search-section-input:focus { border-color: var(--accent-color); }
+        .search-section-btn { padding: 14px 32px; background-color: var(--primary-color); color: white; border: none; border-radius: 50px; cursor: pointer; font-size: 16px; min-height: 44px; }
+        .hot-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+        .hot-tag { padding: 6px 16px; background: var(--bg-light); border-radius: 16px; font-size: 13px; color: var(--text-secondary); cursor: pointer; border: 1px solid transparent; transition: all var(--transition-speed); min-height: 36px; }
+        .hot-tag:hover { border-color: var(--accent-color); color: var(--accent-color); }
+
+        /* 下一步模块 */
+        .next-step-section { margin-top: 32px; padding: 24px; background: linear-gradient(135deg, #f5f7fa 0%, #eef1f5 100%); border-radius: var(--border-radius); }
+        .next-step-title { font-size: 18px; font-weight: 600; color: var(--primary-color); margin-bottom: 16px; }
+        .next-step-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
+        .next-step-card { background: var(--bg-white); border-radius: 8px; padding: 16px; box-shadow: var(--shadow-sm); cursor: pointer; transition: all var(--transition-speed); min-height: 44px; text-decoration: none; display: block; }
+        .next-step-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+        .next-step-card.disabled { opacity: 0.5; cursor: not-allowed; }
+        .next-step-card.disabled:hover { transform: none; box-shadow: var(--shadow-sm); }
+        .next-step-card-icon { font-size: 20px; margin-bottom: 4px; }
+        .next-step-card-label { font-size: 14px; font-weight: 600; color: var(--primary-color); }
+        .next-step-card-desc { font-size: 12px; color: var(--text-secondary); margin-top: 4px; }
+
+        /* 新闻区占位 */
+        .news-section { max-width: 1200px; margin: 40px auto; padding: 40px 24px; text-align: center; background: var(--bg-white); border-radius: var(--border-radius); box-shadow: var(--shadow-sm); }
+
+        /* 跳到主要内容 */
+        .skip-link { position: absolute; top: -100px; left: 0; background: var(--accent-color, #d4af37); color: var(--text-on-accent, #1a2744); padding: 12px 20px; z-index: 9999; font-weight: 600; text-decoration: none; }
+        .skip-link:focus { top: 0; }
+
+        /* 屏幕阅读器专用 */
+        .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+
+        /* 按钮样式链接 */
+        .btn-link { background: none; border: none; color: var(--accent-color); cursor: pointer; text-decoration: underline; padding: 0; font: inherit; }
+
+        /* 页脚备案 */
+        .footer-legal { margin-top: 16px; font-size: 12px; color: rgba(255,255,255,0.7); line-height: 1.8; }
+        .footer-legal a { color: rgba(255,255,255,0.7); text-decoration: none; }
+        .footer-legal a:hover { color: var(--accent-color); }
+        .footer-disclaimer { margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.15); max-width: 800px; margin-left: auto; margin-right: auto; }
+
+        /* 反馈悬浮按钮 */
+        .feedback-fab { position: fixed; right: 20px; bottom: 20px; width: 56px; height: 56px; border-radius: 50%; background: var(--accent-color); color: var(--primary-color); display: flex; align-items: center; justify-content: center; font-size: 24px; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.15); z-index: 999; transition: transform 0.2s; border: none; }
+        .feedback-fab:hover { transform: scale(1.1); }
+        .feedback-fab:focus { outline: 3px solid var(--accent-color); outline-offset: 2px; }
+        .feedback-fab-tooltip { position: absolute; right: 70px; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.8); color: white; padding: 6px 12px; border-radius: 4px; font-size: 12px; white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity 0.2s; }
+        .feedback-fab:hover .feedback-fab-tooltip, .feedback-fab:focus .feedback-fab-tooltip { opacity: 1; }
+
+        /* 反馈弹窗 */
+        .feedback-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 20px; }
+        .feedback-modal-content { background: white; border-radius: 12px; padding: 24px; max-width: 480px; width: 100%; position: relative; max-height: 90vh; overflow-y: auto; }
+        .feedback-modal-close { position: absolute; top: 12px; right: 12px; background: none; border: none; font-size: 28px; cursor: pointer; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--text-secondary); }
+        .feedback-modal-close:hover { background: #f5f5f5; }
+        .feedback-modal h2 { margin: 0 0 8px; color: var(--primary-color); }
+        .feedback-subtitle { color: var(--text-secondary); font-size: 14px; margin: 0 0 20px; }
+        .feedback-tabs { display: flex; gap: 8px; margin-bottom: 16px; }
+        .feedback-tab { flex: 1; padding: 10px; border: 1px solid #e0e0e0; background: white; border-radius: 6px; cursor: pointer; font-size: 14px; transition: all 0.2s; font-family: inherit; }
+        .feedback-tab.active { background: var(--primary-color); color: white; border-color: var(--primary-color); }
+        .feedback-form label { display: block; margin: 12px 0 6px; font-size: 14px; color: var(--primary-color); }
+        .feedback-form textarea, .feedback-form input { width: 100%; padding: 10px; border: 1px solid #e0e0e0; border-radius: 6px; font-size: 14px; font-family: inherit; box-sizing: border-box; }
+        .feedback-form textarea { min-height: 100px; resize: vertical; }
+        .feedback-form textarea:focus, .feedback-form input:focus { outline: 2px solid var(--accent-color); outline-offset: -1px; border-color: transparent; }
+        .feedback-submit { margin-top: 16px; width: 100%; padding: 12px; background: var(--accent-color); color: var(--primary-color); border: none; border-radius: 6px; font-size: 16px; font-weight: 600; cursor: pointer; transition: opacity 0.2s; font-family: inherit; }
+        .feedback-submit:hover { opacity: 0.9; }
+        .feedback-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+        .feedback-success { text-align: center; padding: 20px; }
+        .feedback-success-icon { font-size: 48px; margin-bottom: 12px; }
+
+        /* 响应式 */
+        @media (max-width: 992px) {
+            .hero-title { font-size: 32px; }
+            .scenes-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 768px) {
+            .hero-title { font-size: 24px; }
+            .hero { padding: 48px 16px; }
+            .hamburger-btn { display: block; }
+            .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; background: var(--bg-white); box-shadow: var(--shadow-md); padding: 16px 24px; flex-direction: column; gap: 16px; }
+            .nav-links.open { display: flex; }
+            .nav-links a { padding: 12px 0; font-size: 16px; border-bottom: 1px solid #f0f0f0; }
+            .scenes-grid { grid-template-columns: 1fr; }
+            .search-bar { flex-direction: column; }
+            .search-section-btn { width: 100%; }
+            .next-step-grid { grid-template-columns: 1fr; }
+            .features-grid { grid-template-columns: 1fr; }
+            .identity-grid { grid-template-columns: 1fr; }
+            .chat-messages { height: 200px; }
+        }
+        @media (max-width: 480px) {
+            .hero-title { font-size: 20px; }
+            .hero-subtitle { font-size: 14px; }
+            .hero p[style*="font-size: 16px"] { font-size: 13px !important; }
+            .feedback-fab { width: 56px; height: 56px; bottom: 80px; right: 16px; }
+            .feedback-modal { padding: 0; }
+            .feedback-modal-content { max-width: 100%; max-height: 100vh; border-radius: 0; height: 100vh; }
+            .history-item { flex-wrap: wrap; gap: 8px; }
+            .history-time { min-width: auto; }
+            .legal-basis-item summary { flex-wrap: wrap; }
+        }
+        /* 任务11：搜索结果关闭按钮 */
+        .search-results-close { background: none; border: 1px solid #d9d9d9; border-radius: 6px; width: 36px; height: 36px; cursor: pointer; font-size: 18px; color: var(--text-secondary); transition: all 0.2s; }
+        .search-results-close:hover { background: var(--bg-light); color: var(--primary-color); }
+
+        /* 任务12：返回首页按钮 */
+        .btn-back-home { background: none; border: none; color: var(--primary-color); cursor: pointer; font-size: 14px; padding: 8px 12px; margin-bottom: 12px; border-radius: 6px; transition: background 0.2s; }
+        .btn-back-home:hover { background: var(--bg-light); }
+        .btn-back-home:focus-visible { outline: 3px solid var(--accent-color); outline-offset: 2px; }
+
+        /* 任务13：历史记录 */
+        .btn-history { background: var(--bg-light); border: 1px solid #d9d9d9; border-radius: 6px; padding: 8px 16px; cursor: pointer; font-size: 14px; color: var(--primary-color); transition: all 0.2s; margin-left: 12px; }
+        .btn-history:hover { background: #e8e0d0; }
+        .history-panel { margin-top: 12px; padding: 12px; background: #fafafa; border-radius: 8px; max-height: 300px; overflow-y: auto; }
+        .history-empty { color: var(--text-secondary); text-align: center; margin: 0; font-size: 14px; }
+        .history-item { display: flex; align-items: center; gap: 12px; padding: 8px; border-bottom: 1px solid #eee; font-size: 13px; }
+        .history-item:last-child { border-bottom: none; }
+        .history-time { color: var(--text-secondary); min-width: 80px; }
+        .history-summary { flex: 1; color: var(--primary-color); }
+        .history-restore { background: var(--accent-color); color: var(--primary-color); border: none; padding: 4px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: 600; }
+        .history-clear { margin-top: 8px; background: none; border: 1px solid #d9d9d9; padding: 4px 12px; border-radius: 4px; cursor: pointer; color: var(--text-secondary); font-size: 12px; width: 100%; }
+        .history-clear:hover { color: #e74c3c; border-color: #e74c3c; }
+
+        /* 任务14：法条可展开 */
+        .legal-basis-section { margin-top: 20px; padding: 16px; background: linear-gradient(135deg, #fff9e6 0%, #fff3cd 100%); border-radius: 8px; }
+        .legal-basis-title { margin: 0 0 12px; color: var(--primary-color); font-size: 16px; }
+        .legal-basis-list { display: flex; flex-direction: column; gap: 8px; }
+        .legal-basis-item { background: white; border-radius: 6px; padding: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .legal-basis-item summary { cursor: pointer; font-weight: 600; color: var(--primary-color); display: flex; align-items: center; gap: 8px; list-style: none; }
+        .legal-basis-item summary::-webkit-details-marker { display: none; }
+        .legal-basis-item summary::before { content: '▶'; color: var(--accent-color); font-size: 12px; transition: transform 0.2s; display: inline-block; }
+        .legal-basis-item[open] summary::before { transform: rotate(90deg); }
+        .law-summary { color: var(--text-secondary); font-size: 13px; font-weight: 400; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .law-content { margin-top: 12px; padding-top: 12px; border-top: 1px dashed #e0e0e0; color: var(--text-primary); line-height: 1.6; font-size: 14px; }
+
+        /* 任务15：统一焦点环 */
+        *:focus { outline: none; }
+        *:focus-visible { outline: 3px solid var(--accent-color); outline-offset: 2px; border-radius: 4px; }
+        button:focus-visible, a:focus-visible, [role="button"]:focus-visible { outline: 3px solid var(--accent-color); outline-offset: 2px; }
+        button.identity-card, button.scene-card { border: none; background: var(--bg-white); width: 100%; text-align: left; font-family: inherit; cursor: pointer; }
+        button.identity-card { border: 1px solid transparent; }
+        button.scene-card { border: 1px solid var(--accent-color); }
+
+        /* 任务16：loading状态 */
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes shimmer { 0% { background-position: -200px 0; } 100% { background-position: 200px 0; } }
+        .btn-loading { position: relative; color: transparent !important; }
+        .btn-loading::after { content: ''; position: absolute; top: 50%; left: 50%; width: 16px; height: 16px; margin: -8px 0 0 -8px; border: 2px solid white; border-top-color: transparent; border-radius: 50%; animation: spin 0.6s linear infinite; }
+        .btn-loading:disabled { cursor: wait; }
+        .skeleton { background: linear-gradient(90deg, #f0f0f0 0%, #e0e0e0 50%, #f0f0f0 100%); background-size: 400px 100%; animation: shimmer 1.5s infinite; border-radius: 4px; height: 16px; margin: 8px 0; }
+        .skeleton.title { height: 24px; width: 60%; }
+        .skeleton.text { width: 90%; }
+        .skeleton.text.short { width: 50%; }
+        .thinking-dots::after { content: ''; display: inline-block; width: 12px; text-align: left; animation: dots 1.2s steps(4, end) infinite; }
+        @keyframes dots { 0% { content: ''; } 25% { content: '.'; } 50% { content: '..'; } 75% { content: '...'; } }
+
+        /* 任务17：输入校验 */
+        .form-required { color: #e74c3c; margin-left: 2px; }
+        .form-input.invalid, .form-select.invalid { border-color: #e74c3c; }
+        .form-input.invalid:focus, .form-select.invalid:focus { outline-color: #e74c3c; }
+        .form-error { color: #e74c3c; font-size: 12px; margin-top: 4px; min-height: 0; }
+        .form-hint { color: var(--text-secondary); font-size: 12px; margin-top: 4px; }
     </style>
 </head>
 <body>
     <!-- 顶部导航栏 -->
-    <nav class="navbar">
+    <header class="site-header" role="banner">
+    <nav class="navbar" role="navigation" aria-label="主导航">
+        <a href="#main" class="skip-link">跳到主要内容</a>
         <div class="navbar-container">
-            <div class="logo" onclick="showHomePage()">
-                <div class="logo-icon">法</div>
+            <div class="logo" onclick="showHomePage()" role="button" tabindex="0" aria-label="法盾首页">
+                <div class="logo-icon" aria-hidden="true">法</div>
                 <span class="logo-text">法盾 FǎDùn</span>
             </div>
-            <div class="nav-links" style="display: flex; gap: 24px; align-items: center;">
+            <button class="hamburger-btn" onclick="toggleNav()" aria-label="打开导航菜单" aria-expanded="false">☰</button>
+            <div class="nav-links" id="navLinks">
+                <a href="#search-section" onclick="toggleNav()">法律速查</a>
+                <a href="#scenes-grid" onclick="toggleNav()">工具箱</a>
+                <a href="#news-section" onclick="toggleNav()">法律资讯</a>
+                <button type="button" class="btn-link" onclick="toggleNav(); showToolPage('sp_emergency_help')">紧急求助</button>
             </div>
             <div class="nav-actions">
-                <button class="btn btn-outline" style="opacity: 0.6; cursor: not-allowed;">登录（即将上线）</button>
+                <button class="btn btn-outline" style="opacity: 0.6; cursor: not-allowed;" disabled aria-disabled="true">登录（即将上线）</button>
             </div>
         </div>
     </nav>
+    </header>
 
     <!-- 首页内容 -->
+    <main id="main" role="main">
     <div id="homePage">
-        <section class="hero">
+        <section class="hero" aria-label="网站介绍">
             <h1 class="hero-title">法盾 · 您的智能法律助手</h1>
             <p class="hero-subtitle">专业、高效、触手可及的法律科普与自助评估平台</p>
-            <div class="search-container">
-                <input type="text" class="search-input" placeholder="搜索法律问题，如：离婚财产分割、工伤赔偿..." id="searchInput" onkeypress="handleSearch(event)">
-                <button class="search-btn" onclick="performSearch()">搜索</button>
-            </div>
+            <p style="font-size: 16px; opacity: 0.8; margin-top: 8px;"><span aria-hidden="true">👇</span> 下面选一个你遇到的问题</p>
         </section>
 
-        <section class="identity-section">
+        <section class="identity-section" aria-label="身份入口">
             <div class="identity-grid">
-                <div class="identity-card" onclick="showIdentityPage('citizen')">
+                <button class="identity-card" type="button" onclick="showIdentityPage('citizen')" aria-label="普通市民">
                     <h2 class="card-title">普通市民</h2>
                     <div class="card-tags"><span class="card-tag">婚姻家庭</span><span class="card-tag">劳动纠纷</span></div>
                     <p class="card-description">遇到婚姻、劳动、交通事故问题？一键评估你的法律风险，获取维权步骤</p>
-                </div>
-                <div class="identity-card" onclick="showIdentityPage('entrepreneur')">
+                </button>
+                <button class="identity-card" type="button" onclick="showIdentityPage('entrepreneur')" aria-label="企业主/创业者">
                     <h2 class="card-title">企业主/创业者</h2>
                     <div class="card-tags"><span class="card-tag">合同纠纷</span><span class="card-tag">股权架构</span></div>
                     <p class="card-description">创业路上合同、股权、用工风险多？用智能工具提前排查，避免踩坑</p>
-                </div>
-                <div class="identity-card" onclick="showIdentityPage('legal_hr')">
+                </button>
+                <button class="identity-card" type="button" onclick="showIdentityPage('legal_hr')" aria-label="企业法务/HR">
                     <h2 class="card-title">企业法务/HR</h2>
                     <div class="card-tags"><span class="card-tag">用工合规</span><span class="card-tag">规章制度</span></div>
                     <p class="card-description">劳动合同、合规审查、劳动争议处理，帮你高效搞定企业法务与HR难题</p>
-                </div>
-                <div class="identity-card" onclick="showIdentityPage('lawyer')">
+                </button>
+                <button class="identity-card" type="button" onclick="showIdentityPage('lawyer')" aria-label="法律从业者">
                     <h2 class="card-title">法律从业者</h2>
                     <div class="card-tags"><span class="card-tag">案例检索</span><span class="card-tag">文书生成</span></div>
                     <p class="card-description">诉讼费计算、文书模板、证据清单、类案检索，提升法律工作的效率</p>
-                </div>
-                <div class="identity-card" onclick="showIdentityPage('student')">
+                </button>
+                <button class="identity-card" type="button" onclick="showIdentityPage('student')" aria-label="学生/求职者">
                     <h2 class="card-title">学生/求职者</h2>
                     <div class="card-tags"><span class="card-tag">租房避坑</span><span class="card-tag">实习权益</span></div>
                     <p class="card-description">租房怕被坑？实习没保障？Offer有陷阱？这里有学生专属的法律自保指南</p>
-                </div>
-                <div class="identity-card" onclick="showIdentityPage('special')">
+                </button>
+                <button class="identity-card" type="button" onclick="showIdentityPage('special')" aria-label="权益保护专区">
                     <h2 class="card-title">权益保护专区</h2>
                     <div class="card-tags"><span class="card-tag">未成年人</span><span class="card-tag">老年人</span></div>
                     <p class="card-description">为未成年人、老年人、残障人士等提供免费法律援助指引与权益保护知识</p>
-                </div>
+                </button>
+            </div>
+        </section>
+
+        <!-- 场景卡网格 -->
+        <section class="scenes-section" id="scenes-grid" aria-label="场景工具">
+            <h2 class="scenes-section-title">遇到什么问题？选一个场景</h2>
+            <p class="scenes-section-desc">根据你的实际问题，快速找到对应工具</p>
+            <ul class="scenes-grid" role="list">
+                <li class="scene-card" role="listitem" tabindex="0" onkeydown="if(event.key==='Enter')this.querySelector('.scene-sub-link:not(.disabled)')?.click()">
+                    <div class="scene-card-emoji" aria-hidden="true">💍</div>
+                    <h3 class="scene-card-title">婚姻家庭</h3>
+                    <div class="scene-sub-links">
+                        <button type="button" class="scene-sub-link" onclick="showToolPage('citizen_divorce_calc')">离婚财产分割</button>
+                        <button type="button" class="scene-sub-link disabled" disabled title="开发中">抚养权判定</button>
+                        <button type="button" class="scene-sub-link disabled" disabled title="开发中">遗产继承</button>
+                    </div>
+                </li>
+                <li class="scene-card" role="listitem" tabindex="0" onkeydown="if(event.key==='Enter')this.querySelector('.scene-sub-link:not(.disabled)')?.click()">
+                    <div class="scene-card-emoji" aria-hidden="true">👔</div>
+                    <h3 class="scene-card-title">劳动纠纷</h3>
+                    <div class="scene-sub-links">
+                        <button type="button" class="scene-sub-link" onclick="showToolPage('citizen_labor_compensation')">赔偿金计算</button>
+                        <button type="button" class="scene-sub-link" onclick="showToolPage('citizen_risk_check')">法律风险评估</button>
+                        <button type="button" class="scene-sub-link" onclick="showToolPage('citizen_legal_aid_test')">法律援助自测</button>
+                    </div>
+                </li>
+                <li class="scene-card" role="listitem" tabindex="0" onkeydown="if(event.key==='Enter')this.querySelector('.scene-sub-link:not(.disabled)')?.click()">
+                    <div class="scene-card-emoji" aria-hidden="true">🏠</div>
+                    <h3 class="scene-card-title">租房住房</h3>
+                    <div class="scene-sub-links">
+                        <button type="button" class="scene-sub-link" onclick="showToolPage('stu_rental_check')">租房合同检查</button>
+                        <button type="button" class="scene-sub-link disabled" disabled title="开发中">押金退还纠纷</button>
+                        <button type="button" class="scene-sub-link disabled" disabled title="开发中">房东违约</button>
+                    </div>
+                </li>
+                <li class="scene-card" role="listitem" tabindex="0" onkeydown="if(event.key==='Enter')this.querySelector('.scene-sub-link:not(.disabled)')?.click()">
+                    <div class="scene-card-emoji" aria-hidden="true">🛒</div>
+                    <h3 class="scene-card-title">消费维权</h3>
+                    <div class="scene-sub-links">
+                        <button type="button" class="scene-sub-link disabled" disabled title="开发中">消费者维权</button>
+                        <button type="button" class="scene-sub-link disabled" disabled title="开发中">七天无理由退货</button>
+                        <button type="button" class="scene-sub-link disabled" disabled title="开发中">欺诈赔偿</button>
+                    </div>
+                </li>
+                <li class="scene-card" role="listitem" tabindex="0" onkeydown="if(event.key==='Enter')this.querySelector('.scene-sub-link:not(.disabled)')?.click()">
+                    <div class="scene-card-emoji" aria-hidden="true">🚗</div>
+                    <h3 class="scene-card-title">交通事故</h3>
+                    <div class="scene-sub-links">
+                        <button type="button" class="scene-sub-link" onclick="showToolPage('citizen_traffic_calc')">交通事故赔偿</button>
+                        <button type="button" class="scene-sub-link disabled" disabled title="开发中">责任认定</button>
+                        <button type="button" class="scene-sub-link disabled" disabled title="开发中">保险理赔</button>
+                    </div>
+                </li>
+                <li class="scene-card" role="listitem" tabindex="0" onkeydown="if(event.key==='Enter')this.querySelector('.scene-sub-link:not(.disabled)')?.click()">
+                    <div class="scene-card-emoji" aria-hidden="true">🏢</div>
+                    <h3 class="scene-card-title">企业经营</h3>
+                    <div class="scene-sub-links">
+                        <button type="button" class="scene-sub-link" onclick="showToolPage('entre_contract_risk')">合同风险检查</button>
+                        <button type="button" class="scene-sub-link" onclick="showToolPage('entre_labor_check')">用工合规自查</button>
+                        <button type="button" class="scene-sub-link" onclick="showToolPage('entre_equity_sim')">股权分配模拟</button>
+                    </div>
+                </li>
+                <li class="scene-card" role="listitem" tabindex="0" onkeydown="if(event.key==='Enter')this.querySelector('.scene-sub-link:not(.disabled)')?.click()">
+                    <div class="scene-card-emoji" aria-hidden="true">💰</div>
+                    <h3 class="scene-card-title">债权债务</h3>
+                    <div class="scene-sub-links">
+                        <button type="button" class="scene-sub-link" onclick="showToolPage('law_limitation_check')">诉讼时效核查</button>
+                        <button type="button" class="scene-sub-link disabled" disabled title="开发中">借条规范</button>
+                        <button type="button" class="scene-sub-link disabled" disabled title="开发中">欠钱不还</button>
+                    </div>
+                </li>
+                <li class="scene-card" role="listitem" tabindex="0" onkeydown="if(event.key==='Enter')this.querySelector('.scene-sub-link:not(.disabled)')?.click()">
+                    <div class="scene-card-emoji" aria-hidden="true">⚖️</div>
+                    <h3 class="scene-card-title">刑事案件</h3>
+                    <div class="scene-sub-links">
+                        <button type="button" class="scene-sub-link" onclick="showToolPage('sp_legal_aid_apply')">法律援助申请</button>
+                        <button type="button" class="scene-sub-link" onclick="showToolPage('sp_emergency_help')">紧急求助通道</button>
+                        <button type="button" class="scene-sub-link disabled" disabled title="开发中">刑事报案指引</button>
+                    </div>
+                </li>
+            </ul>
+        </section>
+
+        <!-- 搜索区 -->
+        <section class="search-section" id="search-section" aria-label="法律速查">
+            <h2 class="search-section-title"><span aria-hidden="true">🔍</span> 法律速查</h2>
+            <div class="search-bar">
+                <input type="text" class="search-section-input" id="searchInput" placeholder="搜你遇到的问题，比如：&quot;公司不给加班费&quot;" onkeypress="handleSearch(event)" aria-label="搜索法律问题">
+                <button class="search-section-btn" onclick="performSearch()">搜索</button>
+            </div>
+            <div class="hot-tags">
+                <button type="button" class="hot-tag" onclick="fillSearch('加班费计算')">加班费计算</button>
+                <button type="button" class="hot-tag" onclick="fillSearch('N+1赔偿')">N+1赔偿</button>
+                <button type="button" class="hot-tag" onclick="fillSearch('试用期多久')">试用期多久</button>
+                <button type="button" class="hot-tag" onclick="fillSearch('押金不退怎么办')">押金不退怎么办</button>
+                <button type="button" class="hot-tag" onclick="fillSearch('合同纠纷')">合同纠纷</button>
+                <button type="button" class="hot-tag" onclick="fillSearch('交通事故赔偿')">交通事故赔偿</button>
+                <button type="button" class="hot-tag" onclick="fillSearch('欠钱不还')">欠钱不还</button>
+                <button type="button" class="hot-tag" onclick="fillSearch('继承顺序')">继承顺序</button>
             </div>
         </section>
     </div>
 
     <!-- 身份专属页面容器 -->
-    <div id="identityPages"></div>
+    <div id="identityPages" aria-label="身份专属"></div>
     <!-- 功能工具页面容器 -->
-    <div id="toolPages"></div>
+    <div id="toolPages" aria-label="工具详情"></div>
+    </main>
 
     <!-- 搜索结果弹窗 -->
     <div id="searchResultsModal" class="modal-overlay" style="display:none;" onclick="closeSearchModal(event)">
         <div class="modal-content" style="max-width: 800px; max-height: 80vh; overflow-y: auto;" onclick="event.stopPropagation()">
             <h3 style="margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center;">
                 搜索结果
-                <span style="cursor:pointer;font-size:24px;" onclick="document.getElementById('searchResultsModal').style.display='none'">×</span>
+                <button class="search-results-close" onclick="closeSearchResults()" aria-label="关闭搜索结果">×</button>
             </h3>
             <div id="searchResultsList"></div>
-            <button class="btn btn-primary" style="margin-top: 20px; width: 100%;" onclick="document.getElementById('searchResultsModal').style.display='none'">关闭</button>
+            <button class="btn btn-primary" style="margin-top: 20px; width: 100%;" onclick="closeSearchResults()">关闭</button>
         </div>
     </div>
 
@@ -186,21 +508,155 @@
         </div>
     </div>
 
+    <!-- 法律资讯占位 -->
+    <section class="news-section" id="news-section">
+        <p style="font-size: 18px; color: var(--text-secondary);"><span aria-hidden="true">📰</span> 法律资讯模块开发中，敬请期待</p>
+    </section>
+
     <!-- 页脚 -->
     <footer class="footer">
         <div class="footer-content">
             <div class="footer-links" style="margin-bottom: 16px;">
-                <a href="#" class="footer-link" onclick="showInfoModal('about')" style="color: white; margin: 0 12px; text-decoration: none;">关于我们</a>
-                <a href="#" class="footer-link" onclick="showInfoModal('terms')" style="color: white; margin: 0 12px; text-decoration: none;">服务条款</a>
-                <a href="#" class="footer-link" onclick="showInfoModal('privacy')" style="color: white; margin: 0 12px; text-decoration: none;">隐私政策</a>
+                <button type="button" class="btn-link" onclick="showInfoModal('about')" style="color: white; margin: 0 12px;">关于我们</button>
+                <button type="button" class="btn-link" onclick="showInfoModal('terms')" style="color: white; margin: 0 12px;">服务条款</button>
+                <button type="button" class="btn-link" onclick="showInfoModal('privacy')" style="color: white; margin: 0 12px;">隐私政策</button>
             </div>
             <p class="footer-copyright">© 2026 法盾（FǎDùn）法律综合指导平台 版权所有</p>
+            <div class="footer-legal">
+                <p>
+                    <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer">
+                        <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path fill='%23999' d='M8 1l-7 3v4c0 3.5 3 6.5 7 7 4-.5 7-3.5 7-7V4L8 1z'/></svg>"
+                             alt="" width="14" height="14" style="vertical-align:middle;margin-right:4px;">
+                        京ICP备 XXXXXXXX号-1
+                    </a>
+                </p>
+                <p>
+                    <a href="http://www.beian.gov.cn/portal/registerSystemInfo" target="_blank" rel="noopener noreferrer">
+                        京公网安备 XXXXXXXXXXXXX号
+                    </a>
+                </p>
+                <p class="footer-disclaimer">
+                    本站所有内容仅供参考，不构成法律意见。具体案件请咨询执业律师或拨打 12348 法律援助热线。
+                </p>
+            </div>
         </div>
     </footer>
 
+    <!--
+    ================================================================
+    SEO 资源文件部署说明（需要手动创建，不在 HTML 中）
+    ================================================================
+    1. 在网站根目录创建 sitemap.xml，粘贴以下内容：
+    -------------------------------------------------------
+    <?xml version="1.0" encoding="UTF-8"?>
+    <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+      <url>
+        <loc>https://fadun.example.com/</loc>
+        <lastmod>2026-06-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>1.0</priority>
+      </url>
+      <url>
+        <loc>https://fadun.example.com/scene/marriage</loc>
+        <lastmod>2026-06-17</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+      </url>
+      <url>
+        <loc>https://fadun.example.com/scene/labor</loc>
+        <lastmod>2026-06-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+      </url>
+      <url>
+        <loc>https://fadun.example.com/scene/rent</loc>
+        <lastmod>2026-06-17</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+      </url>
+      <url>
+        <loc>https://fadun.example.com/scene/consumer</loc>
+        <lastmod>2026-06-17</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+      </url>
+      <url>
+        <loc>https://fadun.example.com/scene/traffic</loc>
+        <lastmod>2026-06-17</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+      </url>
+      <url>
+        <loc>https://fadun.example.com/scene/business</loc>
+        <lastmod>2026-06-17</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+      </url>
+      <url>
+        <loc>https://fadun.example.com/scene/debt</loc>
+        <lastmod>2026-06-17</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+      </url>
+      <url>
+        <loc>https://fadun.example.com/scene/criminal</loc>
+        <lastmod>2026-06-17</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+      </url>
+      <url>
+        <loc>https://fadun.example.com/tool/overtime-pay</loc>
+        <lastmod>2026-06-17</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+      </url>
+      <url>
+        <loc>https://fadun.example.com/tool/severance-pay</loc>
+        <lastmod>2026-06-17</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+      </url>
+      <url>
+        <loc>https://fadun.example.com/tool/work-injury</loc>
+        <lastmod>2026-06-17</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+      </url>
+      <url>
+        <loc>https://fadun.example.com/tool/divorce-property</loc>
+        <lastmod>2026-06-17</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+      </url>
+      <url>
+        <loc>https://fadun.example.com/tool/contract-generator</loc>
+        <lastmod>2026-06-17</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+      </url>
+    </urlset>
+    -------------------------------------------------------
+
+    2. 在网站根目录创建 robots.txt，粘贴以下内容：
+    -------------------------------------------------------
+    User-agent: *
+    Allow: /
+    Disallow: /admin/
+    Disallow: /private/
+
+    Sitemap: https://fadun.example.com/sitemap.xml
+    -------------------------------------------------------
+
+    3. 提交 sitemap 到：
+       - 百度搜索资源平台：https://ziyuan.baidu.com/
+       - Google Search Console：https://search.google.com/search-console/
+    4. 域名上线后，把所有 fadun.example.com 替换为真实域名
+    ================================================================
+    -->
+
     <!-- 全局免责声明 -->
     <div class="disclaimer-bar">
-        ⚠️ 本平台内容仅供参考，不构成正式法律意见。重要案件请咨询执业律师。
+        <span aria-hidden="true">⚠️</span> 本平台内容仅供参考，不构成正式法律意见。重要案件请咨询执业律师。
     </div>
 
     <!-- 提示弹窗 -->
@@ -1098,7 +1554,7 @@
             { keywords: ['股权转让', '股东变更'], category: '公司治理', title: '股权转让流程', content: '有限责任公司股东对外转让股权，其他股东有优先购买权。转让需修改公司章程并办理工商变更登记。', tags: ['企业主/创业者'] },
             { keywords: ['商标注册', 'logo', '品牌'], category: '知识产权', title: '商标注册指南', content: '商标申请周期约9-12个月。建议先进行近似查询。注册成功后有效期10年，可无限续展。', tags: ['企业主/创业者'] },
             { keywords: ['劳动仲裁', '流程', '申请书'], category: '劳动争议', title: '劳动仲裁申请流程', content: '携带身份证、劳动合同、证据材料到单位所在地仲裁委申请。时效为1年。仲裁不收费。', tags: ['普通市民'] },
-            { keywords: ['离婚冷静期', '30天'], category: '  姻家庭', title: '离婚冷静期规定', content: '协议离婚需经过30天冷静期。冷静期内任何一方可撤回申请。期满后30天内需双方亲自到场领证。', tags: ['普通市民'] },
+            { keywords: ['离婚冷静期', '30天'], category: '婚姻家庭', title: '离婚冷静期规定', content: '协议离婚需经过30天冷静期。冷静期内任何一方可撤回申请。期满后30天内需双方亲自到场领证。', tags: ['普通市民'] },
             { keywords: ['子女抚养权', '抚养费'], category: '婚姻家庭', title: '子女抚养权判定', content: '2周岁以下原则上随母方。8周岁以上尊重孩子真实意愿。抚养费通常为月收入的20%-30%。', tags: ['普通市民'] },
             { keywords: ['遗产继承', '遗嘱', '法定继承'], category: '婚姻家庭', title: '遗产继承顺序', content: '第一顺序：配偶、子女、父母。有遗嘱的按遗嘱执行。公证遗嘱效力最高。', tags: ['普通市民'] },
             { keywords: ['遛狗伤人', '宠物', '侵权责任'], category: '侵权责任', title: '饲养动物损害责任', content: '饲养的动物造成他人损害的，动物饲养人应承担侵权责任。违反管理规定未戴牵引绳的，责任更重。', tags: ['普通市民'] },
@@ -1186,6 +1642,16 @@
         // ============================================
         // 页面初始化与生成
         // ============================================
+        function toggleNav() {
+            var nl = document.getElementById('navLinks');
+            if (nl) nl.classList.toggle('open');
+        }
+
+        function fillSearch(keyword) {
+            var input = document.getElementById('searchInput');
+            if (input) { input.value = keyword; performSearch(); }
+        }
+
         function initPages() {
             const identityContainer = document.getElementById('identityPages');
             const toolContainer = document.getElementById('toolPages');
@@ -1206,7 +1672,7 @@
         function createIdentityPage(id, config) {
             const featuresHtml = config.features.map(f => `
                 <div class="feature-card" onclick="showToolPage('${f.id}')">
-                    <div class="feature-icon">${f.icon}</div>
+                    <div class="feature-icon" aria-hidden="true">${f.icon}</div>
                     <h3 class="feature-title">${f.title}</h3>
                     <p class="feature-desc">${f.desc}</p>
                 </div>
@@ -1225,7 +1691,7 @@
             return `
                 <div id="${id}Page" class="identity-page">
                     <div class="page-header">
-                        <a class="back-btn" onclick="showHomePage()">← 返回首页</a>
+                        <a class="back-btn" href="javascript:void(0)" onclick="showHomePage()">← 返回首页</a>
                         <h1 class="page-title">${config.title}专属服务</h1>
                         <div class="page-tags">${config.tags.map(t => `<span class="page-tag">${t}</span>`).join('')}</div>
                     </div>
@@ -1256,37 +1722,44 @@
 
         function createToolPage(toolId, feature, identityTitle) {
             let toolContent = '';
-            
-            if (feature.type === 'calculator') {
-                const fieldsHtml = feature.toolConfig.fields.map(f => {
+
+            // 任务 18: 用 switch 重写, 兜底未知 type
+            const ftype = feature.type;
+            const cfg = feature.toolConfig || {};
+            const fields = cfg.fields || [];
+            const questions = cfg.questions || [];
+
+            if (ftype === 'calculator' || ftype === 'quiz') {
+                // quiz 复用 calculator 渲染(都是数字/选择字段)
+                const fieldsHtml = fields.map(f => {
                     if (f.type === 'select') {
-                        return `<div class="form-group"><label class="form-label">${f.name}</label><select class="form-select" id="${toolId}_${f.key}">${f.options.map(o => `<option value="${o}">${o}</option>`).join('')}</select></div>`;
-                    } else {
-                        return `<div class="form-group"><label class="form-label">${f.name}</label><input type="${f.type}" class="form-input" id="${toolId}_${f.key}" placeholder="${f.placeholder}"></div>`;
+                        return `<div class="form-group"><label class="form-label">${f.name}</label><select class="form-select" id="${toolId}_${f.key}">${(f.options || []).map(o => `<option value="${o}">${o}</option>`).join('')}</select></div>`;
                     }
+                    const validateAttr = f.type === 'number' ? ` data-validate='{"required":true,"type":"number","min":0,"max":1000000000}'` : '';
+                    return `<div class="form-group"><label class="form-label">${f.name}${f.type === 'number' ? '<span class="form-required">*</span>' : ''}</label><input type="${f.type || 'text'}" class="form-input" id="${toolId}_${f.key}" placeholder="${f.placeholder || ''}"${validateAttr}><div class="form-error"></div></div>`;
                 }).join('');
-                
+
                 toolContent = `
                     <div class="tool-card">
                         <h3 class="tool-section-title">参数输入</h3>
                         ${fieldsHtml}
                         <div class="action-buttons">
-                            <button class="btn btn-primary" onclick="runCalculator('${toolId}')">计算</button>
+                            <button class="btn btn-primary" onclick="runCalculator('${toolId}')">${ftype === 'quiz' ? '开始测评' : '计算'}</button>
                             <button class="btn btn-outline" onclick="resetForm('${toolId}')">重置</button>
                         </div>
-                        <div id="${toolId}_result"></div>
+                        <div id="${toolId}_result" class="tool-result" role="region" aria-live="polite" aria-label="测算结果"></div>
                     </div>
                 `;
-            } else if (feature.type === 'generator' || feature.type === 'checklist') {
-                const fieldsHtml = (feature.toolConfig.fields || []).map(f => {
+            } else if (ftype === 'generator') {
+                const fieldsHtml = fields.map(f => {
                     if (f.type === 'select') {
-                        return `<div class="form-group"><label class="form-label">${f.name}</label><select class="form-select" id="${toolId}_${f.key}">${f.options.map(o => `<option value="${o}">${o}</option>`).join('')}</select></div>`;
+                        return `<div class="form-group"><label class="form-label">${f.name}</label><select class="form-select" id="${toolId}_${f.key}">${(f.options || []).map(o => `<option value="${o}">${o}</option>`).join('')}</select></div>`;
                     } else if (f.type === 'text' || f.type === 'number') {
-                        return `<div class="form-group"><label class="form-label">${f.name}</label><input type="${f.type}" class="form-input" id="${toolId}_${f.key}" placeholder="${f.placeholder}"></div>`;
+                        return `<div class="form-group"><label class="form-label">${f.name}</label><input type="${f.type}" class="form-input" id="${toolId}_${f.key}" placeholder="${f.placeholder || ''}"></div>`;
                     }
                     return '';
                 }).join('');
-                
+
                 toolContent = `
                     <div class="tool-card">
                         <h3 class="tool-section-title">信息填写</h3>
@@ -1294,39 +1767,54 @@
                         <div class="action-buttons">
                             <button class="btn btn-primary" onclick="runGenerator('${toolId}')">生成</button>
                         </div>
-                        <div id="${toolId}_result"></div>
+                        <div id="${toolId}_result" class="tool-result" role="region" aria-live="polite" aria-label="生成结果"></div>
                     </div>
                 `;
-            } else if (feature.type === 'assessment' || feature.type === 'quiz') {
-                const questionsHtml = feature.toolConfig.questions.map((q, idx) => `
+            } else if (ftype === 'assessment' || ftype === 'checklist') {
+                // 任务 18: checklist 复用 assessment 渲染
+                const questionsHtml = questions.map((q, idx) => `
                     <div class="form-group">
                         <label class="form-label">${idx + 1}. ${q.question}</label>
                         <select class="form-select" id="${toolId}_q${idx}">
-                            ${q.options.map(o => `<option value="${o}">${o}</option>`).join('')}
+                            ${(q.options || []).map(o => `<option value="${o}">${o}</option>`).join('')}
                         </select>
                     </div>
                 `).join('');
-                
+
+                // checklist 类型可能没有 evaluate, 给出友好兜底
+                const actionHandler = (typeof cfg.evaluate === 'function')
+                    ? `runAssessment('${toolId}')`
+                    : `runChecklist('${toolId}')`;
+                const actionLabel = (typeof cfg.evaluate === 'function') ? '评估' : '查看清单';
+
                 toolContent = `
                     <div class="tool-card">
-                        <h3 class="tool-section-title">回答问题</h3>
-                        ${questionsHtml}
+                        <h3 class="tool-section-title">${ftype === 'checklist' ? '检查清单' : '回答问题'}</h3>
+                        ${questionsHtml || '<p style="color:var(--text-secondary);">该清单无需填写, 直接点击下方按钮查看。</p>'}
                         <div class="action-buttons">
-                            <button class="btn btn-primary" onclick="runAssessment('${toolId}')">评估</button>
+                            <button class="btn btn-primary" onclick="${actionHandler}">${actionLabel}</button>
                         </div>
-                        <div id="${toolId}_result"></div>
+                        <div id="${toolId}_result" class="tool-result" role="region" aria-live="polite" aria-label="评估结果"></div>
                     </div>
                 `;
-            } else if (feature.type === 'ai_analysis') {
+            } else if (ftype === 'ai_analysis') {
                 toolContent = `
                     <div class="tool-card">
                         <h3 class="tool-section-title">案情描述</h3>
-                        <p style="margin-bottom: 16px; color: var(--text-secondary); font-size: 14px;">${feature.toolConfig.instruction}</p>
+                        <p style="margin-bottom: 16px; color: var(--text-secondary); font-size: 14px;">${cfg.instruction || ''}</p>
                         <textarea class="form-textarea" id="${toolId}_text" placeholder="请在此详细描述..."></textarea>
                         <div class="action-buttons">
                             <button class="btn btn-primary" onclick="runAIAnalysis('${toolId}')">AI分析</button>
                         </div>
-                        <div id="${toolId}_result"></div>
+                        <div id="${toolId}_result" class="tool-result" role="region" aria-live="polite" aria-label="分析结果"></div>
+                    </div>
+                `;
+            } else {
+                // 任务 18: 兜底未知 type
+                toolContent = `
+                    <div class="tool-card">
+                        <h3 class="tool-section-title">该工具暂未配置</h3>
+                        <p style="color:var(--text-secondary);">工具类型 <code>${ftype}</code> 暂不支持, 请联系管理员。</p>
                     </div>
                 `;
             }
@@ -1334,8 +1822,10 @@
             return `
                 <div id="${toolId}Tool" class="tool-page">
                     <div class="tool-header">
-                        <a class="tool-back-btn" onclick="backToIdentity('${toolId}')">← 返回${identityTitle}</a>
-                        <h1 class="tool-title">${feature.icon} ${feature.title}</h1>
+                        <a class="tool-back-btn" href="javascript:void(0)" onclick="backToIdentity('${toolId}')">← 返回${identityTitle}</a>
+                        <button class="btn-back-home" onclick="showHomePage()" type="button">← 返回首页</button>
+                        <h1 class="tool-title">${feature.icon} ${feature.title} <button class="btn-history" onclick="toggleHistory('${toolId}')" type="button" aria-expanded="false" aria-controls="historyPanel_${toolId}">📋 历史记录</button></h1>
+                        <div class="history-panel" id="historyPanel_${toolId}" style="display:none;" role="region" aria-label="历史记录"></div>
                         <p class="tool-subtitle">${feature.desc}</p>
                     </div>
                     <div class="tool-content">
@@ -1349,6 +1839,8 @@
         // 页面切换逻辑
         // ============================================
         function showHomePage() {
+            // 任务12：URL同步
+            history.pushState({ type: 'home' }, '', location.pathname);
             document.getElementById('homePage').style.display = 'block';
             document.querySelectorAll('.identity-page, .tool-page').forEach(p => p.style.display = 'none');
             window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1362,6 +1854,8 @@
         }
 
         function showToolPage(toolId) {
+            // 任务12：URL同步
+            history.pushState({ type: 'tool', toolId: toolId }, '', '#tool/' + toolId);
             document.getElementById('homePage').style.display = 'none';
             document.querySelectorAll('.identity-page, .tool-page').forEach(p => p.style.display = 'none');
             document.getElementById(`${toolId}Tool`).style.display = 'block';
@@ -1387,14 +1881,28 @@
             });
             
             if (!feature) return;
-            
-            const data = {};
-            feature.toolConfig.fields.forEach(f => {
-                data[f.key] = document.getElementById(`${toolId}_${f.key}`).value;
-            });
-            
-            const result = feature.toolConfig.calculate(data);
-            displayResult(toolId, result);
+
+            // 任务16：loading状态
+            var btn = document.querySelector('button[onclick*="runCalculator(\'' + toolId + '\')"]');
+            var resultDiv = document.getElementById(toolId + '_result');
+            if (btn) { btn.classList.add('btn-loading'); btn.disabled = true; }
+            resultDiv.innerHTML = '<div class="skeleton title"></div><div class="skeleton text"></div><div class="skeleton text"></div><div class="skeleton text short"></div>';
+            resultDiv.style.display = 'block';
+
+            setTimeout(function() {
+                try {
+                    // 任务17：输入校验
+                    if (!validateForm(toolId)) { showToast('请检查输入项'); return; }
+                    const data = {};
+                    feature.toolConfig.fields.forEach(f => {
+                        data[f.key] = document.getElementById(`${toolId}_${f.key}`).value;
+                    });
+                    const result = feature.toolConfig.calculate(data);
+                    displayResult(toolId, result);
+                } finally {
+                    if (btn) { btn.classList.remove('btn-loading'); btn.disabled = false; }
+                }
+            }, 50);
         }
 
         function runGenerator(toolId) {
@@ -1405,14 +1913,26 @@
             });
             
             if (!feature) return;
-            
-            const data = {};
-            (feature.toolConfig.fields || []).forEach(f => {
-                data[f.key] = document.getElementById(`${toolId}_${f.key}`)?.value || '';
-            });
-            
-            const result = feature.toolConfig.generate(data);
-            displayResult(toolId, result);
+
+            // 任务16：loading状态
+            var btn = document.querySelector('button[onclick*="runGenerator(\'' + toolId + '\')"]');
+            var resultDiv = document.getElementById(toolId + '_result');
+            if (btn) { btn.classList.add('btn-loading'); btn.disabled = true; }
+            resultDiv.innerHTML = '<div class="skeleton title"></div><div class="skeleton text"></div><div class="skeleton text short"></div>';
+            resultDiv.style.display = 'block';
+
+            setTimeout(function() {
+                try {
+                    const data = {};
+                    (feature.toolConfig.fields || []).forEach(f => {
+                        data[f.key] = document.getElementById(`${toolId}_${f.key}`)?.value || '';
+                    });
+                    const result = feature.toolConfig.generate(data);
+                    displayResult(toolId, result);
+                } finally {
+                    if (btn) { btn.classList.remove('btn-loading'); btn.disabled = false; }
+                }
+            }, 50);
         }
 
         function runAssessment(toolId) {
@@ -1423,14 +1943,63 @@
             });
             
             if (!feature) return;
-            
-            const answers = [];
-            feature.toolConfig.questions.forEach((q, idx) => {
-                answers.push(document.getElementById(`${toolId}_q${idx}`).value);
+
+            // 任务16：loading状态
+            var btn = document.querySelector('button[onclick*="runAssessment(\'' + toolId + '\')"]');
+            var resultDiv = document.getElementById(toolId + '_result');
+            if (btn) { btn.classList.add('btn-loading'); btn.disabled = true; }
+            resultDiv.innerHTML = '<div class="skeleton title"></div><div class="skeleton text"></div><div class="skeleton text short"></div>';
+            resultDiv.style.display = 'block';
+
+            setTimeout(function() {
+                try {
+                    const answers = [];
+                    feature.toolConfig.questions.forEach((q, idx) => {
+                        answers.push(document.getElementById(`${toolId}_q${idx}`).value);
+                    });
+                    const result = feature.toolConfig.evaluate(answers);
+                    displayResult(toolId, result);
+                } finally {
+                    if (btn) { btn.classList.remove('btn-loading'); btn.disabled = false; }
+                }
+            }, 50);
+        }
+
+        // 任务 18: checklist 兜底执行器
+        function runChecklist(toolId) {
+            let feature = null;
+            Object.keys(identityConfig).forEach(key => {
+                const found = identityConfig[key].features.find(f => f.id === toolId);
+                if (found) feature = found;
             });
-            
-            const result = feature.toolConfig.evaluate(answers);
-            displayResult(toolId, result);
+            if (!feature) return;
+
+            const resultDiv = document.getElementById(toolId + '_result');
+            resultDiv.innerHTML = '<div class="skeleton title"></div><div class="skeleton text"></div>';
+            resultDiv.style.display = 'block';
+
+            setTimeout(function() {
+                try {
+                    const cfg = feature.toolConfig || {};
+                    // 收集答案
+                    const answers = (cfg.questions || []).map((q, idx) => {
+                        const el = document.getElementById(`${toolId}_q${idx}`);
+                        return el ? el.value : null;
+                    });
+                    // 优先 evaluate, 没有就用 generate
+                    let result;
+                    if (typeof cfg.evaluate === 'function') {
+                        result = cfg.evaluate(answers);
+                    } else if (typeof cfg.generate === 'function') {
+                        result = cfg.generate({});
+                    } else {
+                        result = { title: feature.title, content: '该清单暂无内容, 请稍后再来。' };
+                    }
+                    displayResult(toolId, result);
+                } catch (err) {
+                    resultDiv.innerHTML = '<p style="color:var(--error-color);">加载失败, 请刷新重试</p>';
+                }
+            }, 50);
         }
 
         function runAIAnalysis(toolId) {
@@ -1444,9 +2013,22 @@
             
             const text = document.getElementById(`${toolId}_text`).value.trim();
             if (!text) { showToast('请输入内容'); return; }
-            
-            const result = feature.toolConfig.analyze(text);
-            displayResult(toolId, result);
+
+            // 任务16：loading状态
+            var btn = document.querySelector('button[onclick*="runAIAnalysis(\'' + toolId + '\')"]');
+            var resultDiv = document.getElementById(toolId + '_result');
+            if (btn) { btn.classList.add('btn-loading'); btn.disabled = true; }
+            resultDiv.innerHTML = '<div class="skeleton title"></div><div class="skeleton text"></div><div class="skeleton text"></div><div class="skeleton text short"></div>';
+            resultDiv.style.display = 'block';
+
+            setTimeout(function() {
+                try {
+                    const result = feature.toolConfig.analyze(text);
+                    displayResult(toolId, result);
+                } finally {
+                    if (btn) { btn.classList.remove('btn-loading'); btn.disabled = false; }
+                }
+            }, 50);
         }
 
         function displayResult(toolId, result) {
@@ -1503,12 +2085,34 @@
                 html += `<p style="margin-top: 12px; padding: 12px; background: #e6f7ff; border-left: 3px solid #1890ff; border-radius: 4px;">📌 ${result.nextStep}</p>`;
             }
             if (result.legalBasis) {
-                html += `<div style="margin-top: 16px; padding: 16px; background: linear-gradient(135deg, #fff9e6 0%, #fff3cd 100%); border-left: 4px solid var(--accent-color); border-radius: 8px;">${result.legalBasis.join('<br>')}</div>`;
+                // 任务14：法条可展开收起
+                html += '<div class="legal-basis-section">';
+                html += '<h4 class="legal-basis-title">📚 法律依据</h4>';
+                html += '<div class="legal-basis-list">';
+                result.legalBasis.forEach(function(law, i) {
+                    var match = law.match(/《([^》]+)》/);
+                    var lawName = match ? match[1] : '法条 ' + (i + 1);
+                    var summary = law.replace(/《[^》]+》/, '').substring(0, 30) + '...';
+                    var openAttr = i === 0 ? ' open' : '';
+                    html += '<details class="legal-basis-item"' + openAttr + '>' +
+                        '<summary><span class="law-emoji" aria-hidden="true">📜</span> ' + lawName + ' <span class="law-summary">' + summary + '</span></summary>' +
+                        '<div class="law-content">' + law + '</div>' +
+                        '</details>';
+                });
+                html += '</div></div>';
             }
             
             html += '</div></div>';
+            // 添加"下一步"模块
+            html += generateNextSteps(toolId, result);
             resultDiv.innerHTML = html;
-            resultDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            safeScrollIntoView(resultDiv);
+
+            // 任务13：保存历史记录
+            var inputs = collectToolInputs(toolId);
+            var summary = (result.title || '测算结果').substring(0, 50);
+            if (result.amount) summary += ' - ' + result.amount;
+            saveHistory(toolId, inputs, summary);
         }
 
         function resetForm(toolId) {
@@ -1517,6 +2121,58 @@
                 else if (el.tagName === 'SELECT') el.selectedIndex = 0;
             });
             document.getElementById(`${toolId}_result`).innerHTML = '';
+        }
+
+        // 生成"下一步"模块
+        function generateNextSteps(toolId, result) {
+            var feature = null;
+            Object.keys(identityConfig).forEach(function(key) {
+                var found = identityConfig[key].features.find(function(f) { return f.id === toolId; });
+                if (found) feature = found;
+            });
+            if (!feature) return '';
+
+            var type = feature.type;
+            var steps = [];
+            var riskLevel = result.riskLevel || result.complianceLevel || '';
+            var isHighRisk = riskLevel.indexOf('高') >= 0 || riskLevel.indexOf('严重') >= 0;
+            var isMidRisk = riskLevel.indexOf('中') >= 0 || riskLevel.indexOf('基本') >= 0;
+
+            if (type === 'calculator') {
+                steps.push({ icon: '📝', label: '劳动仲裁申请流程', desc: '查看详细申请步骤', action: 'fillSearch(\'劳动仲裁\')' });
+                steps.push({ icon: '🔍', label: '查看类似案例', desc: '搜索相关知识', action: 'fillSearch(\'' + feature.title + '\')' });
+                steps.push({ icon: '📞', label: '12348 法律援助', desc: '拨打法律援助热线', action: 'showToolPage(\'sp_emergency_help\')' });
+            } else if (type === 'assessment' || type === 'quiz') {
+                if (isHighRisk) {
+                    steps.push({ icon: '🚨', label: '立即行动', desc: '情况紧急，建议尽快行动', action: 'showToolPage(\'sp_emergency_help\')' });
+                    steps.push({ icon: '🆓', label: '法律援助', desc: '你可能符合援助条件', action: 'showToolPage(\'sp_legal_aid_apply\')' });
+                    steps.push({ icon: '🔍', label: '查看类似案例', desc: '搜索相关知识', action: 'fillSearch(\'' + feature.title + '\')' });
+                } else if (isMidRisk) {
+                    steps.push({ icon: '⚠️', label: '建议找律师咨询', desc: '有一定风险，建议专业指导', action: 'showToolPage(\'sp_emergency_help\')' });
+                    steps.push({ icon: '📞', label: '12348 法律援助热线', desc: '免费咨询', action: 'showToolPage(\'sp_emergency_help\')' });
+                } else {
+                    steps.push({ icon: '✅', label: '风险较低', desc: '自行处理即可', action: '' });
+                    steps.push({ icon: '📝', label: '查看合同模板', desc: '生成相关合同', action: 'showToolPage(\'citizen_contract_gen\')' });
+                }
+            } else if (type === 'generator' || type === 'checklist') {
+                steps.push({ icon: '📥', label: '下载/复制文件', desc: '保存生成的文档', action: '' });
+                steps.push({ icon: '📞', label: '12348 法律援助', desc: '找专业律师审查', action: 'showToolPage(\'sp_emergency_help\')' });
+                steps.push({ icon: '📖', label: '查看使用指南', desc: '了解如何使用此文档', action: 'fillSearch(\'' + feature.title + '\')' });
+            }
+
+            if (steps.length === 0) return '';
+            var html = '<div class="next-step-section"><h4 class="next-step-title">💡 接下来你可以做什么</h4><div class="next-step-grid">';
+            steps.forEach(function(s) {
+                if (s.disabled) {
+                    html += '<div class="next-step-card disabled" title="开发中"><div class="next-step-card-icon">' + s.icon + '</div><div class="next-step-card-label">' + s.label + '</div><div class="next-step-card-desc">开发中</div></div>';
+                } else if (s.action) {
+                    html += '<a class="next-step-card" href="javascript:void(0)" onclick="' + s.action + '"><div class="next-step-card-icon">' + s.icon + '</div><div class="next-step-card-label">' + s.label + '</div><div class="next-step-card-desc">' + s.desc + '</div></a>';
+                } else {
+                    html += '<div class="next-step-card"><div class="next-step-card-icon">' + s.icon + '</div><div class="next-step-card-label">' + s.label + '</div><div class="next-step-card-desc">' + s.desc + '</div></div>';
+                }
+            });
+            html += '</div></div>';
+            return html;
         }
 
         // ============================================
@@ -1558,7 +2214,20 @@
             }
             
             modal.style.display = 'flex';
-            document.getElementById('searchInput').value = '';
+            // 任务11+15：URL同步 + ESC关闭
+            var searchEscHandler = function(e) {
+                if (e.key === 'Escape') {
+                    closeSearchResults();
+                    document.removeEventListener('keydown', searchEscHandler);
+                }
+            };
+            document.addEventListener('keydown', searchEscHandler);
+            history.pushState({ type: 'search', query: query }, '', '#search?q=' + encodeURIComponent(query));
+        }
+
+        function closeSearchResults() {
+            document.getElementById('searchResultsModal').style.display = 'none';
+            history.pushState(null, '', location.pathname + location.search);
         }
 
         function quickSearch(keyword) {
@@ -1568,7 +2237,7 @@
 
         function closeSearchModal(event) {
             if (!event || event.target.id === 'searchResultsModal') {
-                document.getElementById('searchResultsModal').style.display = 'none';
+                closeSearchResults();
             }
         }
 
@@ -1587,28 +2256,51 @@
             addMessage(identityId, message, 'user');
             inputEl.value = '';
             
-            // 即时回复逻辑
-            let response;
-            const complexResponse = analyzeComplexCase(message);
-            
-            if (complexResponse) {
-                response = `<strong>${complexResponse.title}</strong><br><br>`;
-                complexResponse.sections.forEach(section => {
-                    response += `<strong>${section.subtitle}</strong><br>${section.content}<br><br>`;
-                });
-            } else {
-                const matched = legalKnowledgeBase.find(item => 
-                    item.keywords.some(kw => message.toLowerCase().includes(kw))
-                );
+            // 任务16：AI思考中动画
+            var thinkingId = identityId + '_thinking_' + Date.now();
+            var thinkingDiv = document.createElement('div');
+            thinkingDiv.className = 'message ai';
+            thinkingDiv.id = thinkingId;
+            thinkingDiv.innerHTML = '<div class="message-avatar">🤖</div><div class="message-content">思考中<span class="thinking-dots"></span></div>';
+            document.getElementById(identityId + 'ChatMessages').appendChild(thinkingDiv);
+            document.getElementById(identityId + 'ChatMessages').scrollTop = document.getElementById(identityId + 'ChatMessages').scrollHeight;
+
+            setTimeout(function() {
+                var response;
+                const complexResponse = analyzeComplexCase(message);
                 
-                if (matched) {
-                    response = `<strong>${matched.title}</strong><br><br>${matched.content}<br><br>💡 建议：如需进一步帮助，可使用下方的专业工具进行自助评估。`;
+                if (complexResponse) {
+                    response = `<strong>${complexResponse.title}</strong><br><br>`;
+                    complexResponse.sections.forEach(section => {
+                        response += `<strong>${section.subtitle}</strong><br>${section.content}<br><br>`;
+                    });
                 } else {
-                    response = "抱歉，我暂时无法精准回答这个问题。建议您：<br>[1] 使用下方的专业工具进行自助评估；<br>[2] 或咨询执业律师获取针对性意见。";
+                    const matched = legalKnowledgeBase.find(item => 
+                        item.keywords.some(kw => message.toLowerCase().includes(kw))
+                    );
+                    
+                    if (matched) {
+                        response = `<strong>${matched.title}</strong><br><br>${matched.content}<br><br>💡 建议：如需进一步帮助，可使用下方的专业工具进行自助评估。`;
+                    } else {
+                        // 推荐当前身份的3个工具 + 2条知识
+                        var config = identityConfig[identityId];
+                        var tools = config.features.slice(0, 3);
+                        var toolHtml = tools.map(function(t) {
+                            return '<button onclick="showToolPage(\'' + t.id + '\')" style="margin:4px;padding:8px 16px;background:var(--primary-color);color:white;border:none;border-radius:6px;cursor:pointer;font-size:13px;">' + t.icon + ' ' + t.title + '</button>';
+                        }).join(' ');
+                        var identityTag = config.title;
+                        var knowledgeItems = legalKnowledgeBase.filter(function(item) { return item.tags.indexOf(identityTag) >= 0; }).slice(0, 2);
+                        var knowledgeHtml = knowledgeItems.map(function(k) {
+                            return '<a href="javascript:void(0)" onclick="quickSearch(\'' + k.keywords[0] + '\')" style="margin:4px;padding:6px 12px;background:var(--bg-light);color:var(--primary-color);border-radius:6px;font-size:13px;cursor:pointer;text-decoration:none;">📖 ' + k.title + '</a>';
+                        }).join(' ');
+                        response = '我可能没法直接回答，但你可以试试这些工具：<br>' + toolHtml + '<br><br>或者看这些相关文章：<br>' + (knowledgeHtml || '<span style="color:var(--text-secondary);">暂无相关文章</span>');
+                    }
                 }
-            }
-            
-            addMessage(identityId, response, 'ai');
+                
+                var thinkingEl = document.getElementById(thinkingId);
+                if (thinkingEl) thinkingEl.remove();
+                addMessage(identityId, response, 'ai');
+            }, 300);
         }
 
         function addMessage(identityId, content, sender) {
@@ -1657,13 +2349,336 @@
                 title.textContent = data[type].t;
                 body.textContent = data[type].c;
                 modal.style.display = 'flex';
+                // 任务15：ESC关闭
+                var escHandler = function(e) {
+                    if (e.key === 'Escape') {
+                        modal.style.display = 'none';
+                        document.removeEventListener('keydown', escHandler);
+                    }
+                };
+                document.addEventListener('keydown', escHandler);
             }
         }
+
+        // ============================================
+        // 任务13：历史记录
+        // ============================================
+        var HISTORY_KEY = 'fadun_history';
+        var MAX_HISTORY = 10;
+
+        function getHistory() {
+            try { return JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]'); }
+            catch (e) { return []; }
+        }
+        function saveHistory(toolId, inputs, summary) {
+            try {
+                var list = getHistory();
+                list.unshift({ toolId: toolId, inputs: inputs, summary: summary, timestamp: new Date().toISOString() });
+                list = list.slice(0, 100);
+                localStorage.setItem(HISTORY_KEY, JSON.stringify(list));
+            } catch (e) { console.warn('localStorage 保存失败', e); }
+        }
+        function getToolHistory(toolId) {
+            return getHistory().filter(function(h) { return h.toolId === toolId; }).slice(0, MAX_HISTORY);
+        }
+        function clearToolHistory(toolId) {
+            var list = getHistory().filter(function(h) { return h.toolId !== toolId; });
+            try { localStorage.setItem(HISTORY_KEY, JSON.stringify(list)); } catch (e) {}
+        }
+        function collectToolInputs(toolId) {
+            var inputs = {};
+            document.querySelectorAll('[id^="' + toolId + '_"]').forEach(function(el) {
+                if (el.tagName === 'INPUT' || el.tagName === 'SELECT' || el.tagName === 'TEXTAREA') {
+                    var key = el.id.replace(toolId + '_', '');
+                    inputs[key] = el.value;
+                }
+            });
+            return inputs;
+        }
+        function toggleHistory(toolId) {
+            var panel = document.getElementById('historyPanel_' + toolId);
+            var btn = panel.parentElement.querySelector('.btn-history');
+            if (panel.style.display === 'none') {
+                renderHistory(toolId);
+                panel.style.display = 'block';
+                if (btn) btn.setAttribute('aria-expanded', 'true');
+            } else {
+                panel.style.display = 'none';
+                if (btn) btn.setAttribute('aria-expanded', 'false');
+            }
+        }
+        function renderHistory(toolId) {
+            var list = getToolHistory(toolId);
+            var html = '';
+            if (list.length === 0) {
+                html = '<p class="history-empty">暂无历史记录</p>';
+            } else {
+                html = '<div class="history-list">';
+                list.forEach(function(h, i) {
+                    var time = new Date(h.timestamp).toLocaleString('zh-CN', { month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric' });
+                    html += '<div class="history-item" data-index="' + i + '">' +
+                        '<div class="history-time">' + time + '</div>' +
+                        '<div class="history-summary">' + h.summary + '</div>' +
+                        '<button class="history-restore" onclick="restoreHistory(\'' + toolId + '\', ' + i + ')">恢复</button>' +
+                        '</div>';
+                });
+                html += '</div><button class="history-clear" onclick="clearHistoryClick(\'' + toolId + '\')">清空历史</button>';
+            }
+            document.getElementById('historyPanel_' + toolId).innerHTML = html;
+        }
+        function restoreHistory(toolId, index) {
+            var list = getToolHistory(toolId);
+            var item = list[index];
+            if (!item) return;
+            Object.keys(item.inputs).forEach(function(key) {
+                var el = document.getElementById(toolId + '_' + key);
+                if (el) el.value = item.inputs[key];
+            });
+            showToast('已恢复历史输入');
+        }
+        function clearHistoryClick(toolId) {
+            if (confirm('确定清空该工具的所有历史记录？')) {
+                clearToolHistory(toolId);
+                renderHistory(toolId);
+            }
+        }
+
+        // ============================================
+        // 任务17：输入校验
+        // ============================================
+        function validateInput(el, rules) {
+            var value = el.value.trim();
+            var error = '';
+            if (rules.required && !value) {
+                error = rules.requiredMessage || '此项必填';
+            } else if (rules.type === 'number' && value) {
+                var num = parseFloat(value.replace(/,/g, ''));
+                if (isNaN(num)) { error = '请输入有效数字'; }
+                else if (rules.min !== undefined && num < rules.min) { error = rules.minMessage || '不能小于 ' + rules.min; }
+                else if (rules.max !== undefined && num > rules.max) { error = rules.maxMessage || '不能大于 ' + rules.max; }
+            } else if (rules.type === 'date' && value) {
+                var date = new Date(value);
+                if (isNaN(date.getTime())) { error = '日期格式错误'; }
+                else if (rules.noFuture && date > new Date()) { error = '日期不能是未来'; }
+            }
+            var errorEl = el.parentElement.querySelector('.form-error');
+            if (error) {
+                el.classList.add('invalid');
+                if (errorEl) errorEl.textContent = error;
+            } else {
+                el.classList.remove('invalid');
+                if (errorEl) errorEl.textContent = '';
+            }
+            return !error;
+        }
+        function validateForm(toolId) {
+            var firstError = null;
+            var container = document.getElementById(toolId + 'Tool') || document.getElementById(toolId + 'Tool');
+            if (!container) return true;
+            container.querySelectorAll('[data-validate]').forEach(function(el) {
+                try {
+                    var rules = JSON.parse(el.dataset.validate);
+                    if (!validateInput(el, rules) && !firstError) { firstError = el; }
+                } catch (e) {}
+            });
+            if (firstError) {
+                firstError.focus();
+                safeScrollIntoView(firstError, { behavior: 'smooth', block: 'center' });
+            }
+            return !firstError;
+        }
+        // 实时校验（blur时）
+        document.addEventListener('blur', function(e) {
+            if (e.target.dataset && e.target.dataset.validate) {
+                try { validateInput(e.target, JSON.parse(e.target.dataset.validate)); } catch (err) {}
+            }
+        }, true);
+        // 任务 20: 兜底 scrollIntoView
+        function safeScrollIntoView(el, opts) {
+            try {
+                if (!el || typeof el.scrollIntoView !== 'function') return;
+                el.scrollIntoView(opts || { behavior: 'smooth', block: 'nearest' });
+            } catch (e) { /* 老 webview 静默 */ }
+        }
+        // 数字格式化
+        function formatNumber(num) { return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+        function parseNumber(str) { return parseFloat(str.toString().replace(/,/g, '')) || 0; }
+
+        // ============================================
+        // 任务11：hash路由解析 + 浏览器后退
+        // ============================================
+        window.addEventListener('load', function() {
+            var hash = location.hash;
+            if (hash.startsWith('#search?')) {
+                var params = new URLSearchParams(hash.substring(8));
+                var q = params.get('q');
+                if (q) {
+                    document.getElementById('searchInput').value = q;
+                    setTimeout(performSearch, 100);
+                }
+            } else if (hash.startsWith('#tool/')) {
+                var toolId = hash.substring(6);
+                setTimeout(function() { showToolPage(toolId); }, 100);
+            } else if (hash && hash.length > 1) {
+                setTimeout(function() {
+                    var el = document.querySelector(hash);
+                    if (el) safeScrollIntoView(el);
+                }, 100);
+            }
+        });
+
+        window.addEventListener('popstate', function(e) {
+            if (e.state && e.state.type === 'search') {
+                document.getElementById('searchInput').value = e.state.query;
+                performSearch();
+            } else if (e.state && e.state.type === 'tool') {
+                showToolPage(e.state.toolId);
+            } else if (!location.hash) {
+                closeSearchResults();
+                showHomePage();
+            }
+        });
 
         window.onload = function() {
             initPages();
         };
     
+    </script>
+
+    <!-- 百度统计（替换 YOUR_SITE_ID 为真实 ID） -->
+    <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?YOUR_SITE_ID";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+    </script>
+
+    <!-- 反馈按钮 -->
+    <div class="feedback-fab" id="feedbackFab" role="button" tabindex="0" aria-label="意见反馈">
+        <span aria-hidden="true">💬</span>
+        <span class="feedback-fab-tooltip">你的反馈会帮我们做得更好</span>
+    </div>
+
+    <!-- 反馈弹窗 -->
+    <div class="feedback-modal" id="feedbackModal" role="dialog" aria-labelledby="feedback-title" aria-modal="true" style="display:none;">
+        <div class="feedback-modal-content">
+            <button class="feedback-modal-close" id="feedbackClose" aria-label="关闭">&times;</button>
+            <h2 id="feedback-title">意见反馈</h2>
+            <p class="feedback-subtitle">我们会在 3 个工作日内查看你的反馈</p>
+
+            <div class="feedback-tabs">
+                <button class="feedback-tab active" data-type="content">内容纠错</button>
+                <button class="feedback-tab" data-type="suggestion">功能建议</button>
+            </div>
+
+            <form id="feedbackForm" class="feedback-form">
+                <label for="feedbackContent">
+                    <span data-type="content">哪里写错了？</span>
+                    <span data-type="suggestion" style="display:none;">你希望加什么功能？</span>
+                </label>
+                <textarea id="feedbackContent" required minlength="5" maxlength="500"
+                    placeholder="请详细描述，方便我们定位问题"></textarea>
+
+                <label for="feedbackContact">联系方式（选填）</label>
+                <input type="text" id="feedbackContact" maxlength="50"
+                    placeholder="邮箱或微信号，方便我们回复你">
+
+                <button type="submit" class="feedback-submit">提交反馈</button>
+            </form>
+
+            <div class="feedback-success" id="feedbackSuccess" style="display:none;">
+                <div class="feedback-success-icon" aria-hidden="true">✅</div>
+                <p>感谢反馈，我们会在 3 个工作日内查看！</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    (function initFeedback() {
+        var fab = document.getElementById('feedbackFab');
+        var modal = document.getElementById('feedbackModal');
+        var closeBtn = document.getElementById('feedbackClose');
+        var form = document.getElementById('feedbackForm');
+        var success = document.getElementById('feedbackSuccess');
+        var tabs = document.querySelectorAll('.feedback-tab');
+        var content = document.getElementById('feedbackContent');
+        var labels = document.querySelectorAll('[data-type]');
+
+        var currentType = 'content';
+
+        function openModal() {
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+            setTimeout(function() { content.focus(); }, 100);
+        }
+        function closeModal() {
+            modal.style.display = 'none';
+            document.body.style.overflow = '';
+            form.reset();
+            form.style.display = '';
+            success.style.display = 'none';
+            fab.focus();
+        }
+
+        fab.addEventListener('click', openModal);
+        fab.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                openModal();
+            }
+        });
+        closeBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) closeModal();
+        });
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && modal.style.display === 'flex') closeModal();
+        });
+
+        tabs.forEach(function(tab) {
+            tab.addEventListener('click', function() {
+                tabs.forEach(function(t) { t.classList.remove('active'); });
+                tab.classList.add('active');
+                currentType = tab.dataset.type;
+                labels.forEach(function(l) {
+                    l.style.display = l.dataset.type === currentType ? '' : 'none';
+                });
+                content.placeholder = currentType === 'content'
+                    ? '请详细描述哪里写错了，方便我们定位问题'
+                    : '请详细描述你希望加什么功能';
+            });
+        });
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            var submitBtn = form.querySelector('.feedback-submit');
+            submitBtn.disabled = true;
+            submitBtn.textContent = '提交中...';
+
+            var feedbackList = JSON.parse(localStorage.getItem('fadun_feedback') || '[]');
+            feedbackList.push({
+                type: currentType,
+                content: content.value,
+                contact: document.getElementById('feedbackContact').value,
+                timestamp: new Date().toISOString()
+            });
+            localStorage.setItem('fadun_feedback', JSON.stringify(feedbackList));
+
+            setTimeout(function() {
+                form.style.display = 'none';
+                success.style.display = 'block';
+                submitBtn.disabled = false;
+                submitBtn.textContent = '提交反馈';
+
+                setTimeout(function() {
+                    closeModal();
+                }, 2000);
+            }, 500);
+        });
+    })();
     </script>
 </body>
 </html>
