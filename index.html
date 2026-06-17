@@ -391,8 +391,8 @@
                     <h3 class="scene-card-title">婚姻家庭</h3>
                     <div class="scene-sub-links">
                         <button type="button" class="scene-sub-link" onclick="showToolPage('citizen_divorce_calc')">离婚财产分割</button>
-                        <button type="button" class="scene-sub-link disabled" disabled title="开发中">抚养权判定</button>
-                        <button type="button" class="scene-sub-link disabled" disabled title="开发中">遗产继承</button>
+                        <button type="button" class="scene-sub-link" onclick="showToolPage('citizen_child_custody')">抚养权判定</button>
+                        <button type="button" class="scene-sub-link" onclick="showToolPage('citizen_inheritance_calc')">遗产继承</button>
                     </div>
                 </li>
                 <li class="scene-card" role="listitem" tabindex="0" onkeydown="if(event.key==='Enter')this.querySelector('.scene-sub-link:not(.disabled)')?.click()">
@@ -409,17 +409,17 @@
                     <h3 class="scene-card-title">租房住房</h3>
                     <div class="scene-sub-links">
                         <button type="button" class="scene-sub-link" onclick="showToolPage('stu_rental_check')">租房合同检查</button>
-                        <button type="button" class="scene-sub-link disabled" disabled title="开发中">押金退还纠纷</button>
-                        <button type="button" class="scene-sub-link disabled" disabled title="开发中">房东违约</button>
+                        <button type="button" class="scene-sub-link" onclick="showToolPage('stu_deposit_refund')">押金退还纠纷</button>
+                        <button type="button" class="scene-sub-link" onclick="showToolPage('stu_landlord_breach')">房东违约</button>
                     </div>
                 </li>
                 <li class="scene-card" role="listitem" tabindex="0" onkeydown="if(event.key==='Enter')this.querySelector('.scene-sub-link:not(.disabled)')?.click()">
                     <div class="scene-card-emoji" aria-hidden="true">🛒</div>
                     <h3 class="scene-card-title">消费维权</h3>
                     <div class="scene-sub-links">
-                        <button type="button" class="scene-sub-link disabled" disabled title="开发中">消费者维权</button>
-                        <button type="button" class="scene-sub-link disabled" disabled title="开发中">七天无理由退货</button>
-                        <button type="button" class="scene-sub-link disabled" disabled title="开发中">欺诈赔偿</button>
+                        <button type="button" class="scene-sub-link" onclick="showToolPage('citizen_consumer_rights')">消费者维权</button>
+                        <button type="button" class="scene-sub-link" onclick="showToolPage('citizen_7day_return')">七天无理由退货</button>
+                        <button type="button" class="scene-sub-link" onclick="showToolPage('citizen_fraud_claim')">欺诈赔偿</button>
                     </div>
                 </li>
                 <li class="scene-card" role="listitem" tabindex="0" onkeydown="if(event.key==='Enter')this.querySelector('.scene-sub-link:not(.disabled)')?.click()">
@@ -427,8 +427,8 @@
                     <h3 class="scene-card-title">交通事故</h3>
                     <div class="scene-sub-links">
                         <button type="button" class="scene-sub-link" onclick="showToolPage('citizen_traffic_calc')">交通事故赔偿</button>
-                        <button type="button" class="scene-sub-link disabled" disabled title="开发中">责任认定</button>
-                        <button type="button" class="scene-sub-link disabled" disabled title="开发中">保险理赔</button>
+                        <button type="button" class="scene-sub-link" onclick="showToolPage('citizen_traffic_liability')">责任认定</button>
+                        <button type="button" class="scene-sub-link" onclick="showToolPage('citizen_insurance_claim')">保险理赔</button>
                     </div>
                 </li>
                 <li class="scene-card" role="listitem" tabindex="0" onkeydown="if(event.key==='Enter')this.querySelector('.scene-sub-link:not(.disabled)')?.click()">
@@ -445,8 +445,8 @@
                     <h3 class="scene-card-title">债权债务</h3>
                     <div class="scene-sub-links">
                         <button type="button" class="scene-sub-link" onclick="showToolPage('law_limitation_check')">诉讼时效核查</button>
-                        <button type="button" class="scene-sub-link disabled" disabled title="开发中">借条规范</button>
-                        <button type="button" class="scene-sub-link disabled" disabled title="开发中">欠钱不还</button>
+                        <button type="button" class="scene-sub-link" onclick="showToolPage('law_loan_template')">借条规范</button>
+                        <button type="button" class="scene-sub-link" onclick="showToolPage('law_debt_collection')">欠钱不还</button>
                     </div>
                 </li>
                 <li class="scene-card" role="listitem" tabindex="0" onkeydown="if(event.key==='Enter')this.querySelector('.scene-sub-link:not(.disabled)')?.click()">
@@ -455,7 +455,7 @@
                     <div class="scene-sub-links">
                         <button type="button" class="scene-sub-link" onclick="showToolPage('sp_legal_aid_apply')">法律援助申请</button>
                         <button type="button" class="scene-sub-link" onclick="showToolPage('sp_emergency_help')">紧急求助通道</button>
-                        <button type="button" class="scene-sub-link disabled" disabled title="开发中">刑事报案指引</button>
+                        <button type="button" class="scene-sub-link" onclick="showToolPage('sp_criminal_report')">刑事报案指引</button>
                     </div>
                 </li>
             </ul>
@@ -662,6 +662,7 @@
     <!-- 提示弹窗 -->
     <div id="toast" class="toast"></div>
 
+    <script src="legal-cases.js"></script>
     <script>
 
         // ============================================
@@ -856,6 +857,207 @@
                                     nextStep: eligible ? '请携带身份证、经济困难证明到当地法律援助中心申请。' : '可尝试高校法律诊所或公益组织。'
                                 };
                             }
+                        }
+                    },
+                    {
+                        id: 'citizen_child_custody',
+                        type: 'assessment',
+                        icon: '👶',
+                        title: '抚养权判定',
+                        desc: '离婚时孩子抚养权判给谁?8维度评估',
+                        toolConfig: {
+                            title: '抚养权判定评估',
+                            questions: [
+                                { question: '孩子年龄', options: ['不满2周岁', '2-8周岁', '8周岁以上'] },
+                                { question: '目前主要由谁照顾', options: ['一直由我照顾', '双方轮流', '一直由对方'] },
+                                { question: '我的收入情况', options: ['有稳定工作足以抚养', '收入较低', '无收入'] },
+                                { question: '对方是否有劣迹', options: ['有赌博/家暴/吸毒', '有不良嗜好', '无'] },
+                                { question: '孩子目前的生活环境', options: ['稳定且我方为主要照料者', '环境一般', '环境不稳定'] },
+                                { question: '我方父母是否能协助', options: ['可以长期协助', '偶尔协助', '无法协助'] },
+                                { question: '对方是否愿意抚养', options: ['不愿抚养', '无所谓', '强烈要求抚养'] },
+                                { question: '孩子意愿(8周岁以上)', options: ['愿意随我', '愿意随对方', '不适用'] }
+                            ],
+                            evaluate: (answers) => {
+                                const scores = { '不满2周岁': [10,0,0], '2-8周岁': [5,5,5], '8周岁以上': [0,5,10], '一直由我照顾': [10,5,0], '双方轮流': [5,5,5], '一直由对方': [0,5,10], '有稳定工作足以抚养': [10,4,0], '收入较低': [4,4,4], '无收入': [0,4,10], '有赌博/家暴/吸毒': [10,5,0], '有不良嗜好': [5,5,5], '无': [0,5,10], '稳定且我方为主要照料者': [10,5,0], '环境一般': [5,5,5], '环境不稳定': [0,5,10], '可以长期协助': [8,3,0], '偶尔协助': [3,3,3], '无法协助': [0,3,8], '不愿抚养': [10,5,0], '无所谓': [5,5,5], '强烈要求抚养': [0,5,10], '愿意随我': [10,0,0], '愿意随对方': [0,0,10], '不适用': [5,5,5] };
+                                let total = 0;
+                                answers.forEach((a) => { const s = scores[a]; if (s) total += s[0]; });
+                                const pct = Math.round(total / 80 * 100);
+                                let level, advice, basis;
+                                if (pct >= 70) { level = '🟢 倾向判给你方'; advice = '建议起诉离婚并主张抚养权,胜诉概率较高。'; basis = '民法典第1084条 + 最高法《关于适用民法典婚姻家庭编的解释(一)》第44-46条'; }
+                                else if (pct >= 40) { level = '🟡 双方都有机会'; advice = '抚养权归属取决于证据充分度,建议补强"我方为主要照料者"证据(如学校接送记录、医院就诊记录、邻居证言等)。'; basis = '民法典第1084条:已满2周岁,按最有利于未成年子女原则判决'; }
+                                else { level = '🔴 倾向判给对方'; advice = '当前情况下判给你方可能性较低。可考虑:1)协商轮流抚养;2)争取更多探视权;3)集中补强某项证据后重新评估。'; basis = '民法典第1084条第三款:已满8周岁的,应当尊重其真实意愿'; }
+                                return { title: '抚养权判定评估', riskLevel: level, riskColor: pct >= 70 ? 'var(--success-color)' : pct >= 40 ? 'var(--warning-color)' : 'var(--error-color)', score: pct + '%', details: [advice], suggestion: basis };
+                            }
+                        }
+                    },
+                    {
+                        id: 'citizen_inheritance_calc',
+                        type: 'calculator',
+                        icon: '📜',
+                        title: '遗产继承份额计算',
+                        desc: '按法定继承算出你应分多少',
+                        toolConfig: {
+                            title: '遗产继承份额计算',
+                            fields: [
+                                { name: '遗产总价值(元)', key: 'estate', type: 'number', placeholder: '例:1000000' },
+                                { name: '配偶是否在世', key: 'spouse', type: 'select', options: ['在世', '已故'] },
+                                { name: '父母人数(0/1/2)', key: 'parents', type: 'number', placeholder: '0-2' },
+                                { name: '子女人数(含胎儿的预留份)', key: 'children', type: 'number', placeholder: '例:2' },
+                                { name: '兄弟姐妹人数', key: 'siblings', type: 'number', placeholder: '0' }
+                            ],
+                            calculate: (data) => {
+                                const E = parseFloat(data.estate) || 0;
+                                const S = data.spouse === '在世' ? 1 : 0;
+                                const P = Math.min(2, Math.max(0, parseInt(data.parents) || 0));
+                                const C = Math.max(0, parseInt(data.children) || 0);
+                                const B = Math.max(0, parseInt(data.siblings) || 0);
+                                const firstOrder = S + C + P;
+                                if (firstOrder === 0) {
+                                    if (B === 0) return { title: '继承计算结果', result: '无任何继承人,遗产按无主物处理(民法典第1160条)', basis: '民法典第1160条' };
+                                    const perHead = E / B;
+                                    return { title: '继承计算结果', result: '遗产由' + B + '位兄弟姐妹均分,每人¥' + perHead.toLocaleString(), basis: '民法典第1130条:第二顺序继承人包括兄弟姐妹、祖父母、外祖父母' };
+                                }
+                                const perHead = E / firstOrder;
+                                return { title: '继承计算结果', result: '遗产总额¥' + E.toLocaleString() + ',由' + firstOrder + '位第一顺序继承人(配偶' + S + '+子女' + C + '+父母' + P + ')均分,每人¥' + perHead.toLocaleString(), basis: '民法典第1127条:遗产按照下列顺序继承,第一顺序:配偶、子女、父母;第二顺序:兄弟姐妹、祖父母、外祖父母。' };
+                            }
+                        }
+                    },
+                    {
+                        id: 'citizen_consumer_rights',
+                        type: 'assessment',
+                        icon: '🛒',
+                        title: '消费者维权评估',
+                        desc: '遇到消费纠纷?评估你的维权路径',
+                        toolConfig: {
+                            title: '消费者维权路径评估',
+                            questions: [
+                                { question: '消费纠纷类型', options: ['商品质量问题', '虚假宣传/欺诈', '售后服务不到位', '霸王条款'] },
+                                { question: '是否有购物凭证', options: ['有发票/小票', '有电子订单截图', '没有任何凭证'] },
+                                { question: '损失金额', options: ['500元以下', '500-5000元', '5000元以上'] },
+                                { question: '是否已与商家协商', options: ['协商过,对方拒绝', '协商过,对方推诿', '未协商'] },
+                                { question: '是否已投诉12315', options: ['已投诉', '准备投诉', '不知道12315'] }
+                            ],
+                            evaluate: (answers) => {
+                                let score = 0;
+                                const tips = [];
+                                if (answers[0] === '虚假宣传/欺诈') { score += 3; tips.push('💰 欺诈可主张"退一赔三"(最低500元)'); }
+                                if (answers[1] === '没有任何凭证') { tips.push('⚠️ 缺少购物凭证,建议补强证据(银行流水/聊天记录)'); }
+                                else { score += 2; }
+                                if (answers[2] === '5000元以上') { score += 2; tips.push('📋 金额较大,建议走法院小额诉讼程序'); }
+                                if (answers[3] === '未协商') { tips.push('💡 建议先与商家书面协商,保留沟通记录'); }
+                                else { score += 1; }
+                                if (answers[4] === '不知道12315') { tips.push('📞 拨打12315消费者投诉热线,或登录12315.cn在线投诉'); }
+                                else { score += 2; }
+                                const level = score >= 6 ? '🟢 维权条件充分' : score >= 3 ? '🟡 需补强证据' : '🔴 证据不足,建议先固定证据';
+                                return { title: '消费者维权评估', riskLevel: level, score: score + '/9', details: tips, suggestion: '消费者维权渠道:1)与商家协商;2)向平台投诉;3)拨打12315;4)向消协投诉;5)法院起诉。' };
+                            }
+                        }
+                    },
+                    {
+                        id: 'citizen_fraud_claim',
+                        type: 'calculator',
+                        icon: '💎',
+                        title: '欺诈赔偿计算',
+                        desc: '消费欺诈退一赔三怎么算?',
+                        toolConfig: {
+                            title: '欺诈赔偿金额计算',
+                            fields: [
+                                { name: '商品/服务价格(元)', key: 'price', type: 'number', placeholder: '实际支付的金额' },
+                                { name: '欺诈类型', key: 'type', type: 'select', options: ['普通消费欺诈(退一赔三)', '食品安全问题(退一赔十)', '其他(按实际损失)'] },
+                                { name: '实际损失(元)', key: 'loss', type: 'number', placeholder: '因欺诈导致的额外损失' }
+                            ],
+                            calculate: (data) => {
+                                const price = parseFloat(data.price) || 0;
+                                const loss = parseFloat(data.loss) || 0;
+                                let refund = price, penalty = 0, minComp = 0, label = '';
+                                if (data.type === '普通消费欺诈(退一赔三)') { penalty = price * 3; minComp = 500; label = '退一赔三'; }
+                                else if (data.type === '食品安全问题(退一赔十)') { penalty = price * 10; minComp = 1000; label = '退一赔十'; }
+                                else { penalty = loss; label = '按实际损失'; }
+                                const total = refund + Math.max(penalty, minComp) + loss;
+                                return { title: '欺诈赔偿计算结果', result: label + ': 退还¥' + price.toLocaleString() + ' + 赔偿¥' + Math.max(penalty, minComp).toLocaleString() + (minComp > penalty ? '(最低赔偿¥' + minComp + ')' : '') + (loss > 0 ? ' + 实际损失¥' + loss.toLocaleString() : '') + ' = 合计¥' + total.toLocaleString(), basis: '消费者权益保护法第55条(退一赔三) / 食品安全法第148条(退一赔十)' };
+                            }
+                        }
+                    },
+                    {
+                        id: 'citizen_7day_return',
+                        type: 'checklist',
+                        icon: '📦',
+                        title: '七天无理由退货',
+                        desc: '电商不退款?7步走维权',
+                        toolConfig: {
+                            title: '七天无理由退货维权清单',
+                            questions: [
+                                { question: '确认商品属于"七天无理由"适用范围(定制/鲜活/数字化商品除外)', options: ['适用', '不确定', '不适用'] },
+                                { question: '确认收货时间未超过7天(以物流签收时间为准)', options: ['7天内', '7-15天', '超过15天'] },
+                                { question: '商品完好,未影响二次销售(吊牌/包装/配件齐全)', options: ['完好', '已拆封但完好', '已影响二次销售'] },
+                                { question: '是否已在平台发起退款申请', options: ['已申请', '商家拒绝', '未申请'] },
+                                { question: '是否已拨打12315投诉', options: ['已投诉', '准备投诉', '未投诉'] }
+                            ],
+                            evaluate: (answers) => {
+                                const steps = [];
+                                if (answers[0] === '不适用') return { title: '七天无理由退货', result: '该商品可能不适用七天无理由退货', details: ['定制商品、鲜活易腐商品、数字化商品等不适用七天无理由退货'], suggestion: '可尝试其他维权路径,如商品质量问题可直接申请退货退款。' };
+                                if (answers[1] === '超过15天') steps.push('⚠️ 已超过7天,但如果是质量问题仍可退货');
+                                if (answers[2] === '已影响二次销售') steps.push('⚠️ 影响二次销售可能影响退货,但拆封检验不等于影响二次销售');
+                                if (answers[3] === '未申请') steps.push('1. 立即在平台发起退款申请,上传商品照片+快递面单');
+                                if (answers[3] === '商家拒绝') steps.push('2. 截图保存商家拒绝理由+平台客服对话');
+                                if (answers[4] === '未投诉') steps.push('3. 拨打12315或登录12315.cn在线投诉');
+                                steps.push('4. 若7个工作日未解决,可向商家所在地法院起诉或申请小额诉讼');
+                                return { title: '七天无理由退货维权', riskLevel: '📋 维权清单', details: steps, suggestion: '消费者权益保护法第25条赋予网购消费者7天无理由退货权,商家不得以"已拆封"为由拒绝。' };
+                            }
+                        }
+                    },
+                    {
+                        id: 'citizen_traffic_liability',
+                        type: 'assessment',
+                        icon: '🚦',
+                        title: '事故责任估算',
+                        desc: '交警还没定责?先估算一下',
+                        toolConfig: {
+                            title: '交通事故责任比例初评',
+                            questions: [
+                                { question: '事故情形', options: ['对方闯红灯/逆行', '对方酒驾/毒驾', '对方追尾', '我方违规'] },
+                                { question: '有无监控录像', options: ['有清晰监控', '监控模糊', '无监控'] },
+                                { question: '有无行车记录仪', options: ['有完整记录', '记录模糊', '无'] },
+                                { question: '对方态度', options: ['承认全责', '推诿', '失联/逃逸'] },
+                                { question: '人伤情况', options: ['无人伤亡', '轻微伤', '重伤/死亡'] }
+                            ],
+                            evaluate: (answers) => {
+                                const scores = { '对方闯红灯/逆行': 9, '对方酒驾/毒驾': 10, '对方追尾': 9, '我方违规': 0, '有清晰监控': 10, '监控模糊': 5, '无监控': 0, '有完整记录': 10, '记录模糊': 5, '无': 0, '承认全责': 10, '推诿': 3, '失联/逃逸': 10, '无人伤亡': 5, '轻微伤': 3, '重伤/死亡': -5 };
+                                let total = 0;
+                                answers.forEach(a => { total += (scores[a] || 0); });
+                                const pct = Math.max(0, Math.min(100, Math.round(total / 50 * 100)));
+                                let level;
+                                if (pct >= 80) level = '🟢 预计对方承担80%-100%责任';
+                                else if (pct >= 60) level = '🟡 预计对方主要责任(70%)';
+                                else if (pct >= 40) level = '🟠 预计同等责任(50/50)';
+                                else level = '🔴 证据不利于己方,需补强';
+                                return { title: '事故责任初评', riskLevel: level, score: pct + '%', details: ['以上为初评,最终责任以交警出具的《道路交通事故认定书》为准。'], suggestion: '建议立即报警、保护现场、收集证据(拍照/录像/记录仪),并尽快就医保留诊断证明。' };
+                            }
+                        }
+                    },
+                    {
+                        id: 'citizen_insurance_claim',
+                        type: 'generator',
+                        icon: '🛡️',
+                        title: '车险理赔申请书',
+                        desc: '撞车后保险怎么赔?',
+                        toolConfig: {
+                            title: '机动车保险理赔申请书生成',
+                            fields: [
+                                { name: '车主姓名', key: 'name', type: 'text', placeholder: '你的姓名' },
+                                { name: '联系电话', key: 'phone', type: 'text', placeholder: '手机号' },
+                                { name: '车牌号', key: 'plate', type: 'text', placeholder: '如:京A12345' },
+                                { name: '承保保险公司', key: 'insurer', type: 'text', placeholder: '保险公司名称' },
+                                { name: '保单号', key: 'policy', type: 'text', placeholder: '保单号' },
+                                { name: '事故日期', key: 'date', type: 'text', placeholder: '如:2024-01-15' },
+                                { name: '预估损失(元)', key: 'loss', type: 'number', placeholder: '预估金额' },
+                                { name: '事故类型', key: 'type', type: 'select', options: ['双方事故', '单方事故', '人伤事故'] }
+                            ],
+                            generate: (data) => ({
+                                title: '机动车保险理赔申请书',
+                                content: '致:' + data.insurer + ' 保险公司\n\n本人 ' + data.name + '(车牌:' + data.plate + ',保单号:' + data.policy + ')于 ' + data.date + ' 发生交通事故,事故类型:' + data.type + ',预估损失 ¥' + (parseFloat(data.loss) || 0).toLocaleString() + '。\n\n依据《保险法》第23条:保险人收到被保险人或者受益人的赔偿或者给付保险金的请求后,应当及时作出核定;情形复杂的,应当在三十日内作出核定。\n\n现申请贵司在30日内核定并赔付,逾期将依法主张权利并向银保监会投诉。\n\n申请人:' + data.name + '\n电话:' + data.phone + '\n日期:' + new Date().toLocaleDateString('zh-CN'),
+                                basis: '保险法第23条 + 银保监会《关于规范车险理赔服务的通知》'
+                            })
                         }
                     }
                 ]
@@ -1237,7 +1439,63 @@
                     { id: 'law_doc_template', icon: '📝', title: '文书模板库', desc: '常用法律文书模板', type: 'checklist', toolConfig: { fields: [{ name: '文书类型', key: 'docType', type: 'select', options: ['民事起诉状', '答辩状', '上诉状', '代理词'] }], generate: (data) => { const templates = {'民事起诉状':'民 事 起 诉 状\n\n原告：__________，性别__，民族__，____年__月__日生\n被告：__________，性别__，民族__，____年__月__日生\n\n诉讼请求：\n1. ________________\n2. ________________\n\n事实与理由：\n________________\n\n此致\n__________人民法院\n\n具状人：__________\n____年__月__日','答辩状':'民 事 答 辩 状\n\n答辩人：__________\n\n针对原告__________诉__________一案，提出答辩如下：\n\n一、_______________\n二、_______________\n\n此致\n__________人民法院\n\n答辩人：__________\n____年__月__日'}; return { title: data.docType, content: templates[data.docType] || '请选择类型', note: '请根据具体案情修改完善。' }; } } },
                     { id: 'law_case_search_guide', icon: '🔎', title: '类案检索指南', desc: '高效检索相似案例', type: 'checklist', toolConfig: { fields: [], generate: () => ({ title: '类案检索步骤', items: ['1. 确定检索关键词（案由+争议焦点）', '2. 选择数据库（裁判文书网/Alpha/威科先行）', '3. 设定筛选条件（法院层级、年份、裁判结果）', '4. 阅读裁判要旨，提取观点', '5. 整理成类案检索报告'], note: '建议检索10-20个相似案例，重点关注最高院和指导性案例。' }) } },
                     { id: 'law_limitation_check', icon: '📅', title: '诉讼时效核查', desc: '检查是否超过时效', type: 'assessment', toolConfig: { questions: [{ question: '知道权利被侵害的时间', options: ['1年内', '1-2年', '2-3年', '超过3年'] }, { question: '是否有中断事由', options: ['有（起诉/催告/承认）', '无'] }], evaluate: (answers) => { const expired = answers[0] === '超过3年' && answers[1] === '无'; return { title: '时效核查', result: expired ? '✗ 可能已超过' : '✓ 时效内', color: expired ? 'var(--error-color)' : 'var(--success-color)', reasons: expired ? ['普通诉讼时效3年', '无中断事由'] : ['时效未届满'], suggestion: expired ? '尝试寻找中断证据或对方自愿履行。' : '尽快采取行动，避免时效届满。' }; } } },
-                    { id: 'law_evidence_checklist', icon: '📋', title: '证据清单生成器', desc: '生成举证清单', type: 'checklist', toolConfig: { fields: [{ name: '案件类型', key: 'caseType', type: 'select', options: ['合同纠纷', '侵权纠纷', '劳动争议', '婚姻家庭'] }], generate: (data) => { const lists = {'合同纠纷':['□ 合同文本','□ 履行凭证（付款记录、交货单）','□ 违约证据','□ 损失证明'],'侵权纠纷':['□ 侵权行为证据','□ 损害后果证明','□ 因果关系证明','□ 过错证据'],'劳动争议':['□ 劳动合同','□ 工资发放记录','□ 考勤记录','□ 解除通知'],'婚姻家庭':['□ 结婚证','□ 财产证明','□ 子女出生证明','□ 过错证据']}; return { title: `${data.caseType}证据清单`, items: lists[data.caseType], note: '证据应形成完整链条，注意原件保管。' }; } } }
+                    { id: 'law_evidence_checklist', icon: '📋', title: '证据清单生成器', desc: '生成举证清单', type: 'checklist', toolConfig: { fields: [{ name: '案件类型', key: 'caseType', type: 'select', options: ['合同纠纷', '侵权纠纷', '劳动争议', '婚姻家庭'] }], generate: (data) => { const lists = {'合同纠纷':['□ 合同文本','□ 履行凭证（付款记录、交货单）','□ 违约证据','□ 损失证明'],'侵权纠纷':['□ 侵权行为证据','□ 损害后果证明','□ 因果关系证明','□ 过错证据'],'劳动争议':['□ 劳动合同','□ 工资发放记录','□ 考勤记录','□ 解除通知'],'婚姻家庭':['□ 结婚证','□ 财产证明','□ 子女出生证明','□ 过错证据']}; return { title: `${data.caseType}证据清单`, items: lists[data.caseType], note: '证据应形成完整链条，注意原件保管。' }; } } },
+                    {
+                        id: 'law_loan_template',
+                        type: 'generator',
+                        icon: '📝',
+                        title: '规范借条生成',
+                        desc: '手写借条7大漏洞?用规范版',
+                        toolConfig: {
+                            title: '规范借条生成器',
+                            fields: [
+                                { name: '出借人姓名', key: 'lender', type: 'text', placeholder: '出借人姓名' },
+                                { name: '出借人身份证号', key: 'lenderId', type: 'text', placeholder: '出借人身份证号' },
+                                { name: '借款人姓名', key: 'borrower', type: 'text', placeholder: '借款人姓名' },
+                                { name: '借款人身份证号', key: 'borrowerId', type: 'text', placeholder: '借款人身份证号' },
+                                { name: '借款金额(数字)', key: 'amount', type: 'number', placeholder: '如:100000' },
+                                { name: '借款金额(中文大写)', key: 'amountCn', type: 'text', placeholder: '如:壹拾万元整' },
+                                { name: '年利率(%)', key: 'rate', type: 'number', placeholder: '建议不超过LPR4倍(约13-14%)' },
+                                { name: '借款期限(月)', key: 'term', type: 'number', placeholder: '月数' },
+                                { name: '借款日期', key: 'startDate', type: 'text', placeholder: '如:2024-01-01' },
+                                { name: '约定还款日', key: 'repayDate', type: 'text', placeholder: '如:2025-01-01' }
+                            ],
+                            generate: (data) => {
+                                const amount = parseFloat(data.amount) || 0;
+                                return {
+                                    title: '借　条',
+                                    content: '今借到 ' + data.lender + '(身份证号:' + data.lenderId + ')人民币 ¥' + amount.toLocaleString() + '(' + data.amountCn + '),年利率 ' + data.rate + '%,借款期限 ' + data.term + ' 个月,自 ' + data.startDate + ' 起至 ' + data.repayDate + ' 止,到期一次性还本付息。\n\n借款人:' + data.borrower + '\n身份证号:' + data.borrowerId + '\n联系电话:_______________\n日期:' + new Date().toLocaleDateString('zh-CN') + '\n\n【律师提示】\n1. 年利率超过LPR 4倍(目前约13-14%)的部分,法院不支持。\n2. 借条上务必让借款人按手印+附身份证复印件。\n3. 还款时建议银行转账并备注"还款",不要现金交付。\n4. 诉讼时效3年,从还款日次日起算。',
+                                    basis: '民法典第667-680条(借款合同) + 最高法《关于审理民间借贷案件适用法律若干问题的规定》第25条(利率上限)'
+                                };
+                            }
+                        }
+                    },
+                    {
+                        id: 'law_debt_collection',
+                        type: 'generator',
+                        icon: '📋',
+                        title: '催款函生成',
+                        desc: '欠钱不还?先生成催款函',
+                        toolConfig: {
+                            title: '催款函生成器',
+                            fields: [
+                                { name: '你的姓名', key: 'creditor', type: 'text', placeholder: '债权人姓名' },
+                                { name: '欠款人姓名', key: 'debtor', type: 'text', placeholder: '债务人姓名' },
+                                { name: '欠款金额(元)', key: 'amount', type: 'number', placeholder: '欠款金额' },
+                                { name: '借款日期', key: 'loanDate', type: 'text', placeholder: '如:2023-01-01' },
+                                { name: '约定还款日', key: 'dueDate', type: 'text', placeholder: '如:2024-01-01' },
+                                { name: '是否已过还款日', key: 'overdue', type: 'select', options: ['是', '否'] }
+                            ],
+                            generate: (data) => {
+                                const amount = parseFloat(data.amount) || 0;
+                                return {
+                                    title: '催款函',
+                                    content: '致:' + data.debtor + '\n\n本人 ' + data.creditor + ' 曾于 ' + data.loanDate + ' 借给您人民币 ¥' + amount.toLocaleString() + ',约定还款日为 ' + data.dueDate + '。\n\n' + (data.overdue === '是' ? '现还款日已过,请您在收到本函后7日内归还全部欠款。\n\n如逾期仍不归还,本人将依法向人民法院提起诉讼,届时您将承担诉讼费、律师费等额外费用,并可能被纳入失信被执行人名单。' : '请在约定还款日前归还全部欠款。') + '\n\n债权人:' + data.creditor + '\n日期:' + new Date().toLocaleDateString('zh-CN'),
+                                    basis: '民法典第667-680条(借款合同) / 民事诉讼法第255条(强制执行)'
+                                };
+                            }
+                        }
+                    }
                 ]
             },
             student: {
@@ -1249,7 +1507,62 @@
                     { id: 'stu_offer_review', icon: '✍️', title: 'Offer条款检查器', desc: '系统化识别offer陷阱', type: 'assessment', toolConfig: { questions: [{ question: '试用期长度', options: ['合理（合同3年以下≤2个月）', '较长（3-6个月）', '过长（>6个月）'] }, { question: '竞业限制条款', options: ['无竞业限制', '有竞业且有补偿', '有竞业但无补偿约定'] }, { question: '五险一金缴纳', options: ['按实际工资足额缴纳', '按最低标准缴纳', '未明确说明'] }, { question: '薪资结构', options: ['固定月薪明确', '底薪+绩效（比例合理）', '主要靠提成/不明确'] }], evaluate: (answers) => { let riskScore = 0; const issues = []; if (answers[0] === '过长（>6个月）') { riskScore += 3; issues.push('❌ 试用期过长，违反劳动法'); } else if (answers[0] === '较长（3-6个月）') { riskScore += 1; issues.push('ℹ️ 试用期偏长'); } if (answers[1] === '有竞业但无补偿约定') { riskScore += 3; issues.push('❌ 竞业限制未约定经济补偿，可能无效'); } if (answers[2] === '按最低标准缴纳') { riskScore += 2; issues.push('⚠️ 社保公积金未按实际工资缴纳'); } else if (answers[2] === '未明确说明') { riskScore += 1; issues.push('ℹ️ 五险一金缴纳方式不明确'); } if (answers[3] === '主要靠提成/不明确') { riskScore += 2; issues.push('⚠️ 薪资结构不透明，收入不稳定'); } if (issues.length === 0) issues.push('✓ offer条款基本合理'); let level = riskScore <= 2 ? '低风险' : riskScore <= 5 ? '中风险' : '高风险'; let color = riskScore <= 2 ? 'var(--success-color)' : riskScore <= 5 ? 'var(--warning-color)' : 'var(--error-color)'; return { title: 'Offer风险评估', riskLevel: level, riskColor: color, score: `${riskScore}/9`, details: issues, suggestion: riskScore <= 2 ? 'offer相对完善。' : '建议与HR沟通澄清或重新谈判！入职前应签订书面劳动合同，明确各项待遇。' }; } } },
                     { id: 'stu_exam_plan', icon: '📚', title: '法考备考规划', desc: '定制复习计划', type: 'checklist', toolConfig: { fields: [{ name: '备考时间', key: 'time', type: 'select', options: ['3个月', '6个月', '1年'] }, { name: '基础情况', key: 'base', type: 'select', options: ['零基础', '有一定基础', '法学本科'] }], generate: (data) => { const plans = {'3个月':['第1月：快速过一遍精讲卷','第2月：做题+查漏补缺','第3月：模拟考+背诵'],'6个月':['第1-2月：系统学习各科','第3-4月：做题巩固','第5月：真题训练','第6月：冲刺模拟'],'1年':['第1-3月：基础阶段（听课+看书）','第4-6月：强化阶段（做题）','第7-9月：真题阶段','第10-12月：冲刺阶段']}; return { title: `${data.time}备考计划`, items: plans[data.time].map(p => `□ ${p}`), note: '建议每天保持4-6小时有效学习时间。' }; } } },
                     { id: 'stu_campus_dispute', icon: '🎓', title: '校园纠纷处理指南', desc: '应对校园常见问题', type: 'checklist', toolConfig: { fields: [{ name: '纠纷类型', key: 'disputeType', type: 'select', options: ['宿舍矛盾', '奖学金争议', '处分申诉', '知识产权归属'] }], generate: (data) => { const guides = {'宿舍矛盾':['1. 与室友友好沟通','2. 寻求辅导员调解','3. 申请调换宿舍'],'奖学金争议':['1. 查阅评定办法','2. 收集证明材料','3. 向学院申诉'],'处分申诉':['1. 收到处分决定书','2. 10日内提出申诉','3. 提交申诉书和证据','4. 等待复查决定'],'知识产权归属':['1. 确认是否利用学校资源','2. 查看学校相关规定','3. 与导师协商','4. 必要时签订协议']}; return { title: `${data.disputeType}处理指南`, items: guides[data.disputeType], note: '保留好相关证据，理性维权。' }; } } },
-                    { id: 'stu_part_time_contract', icon: '📝', title: '兼职协议生成器', desc: '生成简单兼职协议', type: 'generator', toolConfig: { fields: [{ name: '甲方（雇主）', key: 'employer', type: 'text', placeholder: '雇主姓名/公司' }, { name: '乙方（学生）', key: 'student', type: 'text', placeholder: '您的姓名' }, { name: '工作内容', key: 'job', type: 'text', placeholder: '如：家教、促销' }, { name: '报酬', key: 'pay', type: 'text', placeholder: '如：100元/天' }], generate: (data) => { return { title: '兼职协议', content: `兼 职 协 议\n\n甲方：${data.employer}\n乙方：${data.student}\n\n一、工作内容：${data.job}\n二、工作时间：________________\n三、报酬：${data.pay}\n四、支付方式：________________\n五、协议期限：________________\n\n甲方签字：_____________    日期：____年__月__日\n乙方签字：_____________    日期：____年__月__日`, note: '兼职通常不构成劳动关系，但应注意人身安全。' }; } } }
+                    { id: 'stu_part_time_contract', icon: '📝', title: '兼职协议生成器', desc: '生成简单兼职协议', type: 'generator', toolConfig: { fields: [{ name: '甲方（雇主）', key: 'employer', type: 'text', placeholder: '雇主姓名/公司' }, { name: '乙方（学生）', key: 'student', type: 'text', placeholder: '您的姓名' }, { name: '工作内容', key: 'job', type: 'text', placeholder: '如：家教、促销' }, { name: '报酬', key: 'pay', type: 'text', placeholder: '如：100元/天' }], generate: (data) => { return { title: '兼职协议', content: `兼 职 协 议\n\n甲方：${data.employer}\n乙方：${data.student}\n\n一、工作内容：${data.job}\n二、工作时间：________________\n三、报酬：${data.pay}\n四、支付方式：________________\n五、协议期限：________________\n\n甲方签字：_____________    日期：____年__月__日\n乙方签字：_____________    日期：____年__月__日`, note: '兼职通常不构成劳动关系，但应注意人身安全。' }; } } },
+                    {
+                        id: 'stu_deposit_refund',
+                        type: 'generator',
+                        icon: '💰',
+                        title: '押金退还申请书',
+                        desc: '房东不退押金?30秒生成维权信',
+                        toolConfig: {
+                            title: '押金退还申请书生成器',
+                            fields: [
+                                { name: '你的姓名', key: 'name', type: 'text', placeholder: '你的姓名' },
+                                { name: '联系电话', key: 'phone', type: 'text', placeholder: '手机号' },
+                                { name: '租赁房屋地址', key: 'address', type: 'text', placeholder: '房屋详细地址' },
+                                { name: '押金金额(元)', key: 'deposit', type: 'number', placeholder: '押金金额' },
+                                { name: '租赁到期日', key: 'rentEnd', type: 'text', placeholder: '如:2024-06-30' },
+                                { name: '实际交房日期', key: 'handover', type: 'text', placeholder: '如:2024-07-01' },
+                                { name: '房东不退押金的理由', key: 'reason', type: 'text', placeholder: '如:墙面污渍、物品损坏等(选填)' }
+                            ],
+                            generate: (data) => {
+                                const deposit = parseFloat(data.deposit) || 0;
+                                return {
+                                    title: '押金退还申请书',
+                                    content: '致:[' + data.address + ']的房东\n\n本人 ' + data.name + ' 于 ' + data.rentEnd + ' 合同到期,' + data.handover + ' 实际交还房屋。\n\n依据《民法典》第733条:租赁期限届满,承租人返还租赁物时,出租人应当检验;租赁物没有损坏的,出租人应当按照约定返还押金。\n\n' + (data.reason ? '本人房屋交还时已与您共同验收,您所述"' + data.reason + '"属于正常使用磨损,不属于法定扣除情形。' : '本人已按约交还房屋,房屋无损坏。') + '\n\n现要求您在3个工作日内退还押金 ¥' + deposit.toLocaleString() + '。\n\n如协商不成,本人将向房屋所在地法院起诉,届时您还需承担诉讼费、律师费等。\n\n申请人:' + data.name + '\n电话:' + data.phone + '\n日期:' + new Date().toLocaleDateString('zh-CN'),
+                                    basis: '民法典第733条 + 最高法《关于审理城镇房屋租赁合同纠纷案件具体应用法律若干问题的解释》'
+                                };
+                            }
+                        }
+                    },
+                    {
+                        id: 'stu_landlord_breach',
+                        type: 'assessment',
+                        icon: '🏠',
+                        title: '房东违约评估',
+                        desc: '房东提前收房/断水断电/擅自进入?',
+                        toolConfig: {
+                            title: '房东违约情形评估',
+                            questions: [
+                                { question: '违约情形', options: ['提前强制收房', '擅自断水断电', '擅自进入房屋', '擅自涨租'] },
+                                { question: '合同剩余期限', options: ['1年以上', '半年到1年', '半年以内'] },
+                                { question: '是否还在居住', options: ['是,影响生活', '是,影响较小', '已搬走'] },
+                                { question: '有无书面通知', options: ['无任何通知', '口头通知', '有书面通知'] },
+                                { question: '有无证据', options: ['录音录像齐全', '有部分证据', '无证据'] }
+                            ],
+                            evaluate: (answers) => {
+                                const scores = { '提前强制收房': 10, '擅自断水断电': 10, '擅自进入房屋': 6, '擅自涨租': 8, '1年以上': 10, '半年到1年': 6, '半年以内': 3, '是,影响生活': 10, '是,影响较小': 5, '已搬走': 0, '无任何通知': 10, '口头通知': 5, '有书面通知': 0, '录音录像齐全': 10, '有部分证据': 5, '无证据': 0 };
+                                let total = 0;
+                                answers.forEach(a => { total += (scores[a] || 0); });
+                                const pct = Math.round(total / 50 * 100);
+                                let level, advice;
+                                if (pct >= 70) { level = '🟢 可主张房东违约责任'; advice = '房东行为构成根本违约,你可以:1)解除合同;2)主张违约金;3)起诉要求继续履行或赔偿搬迁费、误工费等。'; }
+                                else if (pct >= 40) { level = '🟡 有一定维权空间'; advice = '可先发律师函或向房管局/居委会投诉,补强证据后再起诉。'; }
+                                else { level = '🔴 当前证据不足'; advice = '建议先固定证据(微信聊天记录截图、录音、邻居证人),再主张权利。'; }
+                                return { title: '房东违约评估', riskLevel: level, score: pct + '%', details: [advice], suggestion: '民法典第712-724条保护承租人合法权益。' };
+                            }
+                        }
+                    }
                 ]
             },
             special: {
@@ -1535,6 +1848,36 @@
                                 note: '紧急情况请直接拨打110。' 
                             }) 
                         }
+                    },
+                    {
+                        id: 'sp_criminal_report',
+                        type: 'checklist',
+                        icon: '🚓',
+                        title: '刑事报案指引',
+                        desc: '被诈骗/被偷/被打?9步报案',
+                        toolConfig: {
+                            title: '刑事案件报案指引',
+                            questions: [
+                                { question: '第1步:拨打110报警(紧急情况)或直接去案发地公安局/派出所报案', options: ['已完成', '正在进行', '未开始'] },
+                                { question: '第2步:带身份证+证据材料(转账记录、聊天截图、监控录像、证人信息)', options: ['已准备', '部分准备', '未准备'] },
+                                { question: '第3步:配合做笔录,详细说明时间、地点、人物、经过、损失金额', options: ['已完成', '待进行', '未开始'] },
+                                { question: '第4步:要求出具《受案回执》', options: ['已出具', '未出具', '不知道这个'] },
+                                { question: '第5步:7日内询问是否立案,如未立案要求出具《不予立案通知书》', options: ['已立案', '未立案', '还在等'] }
+                            ],
+                            evaluate: (answers) => {
+                                const steps = [];
+                                if (answers[0] === '未开始') steps.push('1. 紧急情况立即拨打110;非紧急可前往就近派出所报案');
+                                if (answers[1] === '未准备') steps.push('2. 准备证据材料:转账记录截图、聊天记录、监控录像、证人联系方式');
+                                if (answers[2] === '未开始') steps.push('3. 做笔录时务必详细说明:时间、地点、人物、经过、损失金额');
+                                if (answers[3] === '不知道这个') steps.push('4. 报案后务必索要《受案回执》,这是警方受理的证明');
+                                if (answers[4] === '还在等') steps.push('5. 7日内主动询问立案情况');
+                                steps.push('6. 对不予立案不服:7日内向上一级公安申请复议,或向检察院申请立案监督');
+                                steps.push('7. 诈骗类:同时拨打96110反诈专线+"国家反诈中心"App报案');
+                                steps.push('8. 涉及人身伤害:及时就医,保留诊断证明+伤情照片+医疗费票据');
+                                steps.push('9. 复杂案件(金额>5万/有人伤):侦查阶段就可请律师');
+                                return { title: '刑事报案指引', riskLevel: '📋 报案清单', details: steps, suggestion: '报案是维权第一步,越早报案证据越容易保存。' };
+                            }
+                        }
                     }
                 ]
             }
@@ -1697,13 +2040,14 @@
                     </div>
                     <div class="chat-panel">
                         <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 12px 16px; border-radius: 8px; margin-bottom: 12px; font-size: 13px; color: white;">
-                            💡 智能问答助手（基于规则匹配）：请描述您的具体情况，我将为您匹配相关知识和工具。
+                            📚 法律案例库（50条2022-2024真实判例，关键词匹配）
+                            <span style="float:right;font-size:11px;opacity:0.9;">共 <span id="${id}CaseCount">50</span> 条</span>
                         </div>
                         <div class="chat-container">
                             <div class="chat-messages" id="${id}ChatMessages">
                                 <div class="message ai">
                                     <div class="message-avatar">🤖</div>
-                                    <div class="message-content">您好！我是${config.title}专属AI法律助手，请问有什么可以帮您？</div>
+                                    <div class="message-content">您好！我是${config.title}案例速查助手，请描述您的问题，我将为您匹配相关判例和工具。</div>
                                 </div>
                             </div>
                             <div class="chat-input-area">
@@ -2252,55 +2596,130 @@
             const inputEl = document.getElementById(`${identityId}ChatInput`);
             const message = inputEl.value.trim();
             if (!message) { showToast('请输入问题'); return; }
-            
+
             addMessage(identityId, message, 'user');
             inputEl.value = '';
-            
-            // 任务16：AI思考中动画
+
+            // 任务42：思考中动画
             var thinkingId = identityId + '_thinking_' + Date.now();
             var thinkingDiv = document.createElement('div');
             thinkingDiv.className = 'message ai';
             thinkingDiv.id = thinkingId;
-            thinkingDiv.innerHTML = '<div class="message-avatar">🤖</div><div class="message-content">思考中<span class="thinking-dots"></span></div>';
+            thinkingDiv.innerHTML = '<div class="message-avatar">🤖</div><div class="message-content">搜索案例中<span class="thinking-dots"></span></div>';
             document.getElementById(identityId + 'ChatMessages').appendChild(thinkingDiv);
             document.getElementById(identityId + 'ChatMessages').scrollTop = document.getElementById(identityId + 'ChatMessages').scrollHeight;
 
             setTimeout(function() {
-                var response;
-                const complexResponse = analyzeComplexCase(message);
-                
-                if (complexResponse) {
-                    response = `<strong>${complexResponse.title}</strong><br><br>`;
-                    complexResponse.sections.forEach(section => {
-                        response += `<strong>${section.subtitle}</strong><br>${section.content}<br><br>`;
+                // 任务42：案例匹配 + 工具推荐
+                const caseMatches = findRelevantCases(message, 2);
+                const toolMatches = findRelevantTools(message, identityId, 3);
+
+                var response = '';
+
+                if (caseMatches.length > 0) {
+                    response = '📚 <strong>为你匹配到 ' + caseMatches.length + ' 个相关判例:</strong><br><br>';
+                    caseMatches.forEach(function(c, i) {
+                        response += '<div style="background:#f8f9fa;border-left:3px solid #534AB7;padding:10px 12px;margin-bottom:10px;border-radius:4px;">';
+                        response += '<strong>' + (i+1) + '. ' + c.title + '</strong><span style="color:#999;font-size:11px;margin-left:8px;">[' + c.category + ']</span><br>';
+                        response += '<div style="color:#666;font-size:12px;margin:6px 0;">' + c.summary + '</div>';
+                        response += '<details style="margin-top:6px;"><summary style="cursor:pointer;color:#534AB7;font-size:12px;">📖 查看判决结果 + 法律依据</summary>';
+                        response += '<div style="padding:8px;background:white;margin-top:6px;border-radius:4px;font-size:12px;">';
+                        response += '<strong>判决:</strong>' + c.judgment + '<br><br><strong>法律依据:</strong>' + c.basis;
+                        response += '</div></details>';
+                        if (c.relatedTools && c.relatedTools.length > 0) {
+                            response += '<div style="margin-top:6px;font-size:12px;">🛠️ 试试相关工具:';
+                            c.relatedTools.forEach(function(tid) {
+                                var tool = findToolById(tid);
+                                if (tool) {
+                                    response += ' <a href="javascript:void(0)" onclick="showToolPage(\'' + tid + '\')" style="display:inline-block;padding:2px 8px;background:var(--primary-color);color:white;border-radius:4px;text-decoration:none;font-size:11px;margin:2px;">' + tool.icon + ' ' + tool.title + '</a>';
+                                }
+                            });
+                            response += '</div>';
+                        }
+                        response += '</div>';
                     });
+                    if (toolMatches.length > 0) {
+                        response += '<br>💡 <strong>你还可以直接试试这些工具:</strong><br>';
+                        toolMatches.forEach(function(t) {
+                            response += '<button onclick="showToolPage(\'' + t.id + '\')" style="margin:4px;padding:6px 12px;background:var(--primary-color);color:white;border:none;border-radius:6px;cursor:pointer;font-size:12px;">' + t.icon + ' ' + t.title + '</button> ';
+                        });
+                    }
                 } else {
-                    const matched = legalKnowledgeBase.find(item => 
-                        item.keywords.some(kw => message.toLowerCase().includes(kw))
-                    );
-                    
-                    if (matched) {
-                        response = `<strong>${matched.title}</strong><br><br>${matched.content}<br><br>💡 建议：如需进一步帮助，可使用下方的专业工具进行自助评估。`;
+                    // 没命中案例,直接推工具
+                    if (toolMatches.length > 0) {
+                        response = '🤔 <strong>暂时没有完全匹配的判例,但这些工具可能帮到你:</strong><br><br>';
+                        toolMatches.forEach(function(t) {
+                            response += '<button onclick="showToolPage(\'' + t.id + '\')" style="margin:4px;padding:8px 14px;background:var(--primary-color);color:white;border:none;border-radius:6px;cursor:pointer;font-size:13px;">' + t.icon + ' ' + t.title + '</button> ';
+                        });
+                        response += '<br><br>📝 <span style="color:#999;font-size:12px;">提示:问题尽量具体,如"公司拖欠加班费3个月"比"劳动纠纷"匹配更准。</span>';
                     } else {
-                        // 推荐当前身份的3个工具 + 2条知识
-                        var config = identityConfig[identityId];
-                        var tools = config.features.slice(0, 3);
-                        var toolHtml = tools.map(function(t) {
-                            return '<button onclick="showToolPage(\'' + t.id + '\')" style="margin:4px;padding:8px 16px;background:var(--primary-color);color:white;border:none;border-radius:6px;cursor:pointer;font-size:13px;">' + t.icon + ' ' + t.title + '</button>';
-                        }).join(' ');
-                        var identityTag = config.title;
-                        var knowledgeItems = legalKnowledgeBase.filter(function(item) { return item.tags.indexOf(identityTag) >= 0; }).slice(0, 2);
-                        var knowledgeHtml = knowledgeItems.map(function(k) {
-                            return '<a href="javascript:void(0)" onclick="quickSearch(\'' + k.keywords[0] + '\')" style="margin:4px;padding:6px 12px;background:var(--bg-light);color:var(--primary-color);border-radius:6px;font-size:13px;cursor:pointer;text-decoration:none;">📖 ' + k.title + '</a>';
-                        }).join(' ');
-                        response = '我可能没法直接回答，但你可以试试这些工具：<br>' + toolHtml + '<br><br>或者看这些相关文章：<br>' + (knowledgeHtml || '<span style="color:var(--text-secondary);">暂无相关文章</span>');
+                        response = '😔 暂时没有匹配的判例或工具。试试这样问:<br>• "老板拖欠工资3个月,没签合同"<br>• "公司突然辞退我,赔偿金怎么算"<br>• "网购商品发现是假货,如何要求三倍赔偿"';
                     }
                 }
-                
+
                 var thinkingEl = document.getElementById(thinkingId);
                 if (thinkingEl) thinkingEl.remove();
                 addMessage(identityId, response, 'ai');
             }, 300);
+        }
+
+        // 任务42：案例匹配
+        function findRelevantCases(message, topN) {
+            if (!window.LegalCases) return [];
+            var msg = message.toLowerCase();
+            var scored = window.LegalCases.cases.map(function(c) {
+                var hits = c.keywords.filter(function(kw) { return msg.indexOf(kw.toLowerCase()) >= 0; }).length;
+                return { case: c, score: hits };
+            }).filter(function(x) { return x.score > 0; })
+              .sort(function(a, b) { return b.score - a.score; })
+              .slice(0, topN);
+            return scored.map(function(x) { return x.case; });
+        }
+
+        function findToolById(toolId) {
+            for (var id in identityConfig) {
+                var f = (identityConfig[id].features || []).find(function(x) { return x.id === toolId; });
+                if (f) return f;
+            }
+            return null;
+        }
+
+        function findRelevantTools(message, identityId, topN) {
+            var msg = message.toLowerCase();
+            var config = identityConfig[identityId];
+            if (!config) return [];
+
+            // 优先用案例关联工具,再用关键词匹配
+            var caseRelated = {};
+            if (window.LegalCases) {
+                window.LegalCases.cases.forEach(function(c) {
+                    var hits = c.keywords.filter(function(kw) { return msg.indexOf(kw.toLowerCase()) >= 0; }).length;
+                    if (hits > 0 && c.relatedTools) {
+                        c.relatedTools.forEach(function(t) { caseRelated[t] = true; });
+                    }
+                });
+            }
+
+            // 当前身份工具 + 案例关联工具
+            var candidates = config.features.slice();
+            Object.keys(caseRelated).forEach(function(tid) {
+                var tool = findToolById(tid);
+                if (tool && !candidates.find(function(c) { return c.id === tool.id; })) candidates.push(tool);
+            });
+
+            // 简单关键词打分
+            var scored = candidates.map(function(t) {
+                var text = (t.title + ' ' + t.desc + ' ' + t.id).toLowerCase();
+                var score = 0;
+                msg.split(/[\s,。?？!！,]/).forEach(function(w) {
+                    if (w.length >= 2 && text.indexOf(w) >= 0) score += 1;
+                });
+                return { tool: t, score: score };
+            }).filter(function(x) { return x.score > 0; })
+              .sort(function(a, b) { return b.score - a.score; })
+              .slice(0, topN);
+
+            return scored.map(function(x) { return x.tool; });
         }
 
         function addMessage(identityId, content, sender) {
@@ -2541,6 +2960,10 @@
 
         window.onload = function() {
             initPages();
+            // 任务42：案例计数初始化
+            if (window.LegalCases) {
+                document.querySelectorAll('[id$="CaseCount"]').forEach(function(el) { el.textContent = window.LegalCases.cases.length; });
+            }
         };
     
     </script>
