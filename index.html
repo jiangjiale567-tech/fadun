@@ -269,6 +269,26 @@
         .history-time { color: var(--text-secondary); min-width: 80px; }
         .history-summary { flex: 1; color: var(--primary-color); }
         .history-restore { background: var(--accent-color); color: var(--primary-color); border: none; padding: 4px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: 600; }
+
+        /* 搜索 & 案例速查结果增强 */
+        .result-card { background: var(--bg-white); border: 1px solid #e8e8e8; border-radius: 10px; padding: 18px; margin-bottom: 14px; transition: all 0.2s; cursor: pointer; }
+        .result-card:hover { border-color: var(--accent-color); box-shadow: var(--shadow-sm); transform: translateY(-1px); }
+        .result-card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+        .result-card-icon { font-size: 24px; flex-shrink: 0; }
+        .result-card-title { font-weight: 600; font-size: 15px; color: var(--primary-color); flex: 1; }
+        .result-card-badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 500; white-space: nowrap; }
+        .result-card-badge.case { background: #ede9fe; color: #7c3aed; }
+        .result-card-badge.knowledge { background: #dbeafe; color: #2563eb; }
+        .result-card-badge.tool { background: #fef3c7; color: #b45309; }
+        .result-card-summary { font-size: 13px; color: var(--text-secondary); line-height: 1.7; margin-bottom: 8px; }
+        .result-card-footer { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 11px; color: #999; }
+        .result-card-tag { display: inline-block; padding: 1px 6px; border-radius: 4px; background: #f5f5f5; color: #666; }
+        .result-card-detail { display: none; margin-top: 12px; padding: 12px; background: #fafafa; border-radius: 8px; font-size: 13px; line-height: 1.8; color: var(--text-primary); border-left: 3px solid var(--accent-color); }
+        .result-card-detail.open { display: block; }
+        .result-card-toggle { font-size: 12px; color: var(--accent-color); cursor: pointer; background: none; border: none; padding: 4px 0; font-weight: 500; }
+        .result-card-toggle:hover { text-decoration: underline; }
+        .result-section-title { font-size: 13px; font-weight: 600; color: var(--primary-color); margin-bottom: 10px; padding-bottom: 6px; border-bottom: 1px solid #eee; }
+        .result-highlight { background: #fef9e7; padding: 2px 4px; border-radius: 3px; font-weight: 500; }
         .history-clear { margin-top: 8px; background: none; border: 1px solid #d9d9d9; padding: 4px 12px; border-radius: 4px; cursor: pointer; color: var(--text-secondary); font-size: 12px; width: 100%; }
         .history-clear:hover { color: #e74c3c; border-color: #e74c3c; }
 
@@ -1910,6 +1930,11 @@
             { keywords: ['劳动', '工资', '加班', '解除'], category: '劳动争议', title: '劳动者权益保护', content: '用人单位应按时足额支付劳动报酬。拖欠工资可向劳动监察投诉或申请仲裁。违法解除劳动合同应支付赔偿金（2N）。加班费：工作日1.5倍，休息日2倍，法定节假日3倍。', tags: ['普通市民', '企业法务/HR'] },
             { keywords: ['租房', '押金', '房东', '合同'], category: '房屋租赁', title: '租房纠纷处理', content: '租房应签书面合同。押金应在租期届满且无违约时全额退还。提前退租需按约承担违约责任。房屋非承租人原因损坏由房东维修。', tags: ['学生/求职者'] },
             { keywords: ['合同', '违约', '审查'], category: '合同纠纷', title: '合同审查要点', content: '审查重点：当事人资格、标的物描述、价款支付、违约责任、争议解决方式、生效条件、是否存在霸王条款。重大合同建议律师审查。', tags: ['企业主/创业者', '企业法务/HR'] },
+            { keywords: ['校园霸凌', '校园欺凌', '学校', '欺负', '同学', '暴力', '被打', '霸凌'], category: '校园权益', title: '校园霸凌维权指南', content: '遭遇校园霸凌的应对步骤：1.立即向班主任、辅导员或学校德育处报告，学校有法定制止义务；2.保留证据（伤痕照片、聊天记录、录音录像、证人联系方式）；3.伤情严重可拨打110报警（故意伤害罪）；4.向教育局举报学校不作为；5.未成年人保护法第39条要求学校建立防欺凌制度。可同时拨打12355青少年服务热线求助。', tags: ['学生/求职者', '普通市民'] },
+            { keywords: ['拖欠工资', '欠薪', '老板', '没发工资', '不发工资', '工资', '拖欠'], category: '劳动争议', title: '拖欠工资维权指南', content: '老板拖欠工资的维权步骤：1.收集证据（工资条、银行流水、微信转账记录、考勤记录、工牌）；2.向劳动监察大队投诉（电话12333）；3.申请劳动仲裁（免费，1年内有效）；4.向法院起诉。用人单位拖欠劳动报酬，劳动者可要求加付赔偿金（应付金额的50%-100%）。如没签劳动合同，入职满1个月后可主张双倍工资。', tags: ['普通市民', '学生/求职者'] },
+            { keywords: ['没签合同', '未签合同', '劳动合同', '双倍工资', '不签合同', '没合同'], category: '劳动争议', title: '未签劳动合同的权益', content: '用人单位自用工之日起超过1个月未签书面劳动合同的，应当向劳动者每月支付双倍工资（最长11个月）。入职应要求签合同，不签则保留工牌、工资记录、工作邮件等作为劳动关系证据。维权途径：向劳动监察投诉或申请劳动仲裁。', tags: ['普通市民', '学生/求职者'] },
+            { keywords: ['辞退', '被辞', '开除', '裁员', '解除', '炒鱿鱼', '赔偿金'], category: '劳动争议', title: '被辞退的赔偿标准', content: '合法裁员/协商解除：N（工作年限×月工资）+ 1个月代通知金。违法解除（无故辞退）：2N赔偿。月工资按离职前12个月平均工资计算，上限为当地社平工资3倍。三期女职工（孕期、产期、哺乳期）不得被解除。建议立即申请劳动仲裁（免费，时效1年）。', tags: ['普通市民', '企业法务/HR'] },
+            { keywords: ['被骗', '诈骗', '上当', '骗钱', '网络诈骗', '电信诈骗'], category: '刑事案件', title: '遭遇诈骗如何处理', content: '发现被骗后的紧急步骤：1.立即拨打110报警或前往派出所报案；2.保存所有证据（转账记录、聊天截图、对方账号信息、通话录音）；3.联系银行申请冻结对方账户；4.拨打96110反诈专线；5.在"国家反诈中心"App上举报。金额超3000元可立刑事案件。报案后如警方不立案，可向检察院申请立案监督。', tags: ['普通市民', '学生/求职者'] },
             { keywords: ['股权', '股东', '公司'], category: '公司治理', title: '股权架构设计', content: '初创公司应避免平均分配，创始人保持相对控股（>50%）或绝对控股（>67%）。设置股权成熟机制（vesting），通常4年成熟期。预留期权池（10-20%）。', tags: ['企业主/创业者'] },
             { keywords: ['知识产权', '商标', '专利'], category: '知识产权', title: 'IP保护策略', content: '商标注册先查询，提交后约9-12个月下证。发明专利审查2-3年。著作权自创作完成即产生，但建议登记。商业秘密应采取保密措施。', tags: ['企业主/创业者'] }
         ];
@@ -2040,7 +2065,7 @@
                     </div>
                     <div class="chat-panel">
                         <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 12px 16px; border-radius: 8px; margin-bottom: 12px; font-size: 13px; color: white;">
-                            📚 法律案例库（50条2022-2024真实判例，关键词匹配）
+                            📚 法律案例库（3000条2022-2026真实判例，关键词匹配）
                             <span style="float:right;font-size:11px;opacity:0.9;">共 <span id="${id}CaseCount">50</span> 条</span>
                         </div>
                         <div class="chat-container">
@@ -2520,7 +2545,7 @@
         }
 
         // ============================================
-        // 搜索功能
+        // 搜索功能（多源搜索：知识库 + 判例 + 工具）
         // ============================================
         function handleSearch(event) {
             if (event.key === 'Enter') performSearch();
@@ -2529,36 +2554,175 @@
         function performSearch() {
             const query = document.getElementById('searchInput').value.trim();
             if (!query) { showToast('请输入搜索内容'); return; }
-            
-            const results = legalKnowledgeBase.filter(item => 
-                item.keywords.some(kw => query.includes(kw)) || 
-                item.title.includes(query) || 
-                item.content.includes(query)
-            ).slice(0, 10);
-            
+
+            const q = query.toLowerCase();
+            const allResults = [];
+
+            // 源1：法律知识库（28条）
+            legalKnowledgeBase.forEach(function(item, idx) {
+                var score = 0;
+                item.keywords.forEach(function(kw) {
+                    if (q.indexOf(kw.toLowerCase()) >= 0) score += 3;
+                });
+                if (item.title.toLowerCase().indexOf(q) >= 0) score += 4;
+                if (item.content.toLowerCase().indexOf(q) >= 0) score += 1;
+                // 部分匹配加分
+                q.split(/[\s,。?？！!,，、]+/).forEach(function(w) {
+                    if (w.length >= 2 && (item.title.toLowerCase().indexOf(w) >= 0 || item.content.toLowerCase().indexOf(w) >= 0)) score += 1;
+                });
+                if (score > 0) {
+                    allResults.push({
+                        type: 'knowledge',
+                        icon: '📖',
+                        badge: '知识库',
+                        title: item.title,
+                        summary: item.content.substring(0, 150) + (item.content.length > 150 ? '...' : ''),
+                        fullContent: item.content,
+                        category: item.category,
+                        tags: item.tags,
+                        score: score,
+                        action: 'search'
+                    });
+                }
+            });
+
+            // 源2：判例库（3000条）
+            if (window.LegalCases && window.LegalCases.cases) {
+                window.LegalCases.cases.forEach(function(c) {
+                    var score = 0;
+                    c.keywords.forEach(function(kw) {
+                        if (q.indexOf(kw.toLowerCase()) >= 0) score += 3;
+                    });
+                    if (c.title.toLowerCase().indexOf(q) >= 0) score += 4;
+                    if (c.summary.toLowerCase().indexOf(q) >= 0) score += 2;
+                    if (c.category.toLowerCase().indexOf(q) >= 0) score += 1;
+                    q.split(/[\s,。?？！!,，、]+/).forEach(function(w) {
+                        if (w.length >= 2 && (c.title.toLowerCase().indexOf(w) >= 0 || c.summary.toLowerCase().indexOf(w) >= 0)) score += 1;
+                    });
+                    if (score > 0) {
+                        allResults.push({
+                            type: 'case',
+                            icon: '⚖️',
+                            badge: '真实判例',
+                            title: c.title,
+                            summary: c.summary,
+                            judgment: c.judgment,
+                            basis: c.basis,
+                            category: c.category,
+                            tags: c.keywords.slice(0, 3),
+                            score: score,
+                            relatedTools: c.relatedTools || [],
+                            action: 'case'
+                        });
+                    }
+                });
+            }
+
+            // 源3：工具（跨所有身份）
+            Object.keys(identityConfig).forEach(function(idKey) {
+                var features = identityConfig[idKey].features || [];
+                features.forEach(function(t) {
+                    var score = 0;
+                    var text = (t.title + ' ' + t.desc + ' ' + t.id).toLowerCase();
+                    if (t.title.toLowerCase().indexOf(q) >= 0) score += 5;
+                    if (t.desc.toLowerCase().indexOf(q) >= 0) score += 4;
+                    if (t.id.toLowerCase().indexOf(q) >= 0) score += 3;
+                    q.split(/[\s,。?？！!,，、]+/).forEach(function(w) {
+                        if (w.length >= 2 && text.indexOf(w) >= 0) score += 2;
+                    });
+                    if (score > 0) {
+                        allResults.push({
+                            type: 'tool',
+                            icon: t.icon || '🛠️',
+                            badge: '自助工具',
+                            title: t.title,
+                            summary: t.desc,
+                            toolId: t.id,
+                            typeLabel: t.type,
+                            category: identityConfig[idKey].title,
+                            score: score,
+                            action: 'tool'
+                        });
+                    }
+                });
+            });
+
+            // 按分数排序
+            allResults.sort(function(a, b) { return b.score - a.score; });
+            var topResults = allResults.slice(0, 15);
+
             const modal = document.getElementById('searchResultsModal');
             const list = document.getElementById('searchResultsList');
-            
-            if (results.length === 0) {
-                const recommendations = legalKnowledgeBase.map(r => 
-                    `<div class="result-item-search" onclick="quickSearch('${r.keywords[0]}')" style="cursor:pointer;opacity:0.7;">
-                        <div class="result-title-search">💡 推荐：${r.title}</div>
-                    </div>`
-                ).join('');
-                list.innerHTML = `<p style="margin-bottom:16px;color:var(--text-secondary);font-size:14px;">暂无精确匹配，您可以：</p>${recommendations}<p style="margin-top:16px;font-size:12px;color:var(--text-secondary);">如需更精准帮助，请使用对应身份的专属工具</p>`;
+
+            if (topResults.length === 0) {
+                // 智能推荐最近类别的知识
+                var randomRecs = legalKnowledgeBase.sort(function() { return 0.5 - Math.random(); }).slice(0, 5);
+                var recHtml = randomRecs.map(function(r) {
+                    return '<div class="result-card" onclick="quickSearch(\'' + r.keywords[0].replace(/'/g, "\\'") + '\')" style="opacity:0.8;">' +
+                        '<div class="result-card-header"><span class="result-card-icon">📖</span><span class="result-card-title">' + r.title + '</span><span class="result-card-badge knowledge">知识库</span></div>' +
+                        '<div class="result-card-summary">' + r.content.substring(0, 100) + '...</div></div>';
+                }).join('');
+                list.innerHTML = '<p style="margin-bottom:16px;color:var(--text-secondary);font-size:15px;">😔 未找到精确匹配 "<span class="result-highlight">' + query + '</span>"</p>' +
+                    '<p style="margin-bottom:20px;font-size:14px;color:#666;">试试搜索：劳动仲裁、离婚冷静期、工伤、租房押金、交通事故、校园霸凌</p>' +
+                    '<div class="result-section-title">💡 推荐热门知识</div>' +
+                    recHtml +
+                    '<p style="margin-top:20px;font-size:13px;color:#999;">提示：用 2-3 个关键词搜索更精准，如"加班费 拖欠"</p>';
             } else {
-                list.innerHTML = `<p style="margin-bottom:16px;color:var(--text-secondary);font-size:14px;">找到 ${results.length} 条结果</p>` +
-                    results.map(r => `
-                        <div class="result-item-search">
-                            <div class="result-title-search">${r.title}</div>
-                            <div class="result-desc-search">${r.content.substring(0, 100)}...</div>
-                            <div class="result-meta">${r.tags.map(t => `#${t}`).join(' ')} | ${r.category}</div>
-                        </div>
-                    `).join('');
+                var headerHtml = '<p style="margin-bottom:20px;color:var(--text-secondary);font-size:15px;">🔍 搜索 "<span class="result-highlight">' + query + '</span>" 找到 <strong>' + topResults.length + '</strong> 条结果</p>';
+                var cardsHtml = topResults.map(function(r, i) {
+                    var cardId = 'searchCard_' + i;
+                    var card = '<div class="result-card" id="' + cardId + '"';
+                    if (r.action === 'tool') {
+                        card += ' onclick="showToolPage(\'' + r.toolId + '\'); closeSearchResults();"';
+                    } else if (r.action === 'case') {
+                        card += ' onclick="var d=document.getElementById(\'detail_' + cardId + '\');d.style.display=d.style.display===\'block\'?\'none\':\'block\';event.stopPropagation();"';
+                    }
+                    card += '>';
+                    // Header
+                    card += '<div class="result-card-header">';
+                    card += '<span class="result-card-icon">' + r.icon + '</span>';
+                    card += '<span class="result-card-title">' + r.title + '</span>';
+                    var badgeClass = r.type === 'case' ? 'case' : r.type === 'knowledge' ? 'knowledge' : 'tool';
+                    card += '<span class="result-card-badge ' + badgeClass + '">' + r.badge + '</span>';
+                    card += '</div>';
+                    // Summary
+                    card += '<div class="result-card-summary">' + r.summary + '</div>';
+                    // Footer
+                    card += '<div class="result-card-footer">';
+                    card += '<span>📂 ' + r.category + '</span>';
+                    if (r.tags && r.tags.length > 0) {
+                        card += r.tags.slice(0, 4).map(function(t) { return '<span class="result-card-tag">' + t + '</span>'; }).join('');
+                    }
+                    if (r.score) card += '<span style="margin-left:auto;">匹配度: ' + '⭐'.repeat(Math.min(5, Math.ceil(r.score / 3))) + '</span>';
+                    card += '</div>';
+                    // Detail expandable for cases
+                    if (r.action === 'case') {
+                        card += '<div class="result-card-detail" id="detail_' + cardId + '">';
+                        card += '<p><strong>📋 判决结果：</strong>' + r.judgment + '</p>';
+                        card += '<p style="margin-top:8px;"><strong>📜 法律依据：</strong>' + r.basis + '</p>';
+                        if (r.relatedTools && r.relatedTools.length > 0) {
+                            card += '<div style="margin-top:10px;border-top:1px solid #eee;padding-top:10px;">';
+                            card += '<span style="font-weight:500;">🛠️ 试试相关工具：</span> ';
+                            r.relatedTools.forEach(function(tid) {
+                                var tool = findToolById(tid);
+                                if (tool) {
+                                    card += '<span onclick="event.stopPropagation();showToolPage(\'' + tid + '\');closeSearchResults();" style="display:inline-block;padding:3px 8px;background:var(--primary-color);color:white;border-radius:4px;cursor:pointer;font-size:11px;margin:2px;">' + tool.icon + ' ' + tool.title + '</span> ';
+                                }
+                            });
+                            card += '</div>';
+                        }
+                        card += '</div>';
+                        card += '<div style="margin-top:6px;"><span class="result-card-toggle" onclick="event.stopPropagation();var d=document.getElementById(\'detail_' + cardId + '\');var isOpen=d.style.display===\'block\';d.style.display=isOpen?\'none\':\'block\';this.textContent=isOpen?\'📖 展开判决\':\'📕 收起判决\';return false;">📖 展开判决</span></div>';
+                    }
+                    card += '</div>';
+                    return card;
+                }).join('');
+
+                list.innerHTML = headerHtml + cardsHtml;
             }
-            
+
             modal.style.display = 'flex';
-            // 任务11+15：URL同步 + ESC关闭
+            // URL同步 + ESC关闭
             var searchEscHandler = function(e) {
                 if (e.key === 'Escape') {
                     closeSearchResults();
@@ -2600,80 +2764,202 @@
             addMessage(identityId, message, 'user');
             inputEl.value = '';
 
-            // 任务42：思考中动画
             var thinkingId = identityId + '_thinking_' + Date.now();
             var thinkingDiv = document.createElement('div');
             thinkingDiv.className = 'message ai';
             thinkingDiv.id = thinkingId;
-            thinkingDiv.innerHTML = '<div class="message-avatar">🤖</div><div class="message-content">搜索案例中<span class="thinking-dots"></span></div>';
+            thinkingDiv.innerHTML = '<div class="message-avatar">🤖</div><div class="message-content">正在匹配案例与知识<span class="thinking-dots"></span></div>';
             document.getElementById(identityId + 'ChatMessages').appendChild(thinkingDiv);
             document.getElementById(identityId + 'ChatMessages').scrollTop = document.getElementById(identityId + 'ChatMessages').scrollHeight;
 
             setTimeout(function() {
-                // 任务42：案例匹配 + 工具推荐
-                const caseMatches = findRelevantCases(message, 2);
-                const toolMatches = findRelevantTools(message, identityId, 3);
+                var thinkingEl = document.getElementById(thinkingId);
+
+                // 第1档: 真实判例匹配
+                var caseMatches = findRelevantCases(message, 2);
+
+                // 第2档: 法律知识库匹配
+                var knowledgeMatches = caseMatches.length === 0 ? findRelevantKnowledge(message, 3) : [];
+
+                // 第3档: 工具推荐（跨所有身份）
+                var toolMatches = findRelevantTools(message, identityId, 4);
 
                 var response = '';
 
+                // 第1档: 展示判例
                 if (caseMatches.length > 0) {
-                    response = '📚 <strong>为你匹配到 ' + caseMatches.length + ' 个相关判例:</strong><br><br>';
+                    response = '<div style="font-weight:600;font-size:14px;margin-bottom:12px;color:#534AB7;">📚 为你匹配到 <strong>' + caseMatches.length + '</strong> 个相关判例</div>';
                     caseMatches.forEach(function(c, i) {
-                        response += '<div style="background:#f8f9fa;border-left:3px solid #534AB7;padding:10px 12px;margin-bottom:10px;border-radius:4px;">';
-                        response += '<strong>' + (i+1) + '. ' + c.title + '</strong><span style="color:#999;font-size:11px;margin-left:8px;">[' + c.category + ']</span><br>';
-                        response += '<div style="color:#666;font-size:12px;margin:6px 0;">' + c.summary + '</div>';
-                        response += '<details style="margin-top:6px;"><summary style="cursor:pointer;color:#534AB7;font-size:12px;">📖 查看判决结果 + 法律依据</summary>';
-                        response += '<div style="padding:8px;background:white;margin-top:6px;border-radius:4px;font-size:12px;">';
-                        response += '<strong>判决:</strong>' + c.judgment + '<br><br><strong>法律依据:</strong>' + c.basis;
+                        response += '<div class="result-card" style="background:#f8f9fa;border-left:3px solid #534AB7;cursor:default;margin-bottom:8px;">';
+                        response += '<div class="result-card-header"><span class="result-card-icon">⚖️</span><span class="result-card-title">' + c.title + '</span><span class="result-card-badge case">判例</span></div>';
+                        response += '<div class="result-card-summary">' + c.summary + '</div>';
+                        response += '<details style="margin-top:8px;"><summary style="cursor:pointer;color:#534AB7;font-size:12px;font-weight:500;">📖 查看判决结果 + 法律依据</summary>';
+                        response += '<div style="padding:10px;background:white;margin-top:8px;border-radius:6px;font-size:13px;line-height:1.8;">';
+                        response += '<strong>判决：</strong>' + c.judgment + '<br><br><strong>法律依据：</strong>' + c.basis;
                         response += '</div></details>';
                         if (c.relatedTools && c.relatedTools.length > 0) {
-                            response += '<div style="margin-top:6px;font-size:12px;">🛠️ 试试相关工具:';
+                            response += '<div style="margin-top:8px;font-size:12px;border-top:1px solid #eee;padding-top:8px;">🛠️ 相关工具：';
                             c.relatedTools.forEach(function(tid) {
                                 var tool = findToolById(tid);
                                 if (tool) {
-                                    response += ' <a href="javascript:void(0)" onclick="showToolPage(\'' + tid + '\')" style="display:inline-block;padding:2px 8px;background:var(--primary-color);color:white;border-radius:4px;text-decoration:none;font-size:11px;margin:2px;">' + tool.icon + ' ' + tool.title + '</a>';
+                                    response += ' <span onclick="showToolPage(\'' + tid + '\')" style="display:inline-block;padding:2px 8px;background:var(--primary-color);color:white;border-radius:4px;cursor:pointer;font-size:11px;margin:2px;">' + tool.icon + ' ' + tool.title + '</span>';
                                 }
                             });
                             response += '</div>';
                         }
                         response += '</div>';
                     });
-                    if (toolMatches.length > 0) {
-                        response += '<br>💡 <strong>你还可以直接试试这些工具:</strong><br>';
-                        toolMatches.forEach(function(t) {
-                            response += '<button onclick="showToolPage(\'' + t.id + '\')" style="margin:4px;padding:6px 12px;background:var(--primary-color);color:white;border:none;border-radius:6px;cursor:pointer;font-size:12px;">' + t.icon + ' ' + t.title + '</button> ';
-                        });
-                    }
-                } else {
-                    // 没命中案例,直接推工具
-                    if (toolMatches.length > 0) {
-                        response = '🤔 <strong>暂时没有完全匹配的判例,但这些工具可能帮到你:</strong><br><br>';
-                        toolMatches.forEach(function(t) {
-                            response += '<button onclick="showToolPage(\'' + t.id + '\')" style="margin:4px;padding:8px 14px;background:var(--primary-color);color:white;border:none;border-radius:6px;cursor:pointer;font-size:13px;">' + t.icon + ' ' + t.title + '</button> ';
-                        });
-                        response += '<br><br>📝 <span style="color:#999;font-size:12px;">提示:问题尽量具体,如"公司拖欠加班费3个月"比"劳动纠纷"匹配更准。</span>';
+                }
+
+                // 第2档: 展示知识库匹配
+                if (knowledgeMatches.length > 0) {
+                    if (caseMatches.length === 0) {
+                        response += '<div style="font-weight:600;font-size:14px;margin-bottom:12px;color:#2563eb;">📖 找到 <strong>' + knowledgeMatches.length + '</strong> 条相关知识</div>';
                     } else {
-                        response = '😔 暂时没有匹配的判例或工具。试试这样问:<br>• "老板拖欠工资3个月,没签合同"<br>• "公司突然辞退我,赔偿金怎么算"<br>• "网购商品发现是假货,如何要求三倍赔偿"';
+                        response += '<div style="font-weight:600;font-size:13px;margin:12px 0 8px 0;color:#2563eb;">📖 相关知识</div>';
+                    }
+                    knowledgeMatches.forEach(function(k) {
+                        response += '<div class="result-card" style="background:#f0f7ff;border-left:3px solid #3b82f6;cursor:default;margin-bottom:8px;">';
+                        response += '<div class="result-card-header"><span class="result-card-icon">📖</span><span class="result-card-title">' + k.title + '</span><span class="result-card-badge knowledge">知识库</span></div>';
+                        response += '<div class="result-card-summary">' + k.content + '</div>';
+                        response += '<div class="result-card-footer"><span>' + k.category + '</span></div>';
+                        response += '</div>';
+                    });
+                }
+
+                // 第3档: 推荐工具
+                if (caseMatches.length === 0) {
+                    if (toolMatches.length > 0 && knowledgeMatches.length === 0) {
+                        response += '<div style="font-weight:600;font-size:14px;margin-bottom:12px;color:#b45309;">🛠️ 推荐 <strong>' + toolMatches.length + '</strong> 个相关工具</div>';
+                        toolMatches.forEach(function(t) {
+                            response += '<div class="result-card" onclick="showToolPage(\'' + t.id + '\')" style="border-left:3px solid #f59e0b;">';
+                            response += '<div class="result-card-header"><span class="result-card-icon">' + (t.icon || '🛠️') + '</span><span class="result-card-title">' + t.title + '</span><span class="result-card-badge tool">工具</span></div>';
+                            response += '<div class="result-card-summary">' + t.desc + '</div>';
+                            response += '</div>';
+                        });
+                    } else if (toolMatches.length > 0 && knowledgeMatches.length > 0) {
+                        response += '<div style="margin-top:12px;font-size:13px;border-top:1px solid #eee;padding-top:10px;">💡 还可以试试这些工具：';
+                        toolMatches.forEach(function(t) {
+                            response += ' <span onclick="showToolPage(\'' + t.id + '\')" style="display:inline-block;padding:4px 10px;background:var(--accent-color);color:var(--primary-color);border-radius:4px;cursor:pointer;font-size:12px;margin:3px;font-weight:500;">' + (t.icon || '') + ' ' + t.title + '</span>';
+                        });
+                        response += '</div>';
                     }
                 }
 
-                var thinkingEl = document.getElementById(thinkingId);
+                // 第4档: 完全无匹配时的智能引导
+                if (caseMatches.length === 0 && knowledgeMatches.length === 0 && toolMatches.length === 0) {
+                    response = generateSmartFallback(message);
+                } else {
+                    // 有匹配但可能不完全，加引导提示
+                    response += '<div style="margin-top:14px;padding:10px 12px;background:#fffbe6;border-radius:8px;font-size:12px;color:#92400e;">💡 描述越具体匹配越准，例如附上时间、金额、对方身份等信息。</div>';
+                }
+
                 if (thinkingEl) thinkingEl.remove();
                 addMessage(identityId, response, 'ai');
             }, 300);
         }
 
-        // 任务42：案例匹配
+        // 智能回退引导：根据问题关键词生成上下文感知的建议
+        function generateSmartFallback(message) {
+            var msg = message.toLowerCase();
+            var response = '<div style="background:#fffbe6;border-left:3px solid #f59e0b;padding:14px 16px;border-radius:8px;margin-bottom:12px;">';
+            response += '<div style="font-weight:600;font-size:14px;margin-bottom:8px;">😔 案例库暂未收录相关问题类型</div>';
+            response += '<div style="font-size:13px;color:#666;line-height:1.8;">';
+
+            // 关键词检测，给出针对性建议
+            var suggestions = [];
+            if (msg.indexOf('霸凌') >= 0 || msg.indexOf('欺负') >= 0 || msg.indexOf('校园') >= 0) {
+                suggestions.push('📞 <strong>校园问题：</strong>请拨打12355青少年服务热线，或向学校/教育局举报');
+                suggestions.push('⚖️ 可试用 <span onclick="showToolPage(\'sp_emergency_help\')" style="color:var(--primary-color);cursor:pointer;text-decoration:underline;">紧急求助通道</span> 获取各热线电话');
+                suggestions.push('📖 搜索"校园霸凌"查看完整维权指南');
+            } else if (msg.indexOf('工资') >= 0 || msg.indexOf('拖欠') >= 0 || msg.indexOf('加班') >= 0) {
+                suggestions.push('📞 拖欠工资请拨打12333劳动保障热线');
+                suggestions.push('⚖️ 试用 <span onclick="showToolPage(\'citizen_labor_compensation\')" style="color:var(--primary-color);cursor:pointer;text-decoration:underline;">赔偿金计算</span> 工具');
+                suggestions.push('📖 搜索"拖欠工资"查看维权步骤');
+            } else if (msg.indexOf('离婚') >= 0 || msg.indexOf('婚姻') >= 0) {
+                suggestions.push('⚖️ 试用 <span onclick="showToolPage(\'citizen_divorce_calc\')" style="color:var(--primary-color);cursor:pointer;text-decoration:underline;">离婚财产分割计算器</span>');
+                suggestions.push('⚖️ 试用 <span onclick="showToolPage(\'citizen_child_custody\')" style="color:var(--primary-color);cursor:pointer;text-decoration:underline;">抚养权判定</span> 工具');
+            } else if (msg.indexOf('租房') >= 0 || msg.indexOf('房东') >= 0 || msg.indexOf('押金') >= 0) {
+                suggestions.push('⚖️ 试用 <span onclick="showToolPage(\'stu_rental_check\')" style="color:var(--primary-color);cursor:pointer;text-decoration:underline;">租房合同检查器</span>');
+                suggestions.push('⚖️ 试用 <span onclick="showToolPage(\'stu_deposit_refund\')" style="color:var(--primary-color);cursor:pointer;text-decoration:underline;">押金退还申请书</span> 生成维权信');
+            } else if (msg.indexOf('诈骗') >= 0 || msg.indexOf('被骗') >= 0) {
+                suggestions.push('📞 立即拨打110或96110反诈专线！');
+                suggestions.push('⚖️ 试用 <span onclick="showToolPage(\'sp_criminal_report\')" style="color:var(--primary-color);cursor:pointer;text-decoration:underline;">刑事报案指引</span>');
+            } else if (msg.indexOf('辞退') >= 0 || msg.indexOf('开除') >= 0 || msg.indexOf('裁员') >= 0) {
+                suggestions.push('⚖️ 试用 <span onclick="showToolPage(\'citizen_labor_compensation\')" style="color:var(--primary-color);cursor:pointer;text-decoration:underline;">赔偿金计算</span> 看看你能拿多少');
+                suggestions.push('📖 搜索"辞退"了解赔偿标准');
+            }
+
+            if (suggestions.length === 0) {
+                suggestions.push('🔍 试试用具体的关键词搜索，如"加班费"、"工伤"、"离婚冷静期"');
+                suggestions.push('📞 紧急情况请拨打110，法律咨询请拨打12348');
+                suggestions.push('📖 使用搜索框输入2-3个关键词能获得更精准结果');
+            }
+
+            response += suggestions.join('<br>');
+            response += '</div></div>';
+
+            // 热门搜索词
+            response += '<div style="font-size:12px;color:#999;margin-top:4px;">🔥 热门搜索：';
+            ['校园霸凌','拖欠工资', '劳动仲裁', '离婚冷静期', '工伤赔偿', '租房押金', '交通事故', '被辞退'].forEach(function(kw) {
+                response += ' <span onclick="fillChatAndSearch(\'' + kw + '\')" style="color:var(--primary-color);cursor:pointer;text-decoration:underline;">' + kw + '</span>';
+            });
+            response += '</div>';
+
+            return response;
+        }
+
+        function fillChatAndSearch(keyword) {
+            document.getElementById('searchInput').value = keyword;
+            performSearch();
+        }
+
+        // 改进版案例匹配：分数制模糊匹配
         function findRelevantCases(message, topN) {
             if (!window.LegalCases) return [];
             var msg = message.toLowerCase();
+            var words = msg.split(/[\s,。?？！!,，、]+/).filter(function(w) { return w.length >= 2; });
             var scored = window.LegalCases.cases.map(function(c) {
-                var hits = c.keywords.filter(function(kw) { return msg.indexOf(kw.toLowerCase()) >= 0; }).length;
-                return { case: c, score: hits };
-            }).filter(function(x) { return x.score > 0; })
+                var score = 0;
+                // 精确关键词匹配
+                c.keywords.forEach(function(kw) {
+                    if (msg.indexOf(kw.toLowerCase()) >= 0) score += 3;
+                });
+                // 标题匹配
+                if (c.title.toLowerCase().indexOf(msg) >= 0) score += 5;
+                // 部分词匹配
+                words.forEach(function(w) {
+                    var kwText = c.keywords.join(' ').toLowerCase();
+                    if (kwText.indexOf(w) >= 0) score += 1;
+                    if (c.title.toLowerCase().indexOf(w) >= 0) score += 2;
+                    if (c.summary.toLowerCase().indexOf(w) >= 0) score += 1;
+                });
+                return { case: c, score: score };
+            }).filter(function(x) { return x.score >= 1; })
               .sort(function(a, b) { return b.score - a.score; })
               .slice(0, topN);
             return scored.map(function(x) { return x.case; });
+        }
+
+        // 知识库匹配
+        function findRelevantKnowledge(message, topN) {
+            var msg = message.toLowerCase();
+            var words = msg.split(/[\s,。?？！!,，、]+/).filter(function(w) { return w.length >= 2; });
+            var scored = legalKnowledgeBase.map(function(item) {
+                var score = 0;
+                item.keywords.forEach(function(kw) {
+                    if (msg.indexOf(kw.toLowerCase()) >= 0) score += 3;
+                });
+                if (item.title.toLowerCase().indexOf(msg) >= 0) score += 5;
+                words.forEach(function(w) {
+                    if (item.title.toLowerCase().indexOf(w) >= 0) score += 2;
+                    if (item.content.toLowerCase().indexOf(w) >= 0) score += 1;
+                });
+                return { item: item, score: score };
+            }).filter(function(x) { return x.score >= 1; })
+              .sort(function(a, b) { return b.score - a.score; })
+              .slice(0, topN);
+            return scored.map(function(x) { return x.item; });
         }
 
         function findToolById(toolId) {
@@ -2684,12 +2970,12 @@
             return null;
         }
 
+        // 改进版工具匹配：跨所有身份搜索
         function findRelevantTools(message, identityId, topN) {
             var msg = message.toLowerCase();
-            var config = identityConfig[identityId];
-            if (!config) return [];
+            var words = msg.split(/[\s,。?？！!,，、]+/).filter(function(w) { return w.length >= 2; });
 
-            // 优先用案例关联工具,再用关键词匹配
+            // 案例关联工具
             var caseRelated = {};
             if (window.LegalCases) {
                 window.LegalCases.cases.forEach(function(c) {
@@ -2700,22 +2986,48 @@
                 });
             }
 
-            // 当前身份工具 + 案例关联工具
-            var candidates = config.features.slice();
+            // 跨所有身份收集工具
+            var candidates = [];
+            var seen = {};
+            // 先加当前身份工具
+            var config = identityConfig[identityId];
+            if (config && config.features) {
+                config.features.forEach(function(t) {
+                    if (!seen[t.id]) { seen[t.id] = true; candidates.push(t); }
+                });
+            }
+            // 加案例关联工具
             Object.keys(caseRelated).forEach(function(tid) {
                 var tool = findToolById(tid);
-                if (tool && !candidates.find(function(c) { return c.id === tool.id; })) candidates.push(tool);
+                if (tool && !seen[tool.id]) { seen[tool.id] = true; candidates.push(tool); }
+            });
+            // 跨身份搜索相关工具
+            Object.keys(identityConfig).forEach(function(idKey) {
+                if (idKey === identityId) return;
+                var features = identityConfig[idKey].features || [];
+                features.forEach(function(t) {
+                    if (seen[t.id]) return;
+                    var text = (t.title + ' ' + t.desc + ' ' + t.id).toLowerCase();
+                    var crossScore = 0;
+                    words.forEach(function(w) {
+                        if (text.indexOf(w) >= 0) crossScore += 1;
+                    });
+                    if (crossScore >= 2) { seen[t.id] = true; candidates.push(t); }
+                });
             });
 
-            // 简单关键词打分
+            // 关键词打分
             var scored = candidates.map(function(t) {
                 var text = (t.title + ' ' + t.desc + ' ' + t.id).toLowerCase();
                 var score = 0;
-                msg.split(/[\s,。?？!！,]/).forEach(function(w) {
-                    if (w.length >= 2 && text.indexOf(w) >= 0) score += 1;
+                if (t.title.toLowerCase().indexOf(msg) >= 0) score += 5;
+                words.forEach(function(w) {
+                    if (text.indexOf(w) >= 0) score += 1;
                 });
+                // 案例关联加分
+                if (caseRelated[t.id]) score += 3;
                 return { tool: t, score: score };
-            }).filter(function(x) { return x.score > 0; })
+            }).filter(function(x) { return x.score >= 1; })
               .sort(function(a, b) { return b.score - a.score; })
               .slice(0, topN);
 
