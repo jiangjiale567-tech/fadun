@@ -11,13 +11,13 @@
     <meta name="author" content="法盾团队">
     <meta name="robots" content="index,follow">
     <meta name="theme-color" content="#1a2744">
-    <meta name="format-detection" content="telephone=no">
+    <meta name="format-detectio, legalBasis: ['《诉讼费用交纳办法》第13条：案件受理费按照标的额按比例分段累计交纳——不超过1万元的每件50元；超过1万元至10万元的部分按2.5%交纳；超过10万元至20万元的部分按2%交纳；超过20万元至50万元的部分按1.5%交纳；超过50万元至100万元的部分按1%交纳。', '《诉讼费用交纳办法》第15条：以调解方式结案或者当事人申请撤诉的，减半交纳案件受理费。'] };n" content="telephone=no">
 
     <!-- Open Graph（微信/微博/QQ 分享卡片） -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="法盾 - 免费法律科普与自助评估平台">
     <meta property="og:description" content="加班费、租房押金、合同模板、离婚财产……8大场景常用法律工具，全部免费。">
-    <meta property="og:image" content="https://fadun.example.com/og-image.png">
+    <meta prope, legalBasis: ['《劳动合同法》第47条：经济补偿按劳动者在本单位工作的年限，每满一年支付一个月工资。六个月以上不满一年的，按一年计算；不满六个月的，向劳动者支付半个月工资的经济补偿。', '《劳动合同法》第87条：用人单位违反本法规定解除或者终止劳动合同的，应当依照本法第47条规定的经济补偿标准的二倍向劳动者支付赔偿金。'] };rty="og:image" content="https://fadun.example.com/og-image.png">
     <meta property="og:url" content="https://fadun.example.com/">
     <meta property="og:site_name" content="法盾">
     <meta property="og:locale" content="zh_CN">
@@ -331,7 +331,129 @@
         .form-input.invalid:focus, .form-select.invalid:focus { outline-color: #e74c3c; }
         .form-error { color: #e74c3c; font-size: 12px; margin-top: 4px; min-height: 0; }
         .form-hint { color: var(--text-secondary); font-size: 12px; margin-top: 4px; }
-    </style>
+    
+        /* ===== 首页重构：Hero标签、场景折叠、案例库 ===== */
+        .hero-tag {
+            display: inline-block; padding: 4px 12px; margin: 3px;
+            background: rgba(255,255,255,0.15); border-radius: 16px;
+            font-size: 14px; white-space: nowrap;
+        }
+        @media (max-width: 480px) {
+            .hero-tag { font-size: 12px; padding: 3px 10px; }
+        }
+        
+        /* 首次访问引导提示 */
+        .identity-guide {
+            text-align: center; font-size: 14px; color: var(--accent-color);
+            margin-bottom: 8px; padding: 8px 16px;
+            background: rgba(201,169,110,0.08); border-radius: 8px;
+            animation: guideFadeIn 0.6s ease-out;
+        }
+        .identity-guide.hidden { display: none; }
+        @keyframes guideFadeIn { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* 场景标签行 */
+        .scene-tags-section { margin-bottom: 20px; }
+        .scene-tags-label {
+            font-weight: 600; font-size: 15px; color: var(--primary-color);
+            margin-bottom: 8px;
+        }
+        .scene-tags {
+            display: flex; flex-wrap: wrap; gap: 8px;
+        }
+        .scene-tag {
+            padding: 8px 16px; border: 1px solid var(--accent-color);
+            border-radius: 20px; background: var(--bg-white); 
+            color: var(--primary-color); font-size: 14px; cursor: pointer;
+            transition: all 0.2s; font-family: inherit;
+        }
+        .scene-tag:hover { background: var(--accent-color); color: white; transform: translateY(-1px); }
+        
+        /* 场景网格折叠 */
+        /* 场景标签行 */
+        
+        /* ===== 典型案例轮播 ===== */
+        .case-carousel-section {
+            max-width: 1100px; margin: 60px auto; padding: 0 24px;
+        }
+        .case-carousel {
+            overflow: hidden;
+            -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 5%, #000 95%, transparent 100%);
+            mask-image: linear-gradient(to right, transparent 0%, #000 5%, #000 95%, transparent 100%);
+        }
+        .case-carousel-track {
+            display: flex; gap: 16px;
+            animation: caseScroll 50s linear infinite;
+            width: max-content;
+        }
+        .case-carousel:hover .case-carousel-track {
+            animation-play-state: paused;
+        }
+        @keyframes caseScroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .case-square {
+            width: 210px; height: 210px; flex-shrink: 0; cursor: pointer;
+            background: #fff; border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border: 1px solid #eee;
+            padding: 18px 16px;
+            display: flex; flex-direction: column;
+            transition: box-shadow 0.25s, border-color 0.25s, transform 0.25s;
+            gap: 0;
+        }
+        .case-square:hover {
+            box-shadow: 0 6px 24px rgba(0,0,0,0.1);
+            border-color: #d4af37;
+            transform: translateY(-3px);
+        }
+        .c-badge {
+            display: inline-block; font-size: 10px; font-weight: 600;
+            padding: 2px 8px; border-radius: 8px;
+            width: fit-content; margin-bottom: 8px; letter-spacing: 0.3px;
+        }
+        .c-badge.labor { background: #FFF0E0; color: #D35400; }
+        .c-badge.rent { background: #E8F4FD; color: #2980B9; }
+        .c-badge.family { background: #FCE4EC; color: #C2185B; }
+        .c-badge.traffic { background: #E8F5E9; color: #388E3C; }
+        .c-badge.consumer { background: #FFF8E1; color: #F57F17; }
+        .c-badge.debt { background: #F3E5F5; color: #7B1FA2; }
+        .c-emoji { font-size: 28px; margin-bottom: 6px; }
+        .c-title { font-size: 14px; font-weight: 600; color: var(--primary-color); line-height: 1.35; margin-bottom: 6px; }
+        .c-brief { font-size: 11px; color: #999; line-height: 1.4; }
+        /* 案例弹窗 */
+        .case-modal-content { max-width: 520px; max-height: 80vh; overflow-y: auto; padding: 28px 32px; }
+        .case-modal-close {
+            position: absolute; top: 12px; right: 12px;
+            width: 32px; height: 32px; border-radius: 50%;
+            border: none; background: #f5f5f5; font-size: 22px;
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+            color: #666; transition: background 0.2s;
+        }
+        .case-modal-close:hover { background: #e0e0e0; }
+        .case-detail-section { margin-bottom: 14px; }
+        .cdt {
+            display: inline-block; font-size: 11px; font-weight: 600;
+            padding: 2px 8px; border-radius: 4px;
+            background: #f0f4ff; color: #4a6fa5; margin-bottom: 4px;
+        }
+        .cdt.result { background: #FFF3E0; color: #E65100; }
+        .case-detail-section p { font-size: 14px; line-height: 1.7; color: #555; margin: 4px 0 0; }
+        .case-detail-lesson {
+            padding: 10px 12px; background: #FFFBE6;
+            border-left: 3px solid #d4af37; border-radius: 4px;
+            margin: 8px 0; font-size: 13px; color: #92400E; line-height: 1.6;
+        }
+        .case-detail-ref {
+            font-size: 12px; color: #888; margin-top: 4px;
+            padding-top: 6px; border-top: 1px solid #f0f0f0;
+        }
+        @media (max-width: 480px) {
+            .case-square { width: 160px; height: 160px; padding: 14px; }
+            .c-emoji { font-size: 22px; }
+            .c-title { font-size: 12px; }
+        }</style>
 </head>
 <body>
     <!-- 顶部导航栏 -->
@@ -361,13 +483,22 @@
     <main id="main" role="main">
     <div id="homePage">
         <section class="hero" aria-label="网站介绍">
-            <h1 class="hero-title">法盾 · 您的智能法律助手</h1>
-            <p class="hero-subtitle">专业、高效、触手可及的法律科普与自助评估平台</p>
-            <p style="font-size: 16px; opacity: 0.8; margin-top: 8px;"><span aria-hidden="true">👇</span> 下面选一个你遇到的问题</p>
+            <h1 class="hero-title">法盾 — 免费法律自助平台</h1>
+            <p class="hero-subtitle" style="font-size: 15px; letter-spacing: 0.5px; margin-bottom: 2px;">
+                <span class="hero-tag">📊 加班费计算</span>
+                <span class="hero-tag">🏠 租房押金</span>
+                <span class="hero-tag">⚖️ 劳动赔偿</span>
+                <span class="hero-tag">📝 合同模板</span>
+                <span class="hero-tag">🚗 交通事故</span>
+                <span class="hero-tag">💰 离婚财产</span>
+            </p>
         </section>
 
         <section class="identity-section" aria-label="身份入口">
-            <div class="identity-grid">
+            <div class="identity-heading">
+                <div class="identity-guide" id="firstVisitGuide">💡 先选你的身份，我帮你匹配对应的法律工具</div>
+                <h2 class="section-title" style="margin-bottom: 16px;">先选你的身份，找到适合你的法律工具</h2>
+            </div><div class="identity-grid">
                 <button class="identity-card" type="button" onclick="showIdentityPage('citizen')" aria-label="普通市民">
                     <h2 class="card-title">普通市民</h2>
                     <div class="card-tags"><span class="card-tag">婚姻家庭</span><span class="card-tag">劳动纠纷</span></div>
@@ -403,82 +534,18 @@
 
         <!-- 场景卡网格 -->
         <section class="scenes-section" id="scenes-grid" aria-label="场景工具">
-            <h2 class="scenes-section-title">遇到什么问题？选一个场景</h2>
-            <p class="scenes-section-desc">根据你的实际问题，快速找到对应工具</p>
-            <ul class="scenes-grid" role="list">
-                <li class="scene-card" role="listitem" tabindex="0" onkeydown="if(event.key==='Enter')this.querySelector('.scene-sub-link:not(.disabled)')?.click()">
-                    <div class="scene-card-emoji" aria-hidden="true">💍</div>
-                    <h3 class="scene-card-title">婚姻家庭</h3>
-                    <div class="scene-sub-links">
-                        <button type="button" class="scene-sub-link" onclick="showToolPage('citizen_divorce_calc')">离婚财产分割</button>
-                        <button type="button" class="scene-sub-link" onclick="showToolPage('citizen_child_custody')">抚养权判定</button>
-                        <button type="button" class="scene-sub-link" onclick="showToolPage('citizen_inheritance_calc')">遗产继承</button>
-                    </div>
-                </li>
-                <li class="scene-card" role="listitem" tabindex="0" onkeydown="if(event.key==='Enter')this.querySelector('.scene-sub-link:not(.disabled)')?.click()">
-                    <div class="scene-card-emoji" aria-hidden="true">👔</div>
-                    <h3 class="scene-card-title">劳动纠纷</h3>
-                    <div class="scene-sub-links">
-                        <button type="button" class="scene-sub-link" onclick="showToolPage('citizen_labor_compensation')">赔偿金计算</button>
-                        <button type="button" class="scene-sub-link" onclick="showToolPage('citizen_risk_check')">法律风险评估</button>
-                        <button type="button" class="scene-sub-link" onclick="showToolPage('citizen_legal_aid_test')">法律援助自测</button>
-                    </div>
-                </li>
-                <li class="scene-card" role="listitem" tabindex="0" onkeydown="if(event.key==='Enter')this.querySelector('.scene-sub-link:not(.disabled)')?.click()">
-                    <div class="scene-card-emoji" aria-hidden="true">🏠</div>
-                    <h3 class="scene-card-title">租房住房</h3>
-                    <div class="scene-sub-links">
-                        <button type="button" class="scene-sub-link" onclick="showToolPage('stu_rental_check')">租房合同检查</button>
-                        <button type="button" class="scene-sub-link" onclick="showToolPage('stu_deposit_refund')">押金退还纠纷</button>
-                        <button type="button" class="scene-sub-link" onclick="showToolPage('stu_landlord_breach')">房东违约</button>
-                    </div>
-                </li>
-                <li class="scene-card" role="listitem" tabindex="0" onkeydown="if(event.key==='Enter')this.querySelector('.scene-sub-link:not(.disabled)')?.click()">
-                    <div class="scene-card-emoji" aria-hidden="true">🛒</div>
-                    <h3 class="scene-card-title">消费维权</h3>
-                    <div class="scene-sub-links">
-                        <button type="button" class="scene-sub-link" onclick="showToolPage('citizen_consumer_rights')">消费者维权</button>
-                        <button type="button" class="scene-sub-link" onclick="showToolPage('citizen_7day_return')">七天无理由退货</button>
-                        <button type="button" class="scene-sub-link" onclick="showToolPage('citizen_fraud_claim')">欺诈赔偿</button>
-                    </div>
-                </li>
-                <li class="scene-card" role="listitem" tabindex="0" onkeydown="if(event.key==='Enter')this.querySelector('.scene-sub-link:not(.disabled)')?.click()">
-                    <div class="scene-card-emoji" aria-hidden="true">🚗</div>
-                    <h3 class="scene-card-title">交通事故</h3>
-                    <div class="scene-sub-links">
-                        <button type="button" class="scene-sub-link" onclick="showToolPage('citizen_traffic_calc')">交通事故赔偿</button>
-                        <button type="button" class="scene-sub-link" onclick="showToolPage('citizen_traffic_liability')">责任认定</button>
-                        <button type="button" class="scene-sub-link" onclick="showToolPage('citizen_insurance_claim')">保险理赔</button>
-                    </div>
-                </li>
-                <li class="scene-card" role="listitem" tabindex="0" onkeydown="if(event.key==='Enter')this.querySelector('.scene-sub-link:not(.disabled)')?.click()">
-                    <div class="scene-card-emoji" aria-hidden="true">🏢</div>
-                    <h3 class="scene-card-title">企业经营</h3>
-                    <div class="scene-sub-links">
-                        <button type="button" class="scene-sub-link" onclick="showToolPage('entre_contract_risk')">合同风险检查</button>
-                        <button type="button" class="scene-sub-link" onclick="showToolPage('entre_labor_check')">用工合规自查</button>
-                        <button type="button" class="scene-sub-link" onclick="showToolPage('entre_equity_sim')">股权分配模拟</button>
-                    </div>
-                </li>
-                <li class="scene-card" role="listitem" tabindex="0" onkeydown="if(event.key==='Enter')this.querySelector('.scene-sub-link:not(.disabled)')?.click()">
-                    <div class="scene-card-emoji" aria-hidden="true">💰</div>
-                    <h3 class="scene-card-title">债权债务</h3>
-                    <div class="scene-sub-links">
-                        <button type="button" class="scene-sub-link" onclick="showToolPage('law_limitation_check')">诉讼时效核查</button>
-                        <button type="button" class="scene-sub-link" onclick="showToolPage('law_loan_template')">借条规范</button>
-                        <button type="button" class="scene-sub-link" onclick="showToolPage('law_debt_collection')">欠钱不还</button>
-                    </div>
-                </li>
-                <li class="scene-card" role="listitem" tabindex="0" onkeydown="if(event.key==='Enter')this.querySelector('.scene-sub-link:not(.disabled)')?.click()">
-                    <div class="scene-card-emoji" aria-hidden="true">⚖️</div>
-                    <h3 class="scene-card-title">刑事案件</h3>
-                    <div class="scene-sub-links">
-                        <button type="button" class="scene-sub-link" onclick="showToolPage('sp_legal_aid_apply')">法律援助申请</button>
-                        <button type="button" class="scene-sub-link" onclick="showToolPage('sp_emergency_help')">紧急求助通道</button>
-                        <button type="button" class="scene-sub-link" onclick="showToolPage('sp_criminal_report')">刑事报案指引</button>
-                    </div>
-                </li>
-            </ul>
+            <div class="scene-tags-section">
+                <div class="scene-tags-label">常用工具：</div>
+                <div class="scene-tags">
+                    <button class="scene-tag" onclick="showIdentityPage('citizen')" data-scene="0">💍 婚姻家庭</button>
+                    <button class="scene-tag" onclick="showIdentityPage('citizen')" data-scene="1">⚖️ 劳动纠纷</button>
+                    <button class="scene-tag" onclick="showIdentityPage('stu')" data-scene="2">🏠 房屋租赁</button>
+                    <button class="scene-tag" onclick="showIdentityPage('citizen')" data-scene="3">🚗 交通事故</button>
+                    <button class="scene-tag" onclick="showIdentityPage('citizen')" data-scene="4">🛍️ 消费维权</button>
+                    <button class="scene-tag" onclick="showIdentityPage('entre')" data-scene="5">📝 合同纠纷</button>
+                </div>
+            </div>
+            
         </section>
 
         <!-- 搜索区 -->
@@ -529,9 +596,21 @@
     </div>
 
     <!-- 法律资讯占位 -->
-    <section class="news-section" id="news-section">
-        <p style="font-size: 18px; color: var(--text-secondary);"><span aria-hidden="true">📰</span> 法律资讯模块开发中，敬请期待</p>
-    </section>
+    <section class="case-carousel-section" id="caseCarouselSection">
+            <h2 class="section-title" style="margin-bottom: 20px; text-align: center;">典型案例</h2>
+            <p style="text-align: center; font-size: 13px; color: #999; margin-bottom: 20px;">点击卡片查看案情、结果与启示</p>
+            <div class="case-carousel" id="caseCarousel">
+                <div class="case-carousel-track" id="caseCarouselTrack"><div class="case-square" onclick="openCaseModal(0)" data-index="0"><span class="c-badge labor">劳动纠纷</span><div class="c-emoji">💰</div><div class="c-title">公司拖欠工资，员工追回全部欠薪</div><div class="c-brief">公司连续3个月未发工资，员工收集证据申请劳动仲裁</div></div><div class="case-square" onclick="openCaseModal(1)" data-index="1"><span class="c-badge rent">房屋租赁</span><div class="c-emoji">🏠</div><div class="c-title">房东无理克扣押金，租客成功索回</div><div class="c-brief">房东以墙面污渍为由扣全部押金，租客起诉后胜诉</div></div><div class="case-square" onclick="openCaseModal(2)" data-index="2"><span class="c-badge family">婚姻家庭</span><div class="c-emoji">💔</div><div class="c-title">一方出轨致离婚，无过错方获多分财产</div><div class="c-brief">丈夫出轨与他人同居，法院判财产按60%/40%分割</div></div><div class="case-square" onclick="openCaseModal(3)" data-index="3"><span class="c-badge traffic">交通事故</span><div class="c-emoji">🚗</div><div class="c-title">交通事故对方全责，伤者获赔27万</div><div class="c-brief">伤者骨折住院45天，法院支持十余项赔偿共计27万元</div></div><div class="case-square" onclick="openCaseModal(4)" data-index="4"><span class="c-badge consumer">消费维权</span><div class="c-emoji">📱</div><div class="c-title">网购翻新机冒充全新，退一赔三</div><div class="c-brief">商家欺诈卖翻新机，法院判退还货款+三倍赔偿</div></div><div class="case-square" onclick="openCaseModal(5)" data-index="5"><span class="c-badge debt">债权债务</span><div class="c-emoji">📄</div><div class="c-title">借条不规范，15万借款险些追不回</div><div class="c-brief">微信转账未写借条，法院凭聊天记录认定借贷关系</div></div><div class="case-square" onclick="openCaseModal(0)" data-index="0"><span class="c-badge labor">劳动纠纷</span><div class="c-emoji">💰</div><div class="c-title">公司拖欠工资，员工追回全部欠薪</div><div class="c-brief">公司连续3个月未发工资，员工收集证据申请劳动仲裁</div></div><div class="case-square" onclick="openCaseModal(1)" data-index="1"><span class="c-badge rent">房屋租赁</span><div class="c-emoji">🏠</div><div class="c-title">房东无理克扣押金，租客成功索回</div><div class="c-brief">房东以墙面污渍为由扣全部押金，租客起诉后胜诉</div></div><div class="case-square" onclick="openCaseModal(2)" data-index="2"><span class="c-badge family">婚姻家庭</span><div class="c-emoji">💔</div><div class="c-title">一方出轨致离婚，无过错方获多分财产</div><div class="c-brief">丈夫出轨与他人同居，法院判财产按60%/40%分割</div></div><div class="case-square" onclick="openCaseModal(3)" data-index="3"><span class="c-badge traffic">交通事故</span><div class="c-emoji">🚗</div><div class="c-title">交通事故对方全责，伤者获赔27万</div><div class="c-brief">伤者骨折住院45天，法院支持十余项赔偿共计27万元</div></div><div class="case-square" onclick="openCaseModal(4)" data-index="4"><span class="c-badge consumer">消费维权</span><div class="c-emoji">📱</div><div class="c-title">网购翻新机冒充全新，退一赔三</div><div class="c-brief">商家欺诈卖翻新机，法院判退还货款+三倍赔偿</div></div><div class="case-square" onclick="openCaseModal(5)" data-index="5"><span class="c-badge debt">债权债务</span><div class="c-emoji">📄</div><div class="c-title">借条不规范，15万借款险些追不回</div><div class="c-brief">微信转账未写借条，法院凭聊天记录认定借贷关系</div></div></div>
+            </div>
+        </section>
+
+        <!-- 案例详情弹窗 -->
+        <div id="caseModal" class="modal-overlay" style="display:none;" onclick="if(event.target===this)closeCaseModal()">
+            <div class="modal-content case-modal-content">
+                <button class="case-modal-close" onclick="closeCaseModal()">×</button>
+                <div id="caseModalBody"></div>
+            </div>
+        </div>
 
     <!-- 页脚 -->
     <footer class="footer">
@@ -687,7 +766,7 @@
 
         // ============================================
         // 身份和功能配置（包含可交互工具）
-        // ============================================
+        // ===========================================
         const identityConfig = {
             citizen: {
                 title: '普通市民',
@@ -1278,7 +1357,7 @@
                                     legalBasis: [
                                         '<strong>📖 法律依据：</strong>',
                                         '《民法典》第233条：物权受到侵害的，权利人可以通过和解、调解、仲裁、诉讼等途径解决。',
-                                        '《民事诉讼法》第93条：人民法院审理民事案件，根据当事人自愿的原则，在事实清楚的基础上，分清是非，进行调解。',
+                                        '《民事诉讼法》第66条（2023修正版，原第93条）：人民法院审理民事案件，根据当事人自愿的原则，在事实清楚的基础上，分清是非，进行调解。',
                                         '《仲裁法》第4条：当事人采用仲裁方式解决纠纷，应当双方自愿，达成仲裁协议。没有仲裁协议，一方申请仲裁的，仲裁委员会不予受理。'
                                     ]
                                 };
@@ -1444,7 +1523,7 @@
                                 if (data.reason === '违法解除') { comp = y * s * 2; desc = '赔偿金（2N）'; }
                                 else if (data.reason === '公司提出协商解除' || data.reason === '合同到期不续签') { comp = y * s; desc = '经济补偿金（N）'; }
                                 else { comp = 0; desc = '无补偿'; }
-                                return { title: '补偿计算', items: [`年限：${y}年`, `月均工资：¥${s.toLocaleString()}`, `<span class="highlight-number">¥${comp.toLocaleString()}</span>`, desc] };
+                                return { title: '补偿计算', items: [`年限：${y}年`, `月均工资：¥${s.toLocaleString()}`, `<span class="highlight-number">¥${comp.toLocaleString()}</span>`, desc] , legalBasis: ['《劳动合同法》第47条：经济补偿按劳动者在本单位工作的年限，每满一年支付一个月工资。六个月以上不满一年的，按一年计算；不满六个月的，向劳动者支付半个月工资的经济补偿。', '《劳动合同法》第87条：用人单位违反本法规定解除或者终止劳动合同的，应当依照本法第47条规定的经济补偿标准的二倍向劳动者支付赔偿金。'] };
                             }
                         }
                     }
@@ -1454,8 +1533,8 @@
                 title: '法律从业者',
                 tags: ['法规检索', '案例检索', '文书模板', '专业计算工具'],
                 features: [
-                    { id: 'law_fee_calc', icon: '🧮', title: '诉讼费计算器', desc: '计算案件受理费', type: 'calculator', toolConfig: { fields: [{ name: '标的额', key: 'amount', type: 'number', placeholder: '诉讼标的（元）' }], calculate: (data) => { const a = parseFloat(data.amount||0); let fee = 0; if (a <= 10000) fee = 50; else if (a <= 100000) fee = a * 0.025 - 200; else if (a <= 200000) fee = a * 0.02 + 300; else if (a <= 500000) fee = a * 0.015 + 1300; else if (a <= 1000000) fee = a * 0.01 + 3800; else fee = a * 0.005 + 8800; return { title: '诉讼费估算', items: [`标的额：¥${a.toLocaleString()}`, `<span class="highlight-number">受理费：约¥${fee.toFixed(0).toLocaleString()}</span>`, '💡 减半收取情形：简易程序、调解结案、撤诉'] }; } } },
-                    { id: 'law_interest_calc', icon: '📊', title: '迟延履行利息计算器', desc: '计算加倍部分债务利息', type: 'calculator', toolConfig: { fields: [{ name: '债务本金', key: 'principal', type: 'number', placeholder: '元' }, { name: '迟延天数', key: 'days', type: 'number', placeholder: '天' }], calculate: (data) => { const p = parseFloat(data.principal||0), d = parseFloat(data.days||0); const interest = p * 0.000175 * d; return { title: '迟延利息', items: [`本金：¥${p.toLocaleString()}`, `天数：${d}天`, `<span class="highlight-number">利息：¥${interest.toFixed(2).toLocaleString()}</span>`, '💡 日利率万分之一点七五'] }; } } },
+                    { id: 'law_fee_calc', icon: '🧮', title: '诉讼费计算器', desc: '计算案件受理费', type: 'calculator', toolConfig: { fields: [{ name: '标的额', key: 'amount', type: 'number', placeholder: '诉讼标的（元）' }], calculate: (data) => { const a = parseFloat(data.amount||0); let fee = 0; if (a <= 10000) fee = 50; else if (a <= 100000) fee = a * 0.025 - 200; else if (a <= 200000) fee = a * 0.02 + 300; else if (a <= 500000) fee = a * 0.015 + 1300; else if (a <= 1000000) fee = a * 0.01 + 3800; else fee = a * 0.005 + 8800; return { title: '诉讼费估算', items: [`标的额：¥${a.toLocaleString()}`, `<span class="highlight-number">受理费：约¥${fee.toFixed(0).toLocaleString()}</span>`, '💡 减半收取情形：简易程序、调解结案、撤诉'] , legalBasis: ['《诉讼费用交纳办法》第13条：案件受理费按照标的额比例分段累计交纳。', '《诉讼费用交纳办法》第15条：以调解方式结案或者当事人申请撤诉的，减半交纳案件受理费。'] }; } } },
+                    { id: 'law_interest_calc', icon: '📊', title: '迟延履行利息计算器', desc: '计算加倍部分债务利息', type: 'calculator', toolConfig: { fields: [{ name: '债务本金', key: 'principal', type: 'number', placeholder: '元' }, { name: '迟延天数', key: 'days', type: 'number', placeholder: '天' }], calculate: (data) => { const p = parseFloat(data.principal||0), d = parseFloat(data.days||0); const interest = p * 0.000175 * d; return { title: '迟延利息', items: [`本金：¥${p.toLocaleString()}`, `天数：${d}天`, `<span class="highlight-number">利息：¥${interest.toFixed(2).toLocaleString()}</span>`, '💡 日利率万分之一点七五'] , legalBasis: ['《民事诉讼法》第264条：被执行人未按判决、裁定和其他法律文书指定的期间履行给付金钱义务的，应当加倍支付迟延履行期间的债务利息。', '《最高人民法院关于执行程序中计算迟延履行期间的债务利息适用法律若干问题的解释》第1条：迟延履行期间的债务利息，按日万分之一点七五计算。'] }; } } },
                     { id: 'law_doc_template', icon: '📝', title: '文书模板库', desc: '常用法律文书模板', type: 'checklist', toolConfig: { fields: [{ name: '文书类型', key: 'docType', type: 'select', options: ['民事起诉状', '答辩状', '上诉状', '代理词'] }], generate: (data) => { const templates = {'民事起诉状':'民 事 起 诉 状\n\n原告：__________，性别__，民族__，____年__月__日生\n被告：__________，性别__，民族__，____年__月__日生\n\n诉讼请求：\n1. ________________\n2. ________________\n\n事实与理由：\n________________\n\n此致\n__________人民法院\n\n具状人：__________\n____年__月__日','答辩状':'民 事 答 辩 状\n\n答辩人：__________\n\n针对原告__________诉__________一案，提出答辩如下：\n\n一、_______________\n二、_______________\n\n此致\n__________人民法院\n\n答辩人：__________\n____年__月__日'}; return { title: data.docType, content: templates[data.docType] || '请选择类型', note: '请根据具体案情修改完善。' }; } } },
                     { id: 'law_case_search_guide', icon: '🔎', title: '类案检索指南', desc: '高效检索相似案例', type: 'checklist', toolConfig: { fields: [], generate: () => ({ title: '类案检索步骤', items: ['1. 确定检索关键词（案由+争议焦点）', '2. 选择数据库（裁判文书网/Alpha/威科先行）', '3. 设定筛选条件（法院层级、年份、裁判结果）', '4. 阅读裁判要旨，提取观点', '5. 整理成类案检索报告'], note: '建议检索10-20个相似案例，重点关注最高院和指导性案例。' }) } },
                     { id: 'law_limitation_check', icon: '📅', title: '诉讼时效核查', desc: '检查是否超过时效', type: 'assessment', toolConfig: { questions: [{ question: '知道权利被侵害的时间', options: ['1年内', '1-2年', '2-3年', '超过3年'] }, { question: '是否有中断事由', options: ['有（起诉/催告/承认）', '无'] }], evaluate: (answers) => { const expired = answers[0] === '超过3年' && answers[1] === '无'; return { title: '时效核查', result: expired ? '✗ 可能已超过' : '✓ 时效内', color: expired ? 'var(--error-color)' : 'var(--success-color)', reasons: expired ? ['普通诉讼时效3年', '无中断事由'] : ['时效未届满'], suggestion: expired ? '尝试寻找中断证据或对方自愿履行。' : '尽快采取行动，避免时效届满。' }; } } },
@@ -1904,40 +1983,75 @@
         };
 
         const legalKnowledgeBase = [
-            { keywords: ['借钱', '欠款', '借条'], category: '债权债务', title: '民间借贷纠纷处理', content: '借钱应出具借条，写明借款人、金额、利率、还款时间。诉讼时效为3年。年利率超过LPR四倍的部分不受法律保护。', tags: ['普通市民'] },
-            { keywords: ['工伤', '受伤', '职业病'], category: '劳动工伤', title: '工伤认定与赔偿', content: '单位应在30日内申请工伤认定。赔偿包括医疗费、停工留薪期工资、伤残补助金等。未缴社保的由单位承担全部赔偿责任。', tags: ['普通市民', '企业法务/HR'] },
-            { keywords: ['社保', '公积金', '五险一金'], category: '劳动社保', title: '社保缴纳义务', content: '用人单位必须为员工缴纳社保，这是法定义务。员工可以要求补缴，也可以以此为由解除合同并要求经济补偿。', tags: ['普通市民', '企业法务/HR'] },
-            { keywords: ['退货', '消费者', '七天无理由'], category: '消费维权', title: '消费者权益保护', content: '网购商品享有七天无理由退货权（定制、鲜活易腐等除外）。遇到欺诈可要求退一赔三（最低500元）。', tags: ['普通市民'] },
-            { keywords: ['交通事故', '责任认定', '交警'], category: '交通事故', title: '交通事故责任认定', content: '发生事故后立即报警并保护现场。责任认定书是索赔的关键证据。对认定不服可在3日内申请复核。', tags: ['普通市民'] },
-            { keywords: ['租房押金', '房东不退'], category: '房屋租赁', title: '租房押金退还纠纷', content: '租期届满且无违约，房东应全额退还押金。若房东无故克扣，可向居委会调解或向法院起诉。', tags: ['学生/求职者', '普通市民'] },
-            { keywords: ['房东违约', '提前收房'], category: '房屋租赁', title: '房东违约责任', content: '租期内房东不得随意涨租或收房。若违约，应支付违约金并赔偿搬家费等实际损失。', tags: ['学生/求职者'] },
-            { keywords: ['加班费', '996', '调休'], category: '劳动争议', title: '加班费计算标准', content: '工作日加班1.5倍，周末2倍，法定节假日3倍。单位安排调休不能抵消法定节假日加班费。', tags: ['普通市民', '企业法务/HR'] },
-            { keywords: ['试用期', '辞退', '转正'], category: '劳动争议', title: '试用期权益保护', content: '试用期包含在劳动合同期限内。试用期工资不得低于转正后的80%。单位在试用期辞退需证明不符合录用条件。', tags: ['学生/求职者', '普通市民'] },
-            { keywords: ['竞业限制', '跳槽', '补偿金'], category: '劳动争议', title: '竞业限制协议效力', content: '竞业限制期限不得超过2年。单位必须按月支付经济补偿，否则协议可能失效。', tags: ['企业主/创业者', '企业法务/HR'] },
-            { keywords: ['股权转让', '股东变更'], category: '公司治理', title: '股权转让流程', content: '有限责任公司股东对外转让股权，其他股东有优先购买权。转让需修改公司章程并办理工商变更登记。', tags: ['企业主/创业者'] },
-            { keywords: ['商标注册', 'logo', '品牌'], category: '知识产权', title: '商标注册指南', content: '商标申请周期约9-12个月。建议先进行近似查询。注册成功后有效期10年，可无限续展。', tags: ['企业主/创业者'] },
-            { keywords: ['劳动仲裁', '流程', '申请书'], category: '劳动争议', title: '劳动仲裁申请流程', content: '携带身份证、劳动合同、证据材料到单位所在地仲裁委申请。时效为1年。仲裁不收费。', tags: ['普通市民'] },
-            { keywords: ['离婚冷静期', '30天'], category: '婚姻家庭', title: '离婚冷静期规定', content: '协议离婚需经过30天冷静期。冷静期内任何一方可撤回申请。期满后30天内需双方亲自到场领证。', tags: ['普通市民'] },
-            { keywords: ['子女抚养权', '抚养费'], category: '婚姻家庭', title: '子女抚养权判定', content: '2周岁以下原则上随母方。8周岁以上尊重孩子真实意愿。抚养费通常为月收入的20%-30%。', tags: ['普通市民'] },
-            { keywords: ['遗产继承', '遗嘱', '法定继承'], category: '婚姻家庭', title: '遗产继承顺序', content: '第一顺序：配偶、子女、父母。有遗嘱的按遗嘱执行。公证遗嘱效力最高。', tags: ['普通市民'] },
-            { keywords: ['遛狗伤人', '宠物', '侵权责任'], category: '侵权责任', title: '饲养动物损害责任', content: '饲养的动物造成他人损害的，动物饲养人应承担侵权责任。违反管理规定未戴牵引绳的，责任更重。', tags: ['普通市民'] },
-            { keywords: ['噪音扰民', '邻居', '投诉'], category: '邻里纠纷', title: '噪音扰民处理', content: '夜间（22:00-6:00）噪音超标可拨打12345或110投诉。长期扰民可提起相邻权诉讼。', tags: ['普通市民'] },
-            { keywords: ['网络诽谤', '造谣', '名誉权'], category: '侵权责任', title: '网络诽谤维权', content: '保存截图和链接证据。情节严重可构成诽谤罪（刑事）。一般情况可提起民事诉讼要求删帖、道歉、赔偿。', tags: ['普通市民'] },
-            { keywords: ['合同解除', '违约', '终止'], category: '合同纠纷', title: '合同法定解除权', content: '一方迟延履行主要债务经催告后仍未履行，或致使合同目的无法实现的，另一方可以解除合同。', tags: ['企业主/创业者', '普通市民'] },
-            { keywords: ['离婚', '财产', '出轨', '婚姻'], category: '婚姻家庭', title: '离婚财产分割与过错', content: '根据《民法典》第1087条，离婚时夫妻共同财产由双方协议处理；协议不成的，由人民法院根据财产的具体情况，按照照顾子女、女方和无过错方权益的原则判决。如一方有重大过错（如出轨、家暴），无过错方有权请求损害赔偿（第1091条）。', tags: ['普通市民'] },
-            { keywords: ['杀人', '故意杀人', '刑事', '犯罪'], category: '刑法', title: '故意杀人罪法律规定', content: '《刑法》第232条：故意杀人的，处死刑、无期徒刑或者十年以上有期徒刑；情节较轻的，处三年以上十年以下有期徒刑。未遂犯可以比照既遂犯从轻或者减轻处罚。受害人可在刑事诉讼中提起附带民事诉讼，要求赔偿医疗费、丧葬费等损失。', tags: ['普通市民'] },
-            { keywords: ['收益', '赔偿', '最大化', '权益'], category: '诉讼策略', title: '民事赔偿最大化策略', content: '要最大化合法权益：1.全面收集证据（医疗记录、费用票据、收入证明等）；2.准确计算各项损失（医疗费、误工费、护理费、残疾赔偿金、精神损害抚慰金等）；3.选择合适的诉讼时机和管辖法院；4.必要时申请财产保全；5.考虑刑事附带民事诉讼或单独提起民事诉讼。', tags: ['普通市民'] },
-            { keywords: ['劳动', '工资', '加班', '解除'], category: '劳动争议', title: '劳动者权益保护', content: '用人单位应按时足额支付劳动报酬。拖欠工资可向劳动监察投诉或申请仲裁。违法解除劳动合同应支付赔偿金（2N）。加班费：工作日1.5倍，休息日2倍，法定节假日3倍。', tags: ['普通市民', '企业法务/HR'] },
-            { keywords: ['租房', '押金', '房东', '合同'], category: '房屋租赁', title: '租房纠纷处理', content: '租房应签书面合同。押金应在租期届满且无违约时全额退还。提前退租需按约承担违约责任。房屋非承租人原因损坏由房东维修。', tags: ['学生/求职者'] },
-            { keywords: ['合同', '违约', '审查'], category: '合同纠纷', title: '合同审查要点', content: '审查重点：当事人资格、标的物描述、价款支付、违约责任、争议解决方式、生效条件、是否存在霸王条款。重大合同建议律师审查。', tags: ['企业主/创业者', '企业法务/HR'] },
-            { keywords: ['校园霸凌', '校园欺凌', '学校', '欺负', '同学', '暴力', '被打', '霸凌'], category: '校园权益', title: '校园霸凌维权指南', content: '遭遇校园霸凌的应对步骤：1.立即向班主任、辅导员或学校德育处报告，学校有法定制止义务；2.保留证据（伤痕照片、聊天记录、录音录像、证人联系方式）；3.伤情严重可拨打110报警（故意伤害罪）；4.向教育局举报学校不作为；5.未成年人保护法第39条要求学校建立防欺凌制度。可同时拨打12355青少年服务热线求助。', tags: ['学生/求职者', '普通市民'] },
-            { keywords: ['拖欠工资', '欠薪', '老板', '没发工资', '不发工资', '工资', '拖欠'], category: '劳动争议', title: '拖欠工资维权指南', content: '老板拖欠工资的维权步骤：1.收集证据（工资条、银行流水、微信转账记录、考勤记录、工牌）；2.向劳动监察大队投诉（电话12333）；3.申请劳动仲裁（免费，1年内有效）；4.向法院起诉。用人单位拖欠劳动报酬，劳动者可要求加付赔偿金（应付金额的50%-100%）。如没签劳动合同，入职满1个月后可主张双倍工资。', tags: ['普通市民', '学生/求职者'] },
-            { keywords: ['没签合同', '未签合同', '劳动合同', '双倍工资', '不签合同', '没合同'], category: '劳动争议', title: '未签劳动合同的权益', content: '用人单位自用工之日起超过1个月未签书面劳动合同的，应当向劳动者每月支付双倍工资（最长11个月）。入职应要求签合同，不签则保留工牌、工资记录、工作邮件等作为劳动关系证据。维权途径：向劳动监察投诉或申请劳动仲裁。', tags: ['普通市民', '学生/求职者'] },
-            { keywords: ['辞退', '被辞', '开除', '裁员', '解除', '炒鱿鱼', '赔偿金'], category: '劳动争议', title: '被辞退的赔偿标准', content: '合法裁员/协商解除：N（工作年限×月工资）+ 1个月代通知金。违法解除（无故辞退）：2N赔偿。月工资按离职前12个月平均工资计算，上限为当地社平工资3倍。三期女职工（孕期、产期、哺乳期）不得被解除。建议立即申请劳动仲裁（免费，时效1年）。', tags: ['普通市民', '企业法务/HR'] },
-            { keywords: ['被骗', '诈骗', '上当', '骗钱', '网络诈骗', '电信诈骗'], category: '刑事案件', title: '遭遇诈骗如何处理', content: '发现被骗后的紧急步骤：1.立即拨打110报警或前往派出所报案；2.保存所有证据（转账记录、聊天截图、对方账号信息、通话录音）；3.联系银行申请冻结对方账户；4.拨打96110反诈专线；5.在"国家反诈中心"App上举报。金额超3000元可立刑事案件。报案后如警方不立案，可向检察院申请立案监督。', tags: ['普通市民', '学生/求职者'] },
-            { keywords: ['股权', '股东', '公司'], category: '公司治理', title: '股权架构设计', content: '初创公司应避免平均分配，创始人保持相对控股（>50%）或绝对控股（>67%）。设置股权成熟机制（vesting），通常4年成熟期。预留期权池（10-20%）。', tags: ['企业主/创业者'] },
-            { keywords: ['知识产权', '商标', '专利'], category: '知识产权', title: 'IP保护策略', content: '商标注册先查询，提交后约9-12个月下证。发明专利审查2-3年。著作权自创作完成即产生，但建议登记。商业秘密应采取保密措施。', tags: ['企业主/创业者'] }
-        ];
+    { keywords: ["加班费","加班","加班工资","加班费计算","加班怎么算","996"], relatedTools: ["citizen_labor_compensation","entre_labor_check"], relatedLaws: ["《劳动法》第44条","《劳动合同法》第31条"], followUp: ["公司不付加班费怎么办？","加班费仲裁时效多久？","调休能代替加班费吗？"], category: "劳动争议", title: "加班费计算与维权", tags: ["普通市民","企业法务/HR"],
+      content: "根据《劳动法》第44条，加班费标准：工作日延长工时支付150%工资；休息日（周末）安排工作又不能补休的支付200%；法定节假日安排工作支付300%。注意：调休不能抵消法定节假日的加班费。如公司拖欠加班费，可申请劳动仲裁。" },
+    { keywords: ["拖欠工资","欠薪","老板不给钱","不发工资","工资拖欠"], relatedTools: ["citizen_labor_compensation","citizen_risk_check"], relatedLaws: ["《劳动合同法》第85条"], followUp: ["拖欠工资多久可以仲裁？","没有劳动合同怎么证明工资？","欠薪找哪个部门投诉？"], category: "劳动争议", title: "拖欠工资维权指南", tags: ["普通市民","学生/求职者"],
+      content: "老板拖欠工资的维权步骤：1.收集证据（工资条、银行流水、微信转账记录、考勤记录、工牌）；2.向劳动监察大队投诉（电话12333）；3.申请劳动仲裁（免费，1年内有效）；4.向法院起诉。根据《劳动合同法》第85条，用人单位拖欠劳动报酬，劳动者可要求加付赔偿金（应付金额的50%-100%）。如没签劳动合同，入职满1个月后可主张双倍工资。" },
+    { keywords: ["辞退","被辞退","开除","裁员","违法解除","解除劳动合同","赔偿金","N+1"], relatedTools: ["citizen_labor_compensation","hr_severance_calc"], relatedLaws: ["《劳动合同法》第47条","第87条"], followUp: ["什么情况算违法解除？","试用期被辞退有赔偿吗？","公司裁员赔偿标准是什么？"], category: "劳动争议", title: "被辞退的赔偿标准", tags: ["普通市民","企业法务/HR"],
+      content: "合法裁员/协商解除：N（工作年限×月工资）+ 1个月代通知金。违法解除（无故辞退）：2N赔偿（《劳动合同法》第87条）。月工资按离职前12个月平均工资计算，上限为当地社平工资3倍。三期女职工（孕期、产期、哺乳期）不得被解除。建议立即申请劳动仲裁（免费，时效1年）。" },
+    { keywords: ["没签合同","未签合同","不签劳动合同","双倍工资","未签劳动合同"], relatedTools: ["citizen_risk_check","hr_contract_tmpl"], relatedLaws: ["《劳动合同法》第10条","第82条"], followUp: ["没签合同怎么证明劳动关系？","双倍工资最多拿多久？","公司不签合同怎么办？"], category: "劳动争议", title: "未签劳动合同的权益", tags: ["普通市民","学生/求职者"],
+      content: "用人单位自用工之日起超过1个月未签书面劳动合同的，应当向劳动者每月支付双倍工资（最长11个月）（《劳动合同法》第82条）。入职应要求签合同，不签则保留工牌、工资记录、工作邮件等作为劳动关系证据。维权途径：向劳动监察投诉或申请劳动仲裁。" },
+    { keywords: ["试用期","试用期辞退","转正","试用期工资"], relatedTools: ["stu_offer_review","citizen_risk_check"], relatedLaws: ["《劳动合同法》第19条","第20条","第21条"], followUp: ["试用期最长多久？","试用期被辞退有补偿吗？","试用期工资怎么算？"], category: "劳动争议", title: "试用期权益保护", tags: ["学生/求职者","普通市民"],
+      content: "试用期包含在劳动合同期限内。合同期限3年以上，试用期不超过6个月；1-3年不超过2个月；3个月-1年不超过1个月。试用期工资不得低于转正后的80%。单位在试用期辞退需证明不符合录用条件（《劳动合同法》第21条）。" },
+    { keywords: ["竞业限制","竞业","跳槽","竞业补偿"], relatedTools: ["entre_labor_check","entre_contract_risk"], relatedLaws: ["《劳动合同法》第23条","第24条"], followUp: ["竞业限制最长多久？","公司不给补偿竞业协议有效吗？","违反竞业限制的后果？"], category: "劳动争议", title: "竞业限制协议效力", tags: ["企业主/创业者","企业法务/HR"],
+      content: "竞业限制期限不得超过2年。单位必须按月支付经济补偿（通常不低于原工资的30%），否则协议可能失效。竞业限制仅适用于高级管理人员、高级技术人员和其他负有保密义务的人员，普通员工通常不受限制。" },
+    { keywords: ["劳动仲裁","仲裁流程","申请劳动仲裁","仲裁申请书"], relatedTools: ["citizen_labor_compensation","citizen_risk_check","law_doc_template"], relatedLaws: ["《劳动争议调解仲裁法》第27条"], followUp: ["劳动仲裁需要多久？","仲裁结果不满意怎么办？","劳动仲裁收费吗？"], category: "劳动争议", title: "劳动仲裁申请流程", tags: ["普通市民"],
+      content: "携带身份证、劳动合同、证据材料到单位所在地劳动仲裁委申请。仲裁时效为1年（从知道权利被侵害之日起）。仲裁全程免费。对仲裁结果不服的，可在收到裁决书15日内向法院起诉。劳动争议必须先经过仲裁才能起诉。" },
+    { keywords: ["经济补偿金","赔偿金","离职补偿","N","2N"], relatedTools: ["citizen_labor_compensation","hr_severance_calc"], relatedLaws: ["《劳动合同法》第47条","第87条"], followUp: ["工作年限怎么算？","月工资包括绩效和奖金吗？","协商离职有补偿吗？"], category: "劳动争议", title: "经济补偿金计算标准", tags: ["普通市民","企业法务/HR"],
+      content: "经济补偿金N的计算：每满1年支付1个月工资；6个月以上不满1年的按1年算；不满6个月的支付半个月。月工资为离职前12个月平均工资。违法解除的赔偿金为2N。月工资高于当地社平工资3倍的，按3倍计算且年限不超过12年。" },
+    { keywords: ["租房","押金","房东不退押金","押金纠纷","租房合同"], relatedTools: ["stu_rental_check","stu_deposit_refund"], relatedLaws: ["《民法典》第708-728条"], followUp: ["押金一般退多少？","提前退租押金能退吗？","房东不退押金找谁？"], category: "房屋租赁", title: "租房押金退还指南", tags: ["学生/求职者","普通市民"],
+      content: "租期届满且无违约（如房屋损坏、欠租），房东应全额退还押金。若房东无故克扣押金，可采取以下步骤：1.先协商并保留沟通记录；2.向居委会或街道办申请调解；3.向法院起诉（小额诉讼程序）。建议签约时在合同里明确押金退还条件和时间。" },
+    { keywords: ["房东违约","房东提前收房","房东涨租"], relatedTools: ["stu_landlord_breach","stu_rental_check"], relatedLaws: ["《民法典》第711-714条"], followUp: ["房东卖房租客怎么办？","房东涨租合法吗？","房东违约怎么赔偿？"], category: "房屋租赁", title: "房东违约责任", tags: ["学生/求职者"],
+      content: "租期内房东不得随意涨租或收房。若房东违约（如提前收房、涨租），应：1.按合同约定支付违约金；2.赔偿搬家费等实际损失；3.买卖不破租赁——房东卖房不影响租赁合同效力。" },
+    { keywords: ["租房合同","租房纠纷","合租","转租"], relatedTools: ["stu_rental_check","citizen_contract_gen"], relatedLaws: ["《民法典》第708-728条"], followUp: ["转租需要房东同意吗？","合租室友违约怎么办？","租房合同最长签多久？"], category: "房屋租赁", title: "租房合同基础知识", tags: ["学生/求职者"],
+      content: "租房应签书面合同。重点查看：押金退还条件、维修责任归属、提前退租条款、房屋现状确认。租房合同最长20年。转租需经房东同意，否则房东可解除合同。房屋非承租人原因损坏由房东负责维修。" },
+    { keywords: ["离婚","离婚财产","出轨","离婚冷静期","离婚怎么离"], relatedTools: ["citizen_divorce_calc","citizen_child_custody","law_doc_template"], relatedLaws: ["《民法典》第1076-1091条"], followUp: ["出轨会影响财产分割吗？","离婚冷静期多久？","诉讼离婚需要什么条件？"], category: "婚姻家庭", title: "离婚法律指南", tags: ["普通市民"],
+      content: "离婚分为协议离婚和诉讼离婚。协议离婚需双方自愿并签订离婚协议，经过30天冷静期后领取离婚证。诉讼离婚适用于一方不同意或有争议的情形。根据《民法典》第1087条，离婚时共同财产由双方协议处理，协议不成的由法院按照照顾子女、女方和无过错方权益的原则判决。一方有出轨、家暴等重大过错的，无过错方有权请求损害赔偿（第1091条）。" },
+    { keywords: ["子女抚养权","抚养费","孩子跟谁","探视权"], relatedTools: ["citizen_child_custody"], relatedLaws: ["《民法典》第1084条","第1085条"], followUp: ["抚养费多少合适？","对方不给抚养费怎么办？","可以变更抚养权吗？"], category: "婚姻家庭", title: "子女抚养权判定", tags: ["普通市民"],
+      content: "2周岁以下原则上随母方。8周岁以上尊重孩子真实意愿。抚养费通常为月收入的20%-30%（一个孩子20%，两个孩子不超过50%）。不直接抚养的一方有探视权。离婚后可以协议或诉讼变更抚养权。" },
+    { keywords: ["遗产继承","遗嘱","法定继承","继承顺序","遗产怎么分"], relatedTools: ["citizen_inheritance_calc"], relatedLaws: ["《民法典》第1127-1143条"], followUp: ["继承遗产要交税吗？","遗嘱怎么写才有效？","没有遗嘱遗产怎么分？"], category: "婚姻家庭", title: "遗产继承顺序", tags: ["普通市民"],
+      content: "法定继承第一顺序：配偶、子女、父母。第二顺序：兄弟姐妹、祖父母、外祖父母。有遗嘱的按遗嘱执行，公证遗嘱效力最高。遗嘱形式包括自书、代书、打印、录音录像、公证遗嘱。继承的遗产需要偿还被继承人的债务（以遗产价值为限）。" },
+    { keywords: ["交通事故","车祸","交通赔偿","责任认定","肇事"], relatedTools: ["citizen_traffic_calc","citizen_traffic_liability","citizen_insurance_claim"], relatedLaws: ["《道路交通安全法》第73条","《民法典》第1208-1217条"], followUp: ["交通事故赔偿项目包括哪些？","责任认定书不服怎么办？","对方全责不给钱怎么办？"], category: "交通事故", title: "交通事故处理流程", tags: ["普通市民"],
+      content: "发生事故后立即：1.报警（122）并保护现场；2.拍照取证、交换联系方式；3.及时就医并保留医疗记录。责任认定书是索赔的关键证据，对认定不服可在3日内申请复核。赔偿项目包括：医疗费、误工费、护理费、残疾赔偿金、精神损害抚慰金等。建议配合保险理赔流程处理。" },
+    { keywords: ["车祸赔偿","交通事故赔偿","交强险","三者险","理赔"], relatedTools: ["citizen_traffic_calc","citizen_insurance_claim"], relatedLaws: ["《道路交通安全法》第76条"], followUp: ["交强险能赔多少？","对方没有保险怎么办？","保险公司拖延理赔怎么办？"], category: "交通事故", title: "交通事故赔偿与保险", tags: ["普通市民"],
+      content: "交强险有责赔偿限额：死亡伤残18万、医疗费1.8万、财产损失2000元。超出部分由商业三者险或肇事方自行承担。保险公司应在收到理赔申请后及时核定。如拖延理赔，可拨打12378（保险消费者投诉热线）投诉。" },
+    { keywords: ["退货","七天无理由","退款","消费者","买到假货","消费纠纷"], relatedTools: ["citizen_consumer_rights","citizen_7day_return"], relatedLaws: ["《消费者权益保护法》第55条"], followUp: ["7天无理由退货的例外情况？","买到的商品有质量问题怎么办？","遇到霸王条款怎么办？"], category: "消费维权", title: "消费者权益保护", tags: ["普通市民"],
+      content: "网购商品享有七天无理由退货权（定制商品、鲜活易腐、在线拆封的音像制品/计算机软件等除外）。商家欺诈可要求退一赔三（最低500元）。遇到消费纠纷可拨打12315投诉。保留购物凭证、聊天记录等证据非常重要。" },
+    { keywords: ["被骗","诈骗","网络诈骗","电信诈骗","上当","骗钱","杀猪盘"], relatedTools: ["citizen_fraud_claim","sp_elderly_fraud","sp_criminal_report"], relatedLaws: ["《刑法》第266条"], followUp: ["被骗多少钱可以立案？","跨境诈骗能追回吗？","报警后没有进展怎么办？"], category: "刑事案件", title: "遭遇诈骗紧急处理", tags: ["普通市民","学生/求职者"],
+      content: "发现被骗立即：1.拨打110报警或前往派出所报案；2.保存所有证据（转账记录、聊天截图、对方账号信息、通话录音）；3.联系银行申请冻结对方账户；4.拨打96110反诈专线；5.在\"国家反诈中心\"App举报。金额超3000元可立刑事案件。报案后如警方不立案，可向检察院申请立案监督。" },
+    { keywords: ["诉讼费","案件受理费","起诉费用","打官司多少钱"], relatedTools: ["law_fee_calc","law_interest_calc"], relatedLaws: ["《诉讼费用交纳办法》"], followUp: ["打官司要花多少钱？","赢了诉讼费谁出？","哪些情况可以减免诉讼费？"], category: "诉讼程序", title: "诉讼费计算标准", tags: ["律师/法律从业者","普通市民"],
+      content: "案件受理费根据标的额按比例计算：1万元以下50元；1-10万按2.5%减200元；10-20万按2%加300元；20-50万按1.5%加1300元；50-100万按1%加3800元。简易程序、调解结案、撤诉的，受理费减半收取。诉讼费一般由败诉方承担。" },
+    { keywords: ["诉讼时效","过了时效","时效中断","时效中止"], relatedTools: ["law_limitation_check"], relatedLaws: ["《民法典》第188-199条"], followUp: ["诉讼时效过了还能起诉吗？","什么情况可以中断诉讼时效？","如何计算诉讼时效？"], category: "诉讼程序", title: "诉讼时效核查", tags: ["律师/法律从业者","普通市民"],
+      content: "普通诉讼时效为3年（自知道权利被侵害之日起算）。最长保护期为20年。诉讼时效中断的情形：提起诉讼、申请仲裁、债务人同意履行债务、债务人部分履行等。中断后重新计算。超过诉讼时效起诉的，法院可能不支持诉讼请求。" },
+    { keywords: ["证据","举证","证据清单","打官司证据"], relatedTools: ["law_evidence_checklist"], relatedLaws: ["《民事诉讼法》第63-81条"], followUp: ["什么样的证据有法律效力？","录音能当证据吗？","微信聊天记录怎么作为证据？"], category: "诉讼程序", title: "证据收集指引", tags: ["律师/法律从业者","普通市民"],
+      content: "常见的法律证据类型：书证（合同、票据）、物证、视听资料（录音录像）、电子数据（微信聊天、邮件）、证人证言、鉴定意见。微信聊天记录作为证据需提供原始记录和双方身份信息。偷录的录音如不侵害他人合法权益且不违反法律禁止性规定，可以作为证据。" },
+    { keywords: ["律师费","找律师","请律师","律师咨询"], relatedTools: ["sp_legal_aid_apply","sp_emergency_help"], relatedLaws: [], followUp: ["律师费一般多少？","怎么判断律师是否靠谱？","经济困难可以申请免费律师吗？"], category: "诉讼程序", title: "聘请律师指南", tags: ["普通市民"],
+      content: "律师费因地区和案件类型不同，通常在数千到数万元不等。可通过当地律师协会或法律服务平台查询。经济困难的可申请法律援助（拨打12348咨询），符合条件的可获得免费法律服务。找律师时注意查看律师执业证、了解其擅长领域和办案经验。" },
+    { keywords: ["校园霸凌","校园欺凌","学校暴力","被欺负","霸凌"], relatedTools: ["sp_minor_bullying","sp_criminal_report","sp_emergency_help"], relatedLaws: ["《未成年人保护法》第39条","《预防未成年人犯罪法》"], followUp: ["孩子在学校被欺负了怎么办？","学校不处理校园霸凌怎么办？","校园霸凌可以报警吗？"], category: "校园权益", title: "校园霸凌维权指南", tags: ["学生/求职者","普通市民"],
+      content: "遭遇校园霸凌的应对步骤：1.立即向班主任或学校德育处报告，学校有法定制止义务（《未成年人保护法》第39条）；2.保留证据（伤痕照片、聊天记录、录音录像、证人联系方式）；3.伤情严重可拨打110报警；4.向教育局举报学校不作为；5.同时拨打12355青少年服务热线求助。" },
+    { keywords: ["Offer","录用通知","入职","offer条款","录用条件"], relatedTools: ["stu_offer_review","citizen_contract_gen"], relatedLaws: ["《劳动合同法》第19-21条"], followUp: ["Offer和劳动合同冲突以哪个为准？","公司撤回offer要赔偿吗？","试用期工资怎么谈？"], category: "校园权益", title: "Offer条款检查指南", tags: ["学生/求职者"],
+      content: "收到Offer后重点检查：试用期长度是否合法（合同3年以下不超过2个月）、是否有竞业限制条款及补偿约定、五险一金缴纳基数和比例、薪资结构是否明确。入职后应签订正式书面劳动合同，Offer不能替代劳动合同。公司无故撤回Offer可能需要承担缔约过失责任。" },
+    { keywords: ["实习","实习协议","实习生","实习工资","实习权益"], relatedTools: ["stu_internship_rights","stu_part_time_contract"], relatedLaws: [], followUp: ["实习期和试用期有什么区别？","实习受伤算工伤吗？","实习协议需要签吗？"], category: "校园权益", title: "实习权益自查", tags: ["学生/求职者"],
+      content: "实习应与单位签订实习协议，明确实习内容、时间、报酬、保险等。实习报酬无法律强制标准，建议与单位协商合理报酬。实习生不属于劳动法意义上的劳动者，不适用劳动合同法，但人身安全受法律保护。建议购买意外伤害保险。" },
+    { keywords: ["法考","司法考试","法考备考","法律职业资格"], relatedTools: ["stu_exam_plan","law_case_search_guide"], relatedLaws: [], followUp: ["法考报名条件是什么？","法考考哪些科目？","非法本可以考法考吗？"], category: "校园权益", title: "法考备考指导", tags: ["学生/求职者"],
+      content: "法考分为客观题和主观题两阶段考试。客观题通常在9月考试，主观题在10月。建议备考周期6-12个月。推荐学习顺序：民法→刑法→民诉→刑诉→行政法→商经法→理论法→三国法。练习真题非常重要，近5年真题至少做2-3遍。" },
+    { keywords: ["老年人","防诈骗","养老","保健品","遗产","养老院"], relatedTools: ["sp_elderly_fraud","citizen_inheritance_calc"], relatedLaws: ["《老年人权益保障法》","《刑法》第266条"], followUp: ["老年人被骗的钱能追回吗？","如何防止老人被保健品诈骗？","子女不赡养老人怎么办？"], category: "特殊群体", title: "老年人权益保护", tags: ["特殊群体"],
+      content: "老年人权益受到法律特殊保护。防诈骗要点：不轻信高收益承诺、不随意泄露个人信息、购买大额产品前与子女商量、警惕保健品虚假宣传。子女有赡养老人的法定义务。老人可立遗嘱明确遗产分配，建议采用公证遗嘱形式。权益受侵害可拨打12337或联系当地老龄办。" },
+    { keywords: ["残疾人","残疾","残疾补贴","残疾人福利","无障碍"], relatedTools: ["sp_disabled_benefits"], relatedLaws: ["《残疾人保障法》","《残疾人就业条例》"], followUp: ["残疾人可以申请哪些补贴？","残疾人就业有哪些优惠？","残疾人如何申请法律援助？"], category: "特殊群体", title: "残疾人福利与权益", tags: ["特殊群体"],
+      content: "残疾人可享受的福利政策：1.困难残疾人生活补贴和重度残疾人护理补贴；2.残疾人就业保障金、税收优惠；3.免费或优惠乘坐公共交通；4.优先获得法律援助。具体标准因地区不同。建议到当地残联咨询或拨打12385残疾人服务热线。" },
+    { keywords: ["法律援助","免费律师","12348","法律咨询"], relatedTools: ["sp_legal_aid_apply","sp_emergency_help"], relatedLaws: ["《法律援助法》"], followUp: ["法律援助条件是什么？","12348怎么用？","法律援助律师靠谱吗？"], category: "特殊群体", title: "法律援助申请指南", tags: ["普通市民","特殊群体"],
+      content: "法律援助是政府为经济困难公民和特殊案件当事人提供的免费法律服务。拨打12348法律援助热线咨询。申请条件：经济困难（通常为低保户或低收入家庭）、案件属于法定援助范围（刑事辩护、请求给付赡养费/抚养费/劳动报酬、工伤等）。携带身份证和经济困难证明到当地法律援助中心申请。" },
+    { keywords: ["监护人","监护权","未成年监护","精神病人监护","监护纠纷"], relatedTools: ["sp_guardianship","citizen_child_custody"], relatedLaws: ["《民法典》第26-39条"], followUp: ["监护权可以变更吗？","父母去世谁做监护人？","监护人不履行职责怎么办？"], category: "特殊群体", title: "监护权法律规定", tags: ["特殊群体","普通市民"],
+      content: "未成年人的监护人是父母。父母不能监护的，依次为：祖父母/外祖父母、兄姐、其他愿意担任监护人的个人或组织。监护人不履行职责或侵害被监护人权益的，其他利害关系人可申请法院撤销监护人资格。" },
+    { keywords: ["紧急求助","家暴","家庭暴力","人身安全","保护令"], relatedTools: ["sp_emergency_help","sp_criminal_report"], relatedLaws: ["《反家庭暴力法》","《刑法》"], followUp: ["遭遇家暴怎么办？","如何申请人身安全保护令？","家暴的证据有哪些？"], category: "特殊群体", title: "紧急求助与人身保护", tags: ["普通市民","特殊群体"],
+      content: "遇到紧急情况：1.立即拨打110报警；2.遭受家暴可向人民法院申请《人身安全保护令》（《反家庭暴力法》第23条）；3.拨打12338妇女维权热线；4.收集伤情照片、医院诊断书、报警回执等证据。保存好所有相关证据材料。" },
+    { keywords: ["刑事报案","报案","刑事诉讼","刑事自诉","立案"], relatedTools: ["sp_criminal_report","law_doc_template"], relatedLaws: ["《刑事诉讼法》第110条"], followUp: ["报案后不立案怎么办？","刑事自诉和公诉有什么区别？","立案标准是什么？"], category: "刑事案件", title: "刑事报案指引", tags: ["普通市民"],
+      content: "报案流程：1.携带证据到案发地派出所或经侦部门报案；2.填写报案笔录，要求出具《受案回执》；3.警方在7天内决定是否立案。如不立案可要求出具《不予立案通知书》，向检察院申请立案监督。金额超3000元的诈骗案一般可立案。建议保留报案过程中所有书面材料。" },
+    { keywords: ["社保","五险一金","公积金","养老保险","医保","失业保险","生育保险"], relatedTools: ["entre_labor_check","hr_compliance_score"], relatedLaws: ["《社会保险法》","《住房公积金管理条例》"], followUp: ["社保断缴有什么影响？","公司不交社保怎么维权？","自由职业者怎么交社保？"], category: "劳动社保", title: "社会保险基础知识", tags: ["普通市民","企业法务/HR"],
+      content: "五险一金包括：养老保险（退休后领取）、医疗保险（报销医疗费）、失业保险（失业时可领取）、工伤保险（工作中受伤）、生育保险（生育费用报销）和住房公积金（购房贷款）。用人单位必须为员工缴纳社保，这是法定义务。员工可要求补缴，也可以此为由解除合同并要求经济补偿。" },
+    { keywords: ["保险","保险理赔","保险公司不理赔","车险理赔","人寿保险"], relatedTools: ["citizen_insurance_claim","citizen_traffic_calc"], relatedLaws: ["《保险法》第23条","第30条"], followUp: ["保险公司拒赔怎么办？","保险理赔需要多久？","格式条款不明确怎么解释？"], category: "保险理赔", title: "保险理赔维权", tags: ["普通市民"],
+      content: "保险公司收到理赔申请后应及时核定。情况复杂的应在30日内作出核定。对拒赔不服可：1.要求出具书面拒赔通知并说明理由；2.向银保监会投诉（12378）；3.提起保险合同纠纷诉讼。根据《保险法》第30条，格式条款有两种以上解释的，应作有利于被保险人的解释。" }
+];
 
         // ============================================
         // 复杂案例分析引擎
@@ -2400,7 +2514,102 @@
             }, 50);
         }
 
+        
+                var legalBasisTable = {
+            'citizen_labor_compensation': [
+                '《中华人民共和国劳动合同法》第47条：经济补偿按劳动者在本单位工作的年限，每满一年支付一个月工资。六个月以上不满一年的，按一年计算；不满六个月的，向劳动者支付半个月工资的经济补偿。劳动者月工资高于用人单位所在直辖市、设区的市级人民政府公布的本地区上年度职工月平均工资三倍的，向其支付经济补偿的标准按职工月平均工资三倍的数额支付，向其支付经济补偿的年限最高不超过十二年。',
+                '《中华人民共和国劳动合同法》第87条：用人单位违反本法规定解除或者终止劳动合同的，应当依照本法第47条规定的经济补偿标准的二倍向劳动者支付赔偿金。'
+            ],
+            'citizen_traffic_calc': [
+                '《中华人民共和国民法典》第1179条：侵害他人造成人身损害的，应当赔偿医疗费、护理费、交通费、营养费、住院伙食补助费等为治疗和康复支出的合理费用，以及因误工减少的收入。造成残疾的，还应当赔偿辅助器具费和残疾赔偿金；造成死亡的，还应当赔偿丧葬费和死亡赔偿金。',
+                '《中华人民共和国民法典》第1208条：机动车发生交通事故造成损害的，依照道路交通安全法律和本法的有关规定承担赔偿责任。'
+            ],
+            'citizen_fraud_claim': [
+                '《中华人民共和国消费者权益保护法》第55条：经营者提供商品或者服务有欺诈行为的，应当按照消费者的要求增加赔偿其受到的损失，增加赔偿的金额为消费者购买商品的价款或者接受服务的费用的三倍；增加赔偿的金额不足五百元的，为五百元。法律另有规定的，依照其规定。',
+                '《中华人民共和国食品安全法》第148条：生产不符合食品安全标准的食品或者经营明知是不符合食品安全标准的食品，消费者除要求赔偿损失外，还可以向生产者或者经营者要求支付价款十倍或者损失三倍的赔偿金；增加赔偿的金额不足一千元的，为一千元。'
+            ],
+            'hr_severance_calc': [
+                '《中华人民共和国劳动合同法》第47条：经济补偿按劳动者在本单位工作的年限，每满一年支付一个月工资。六个月以上不满一年的，按一年计算；不满六个月的，向劳动者支付半个月工资的经济补偿。',
+                '《中华人民共和国劳动合同法》第87条：用人单位违反本法规定解除或者终止劳动合同的，应当依照本法第47条规定的经济补偿标准的二倍向劳动者支付赔偿金。'
+            ],
+            'law_fee_calc': [
+                '《诉讼费用交纳办法》第13条：案件受理费分别按照下列标准交纳：（一）财产案件根据诉讼请求的金额或者价额，按照下列比例分段累计交纳：1.不超过1万元的，每件交纳50元；2.超过1万元至10万元的部分，按照2.5%交纳；3.超过10万元至20万元的部分，按照2%交纳；4.超过20万元至50万元的部分，按照1.5%交纳；5.超过50万元至100万元的部分，按照1%交纳……',
+                '《诉讼费用交纳办法》第15条：以调解方式结案或者当事人申请撤诉的，减半交纳案件受理费。'
+            ],
+            'law_interest_calc': [
+                '《中华人民共和国民事诉讼法》第264条：被执行人未按判决、裁定和其他法律文书指定的期间履行给付金钱义务的，应当加倍支付迟延履行期间的债务利息。被执行人未按判决、裁定和其他法律文书指定的期间履行其他义务的，应当支付迟延履行金。',
+                '《最高人民法院关于执行程序中计算迟延履行期间的债务利息适用法律若干问题的解释》第1条：根据民事诉讼法第264条规定加倍计算之后的迟延履行期间的债务利息，包括迟延履行期间的一般债务利息和加倍部分债务利息。迟延履行期间的一般债务利息，根据生效法律文书确定的方法计算；生效法律文书未确定给付该利息的，不予计算。'
+            ],
+            'citizen_divorce_calc': [
+                '《中华人民共和国民法典》第1087条：离婚时，夫妻的共同财产由双方协议处理；协议不成的，由人民法院根据财产的具体情况，按照照顾子女、女方和无过错方权益的原则判决。对夫或者妻在家庭土地承包经营中享有的权益等，应当依法予以保护。',
+                '《中华人民共和国民法典》第1091条：有下列情形之一，导致离婚的，无过错方有权请求损害赔偿：（一）重婚；（二）与他人同居；（三）实施家庭暴力；（四）虐待、遗弃家庭成员；（五）有其他重大过错。'
+            ],
+            'citizen_7day_return': [
+                '《中华人民共和国消费者权益保护法》第25条：经营者采用网络、电视、电话、邮购等方式销售商品，消费者有权自收到商品之日起七日内退货，且无需说明理由，但下列商品除外：（一）消费者定作的；（二）鲜活易腐的；（三）在线下载或者消费者拆封的音像制品、计算机软件等数字化商品；（四）交付的报纸、期刊。除前款所列商品外，其他根据商品性质并经消费者在购买时确认不宜退货的商品，不适用无理由退货。'
+            ],
+            'citizen_consumer_rights': [
+                '《中华人民共和国消费者权益保护法》第55条：经营者提供商品或者服务有欺诈行为的，应当按照消费者的要求增加赔偿其受到的损失，增加赔偿的金额为消费者购买商品的价款或者接受服务的费用的三倍；增加赔偿的金额不足五百元的，为五百元。'
+            ],
+            'citizen_child_custody': [
+                '《中华人民共和国民法典》第1084条：父母与子女间的关系，不因父母离婚而消除。离婚后，子女无论由父或者母直接抚养，仍是父母双方的子女。离婚后，父母对于子女仍有抚养、教育、保护的权利和义务。离婚后，不满两周岁的子女，以由母亲直接抚养为原则。已满两周岁的子女，父母双方对抚养问题协议不成的，由人民法院根据双方的具体情况，按照最有利于未成年子女的原则判决。子女已满八周岁的，应当尊重其真实意愿。',
+                '《中华人民共和国民法典》第1085条：离婚后，子女由一方直接抚养的，另一方应当负担部分或者全部抚养费。负担费用的多少和期限的长短，由双方协议；协议不成的，由人民法院判决。'
+            ],
+            'citizen_insurance_claim': [
+                '《中华人民共和国保险法》第23条：保险人收到被保险人或者受益人的赔偿或者给付保险金的请求后，应当及时作出核定；情形复杂的，应当在三十日内作出核定，但合同另有约定的除外。保险人应当将核定结果通知被保险人或者受益人；对属于保险责任的，在与被保险人或者受益人达成赔偿或者给付保险金的协议后十日内，履行赔偿或者给付保险金义务。',
+                '《中华人民共和国保险法》第30条：采用保险人提供的格式条款订立的保险合同，保险人与投保人、被保险人或者受益人对合同条款有争议的，应当按照通常理解予以解释。对合同条款有两种以上解释的，人民法院或者仲裁机构应当作出有利于被保险人和受益人的解释。'
+            ],
+            'citizen_legal_aid_test': [
+                '《中华人民共和国法律援助法》第25条：刑事案件的犯罪嫌疑人、被告人因经济困难或者其他原因没有委托辩护人的，本人及其近亲属可以向法律援助机构申请法律援助。',
+                '《中华人民共和国法律援助法》第30条：法律援助机构应当自收到法律援助申请之日起七日内进行审查，作出是否给予法律援助的决定。'
+            ],
+            'entre_equity_sim': [
+                '《中华人民共和国公司法》第84条（2024年7月1日施行）：股东向股东以外的人转让股权的，应当书面通知其他股东，其他股东在同等条件下享有优先购买权。公司章程对股权转让另有规定的，从其规定。注意：2023修订版已删除旧法"经其他股东过半数同意"的前置门槛。'
+            ],
+            'stu_rental_check': [
+                '《中华人民共和国民法典》第708条：出租人应当按照约定将租赁物交付承租人，并在租赁期限内保持租赁物符合约定的用途。',
+                '《中华人民共和国民法典》第711条：承租人未按照约定的方法或者未根据租赁物的性质使用租赁物，致使租赁物受到损失的，出租人可以解除合同并请求赔偿损失。',
+                '《中华人民共和国民法典》第725条：租赁物在承租人按照租赁合同占有期限内发生所有权变动的，不影响租赁合同的效力（买卖不破租赁）。'
+            ],
+            'stu_offer_review': [
+                '《中华人民共和国劳动合同法》第19条：劳动合同期限三个月以上不满一年的，试用期不得超过一个月；劳动合同期限一年以上不满三年的，试用期不得超过二个月；三年以上固定期限和无固定期限的劳动合同，试用期不得超过六个月。同一用人单位与同一劳动者只能约定一次试用期。',
+                '《中华人民共和国劳动合同法》第20条：劳动者在试用期的工资不得低于本单位相同岗位最低档工资或者劳动合同约定工资的百分之八十，并不得低于用人单位所在地的最低工资标准。'
+            ],
+            'law_limitation_check': [
+                '《中华人民共和国民法典》第188条：向人民法院请求保护民事权利的诉讼时效期间为三年。法律另有规定的，依照其规定。诉讼时效期间自权利人知道或者应当知道权利受到损害以及义务人之日起计算。法律另有规定的，依照其规定。但是，自权利受到损害之日起超过二十年的，人民法院不予保护，有特殊情况的，人民法院可以根据权利人的申请决定延长。',
+                '《中华人民共和国民法典》第195条：有下列情形之一的，诉讼时效中断，从中断、有关程序终结时起，诉讼时效期间重新计算：（一）权利人向义务人提出履行请求；（二）义务人同意履行义务；（三）权利人提起诉讼或者申请仲裁；（四）与提起诉讼或者申请仲裁具有同等效力的其他情形。'
+            ],
+            'stu_internship_rights': [
+                '《关于贯彻执行〈中华人民共和国劳动法〉若干问题的意见》第12条：在校生利用业余时间勤工助学，不视为就业，未建立劳动关系，可以不签订劳动合同。',
+                '《中华人民共和国职业教育法》第50条：企业接纳学生实习的，应当为学生提供符合国家规定的劳动安全条件和必要的劳动防护用品，不得安排学生从事与其所学专业无关的高强度劳动。'
+            ],
+            'entre_contract_risk': [
+                '《中华人民共和国民法典》第496条：格式条款是当事人为了重复使用而预先拟定，并在订立合同时未与对方协商的条款。采用格式条款订立合同的，提供格式条款的一方应当遵循公平原则确定当事人之间的权利和义务，并采取合理的方式提示对方注意免除或者减轻其责任等与对方有重大利害关系的条款。',
+                '《中华人民共和国民法典》第497条：有下列情形之一的，该格式条款无效：（一）具有本法第一编第六章第三节和本法第506条规定的无效情形；（二）提供格式条款一方不合理地免除或者减轻其责任、加重对方责任、限制对方主要权利；（三）提供格式条款一方排除对方主要权利。'
+            ],
+            'sp_minor_bullying': [
+                '《中华人民共和国未成年人保护法》第39条：学校应当建立学生欺凌防控工作制度，对教职员工、学生等开展防治学生欺凌的教育和培训。学校对学生欺凌行为应当立即制止，通知实施欺凌和被欺凌未成年学生的父母或者其他监护人参与欺凌行为的认定和处理。',
+                '《中华人民共和国预防未成年人犯罪法》第21条：教育行政部门鼓励和支持学校聘请社会工作者长期或者定期进驻学校，协助开展道德教育、法治教育、生命教育和心理健康教育，参与预防和处理学生欺凌等行为。'
+            ],
+            'sp_legal_aid_apply': [
+                '《中华人民共和国法律援助法》第25条：刑事案件的犯罪嫌疑人、被告人因经济困难或者其他原因没有委托辩护人的，本人及其近亲属可以向法律援助机构申请法律援助。',
+                '《中华人民共和国法律援助法》第30条：法律援助机构应当自收到法律援助申请之日起七日内进行审查，作出是否给予法律援助的决定。'
+            ],
+            'sp_disabled_benefits': [
+                '《中华人民共和国残疾人保障法》第46条：国家保障残疾人享有各项社会保障的权利。政府和社会采取措施，完善对残疾人的社会保障，保障和改善残疾人的生活。',
+                '《中华人民共和国残疾人保障法》第48条：各级人民政府对生活确有困难的残疾人，通过多种渠道给予生活、教育、住房和其他社会救助。'
+            ],
+            'citizen_risk_check': [
+                '《中华人民共和国民法典》第577条：当事人一方不履行合同义务或者履行合同义务不符合约定的，应当承担继续履行、采取补救措施或者赔偿损失等违约责任。',
+                '《中华人民共和国民法典》第179条：承担民事责任的方式主要有：停止侵害；排除妨碍；消除危险；返还财产；恢复原状；修理、重作、更换；继续履行；赔偿损失；支付违约金；消除影响、恢复名誉；赔礼道歉。'
+            ]
+        };
+
         function displayResult(toolId, result) {
+            
+            // 从法律依据表中查询
+            if (!result.legalBasis && legalBasisTable[toolId]) {
+                result.legalBasis = legalBasisTable[toolId];
+            }
             const resultDiv = document.getElementById(`${toolId}_result`);
             let html = `<div class="result-box"><h4 class="result-title">${result.title}</h4><div class="result-content">`;
             
@@ -2779,7 +2988,7 @@
                 var caseMatches = findRelevantCases(message, 2);
 
                 // 第2档: 法律知识库匹配
-                var knowledgeMatches = caseMatches.length === 0 ? findRelevantKnowledge(message, 3) : [];
+                var knowledgeMatches = findRelevantKnowledge(message, 3);
 
                 // 第3档: 工具推荐（跨所有身份）
                 var toolMatches = findRelevantTools(message, identityId, 4);
@@ -2811,23 +3020,39 @@
                     });
                 }
 
-                // 第2档: 展示知识库匹配
+                // 第2档: 展示知识库匹配（对话式 + 工具推荐 + 追问）
                 if (knowledgeMatches.length > 0) {
-                    if (caseMatches.length === 0) {
-                        response += '<div style="font-weight:600;font-size:14px;margin-bottom:12px;color:#2563eb;">📖 找到 <strong>' + knowledgeMatches.length + '</strong> 条相关知识</div>';
-                    } else {
-                        response += '<div style="font-weight:600;font-size:13px;margin:12px 0 8px 0;color:#2563eb;">📖 相关知识</div>';
-                    }
-                    knowledgeMatches.forEach(function(k) {
-                        response += '<div class="result-card" style="background:#f0f7ff;border-left:3px solid #3b82f6;cursor:default;margin-bottom:8px;">';
-                        response += '<div class="result-card-header"><span class="result-card-icon">📖</span><span class="result-card-title">' + k.title + '</span><span class="result-card-badge knowledge">知识库</span></div>';
-                        response += '<div class="result-card-summary">' + k.content + '</div>';
-                        response += '<div class="result-card-footer"><span>' + k.category + '</span></div>';
-                        response += '</div>';
+                    knowledgeMatches.forEach(function(k, idx) {
+                        if (idx === 0) {
+                            response += '<div style="font-weight:600;font-size:15px;margin-bottom:10px;color:#1a2744;">📖 ' + k.title + '</div>';
+                            response += '<div style="font-size:14px;line-height:1.8;margin-bottom:12px;color:#333;background:#fff;padding:14px 16px;border-radius:8px;border:1px solid #e8e8e8;">' + k.content + '</div>';
+                            if (k.relatedLaws && k.relatedLaws.length > 0) {
+                                response += '<div style="font-size:13px;margin-bottom:12px;color:#666;">📜 <strong>法律依据：</strong>' + k.relatedLaws.join('、') + '</div>';
+                            }
+                            if (k.relatedTools && k.relatedTools.length > 0) {
+                                response += '<div style="font-size:13px;margin-bottom:10px;">🛠️ <strong>推荐使用平台工具：</strong><br>';
+                                k.relatedTools.forEach(function(tid) {
+                                    var tool = findToolById(tid);
+                                    if (tool) {
+                                        response += ' <span onclick="showToolPage(\'' + tid + '\')" style="display:inline-block;padding:5px 12px;background:var(--primary-color);color:white;border-radius:6px;cursor:pointer;font-size:12px;margin:4px 4px 0 0;">' + (tool.icon || '🔧') + ' ' + tool.title + '</span>';
+                                    }
+                                });
+                                response += '</div>';
+                            }
+                            if (k.followUp && k.followUp.length > 0) {
+                                response += '<div style="font-size:13px;margin-top:4px;padding-top:10px;border-top:1px dashed #ddd;">💡 <strong>你可能还想问：</strong><br>';
+                                k.followUp.forEach(function(q, qi) {
+                                    var cleaned = q.replace(/'/g, "'");
+                                    response += ' <span onclick="document.getElementById(\'' + identityId + 'ChatInput\').value=\'' + cleaned + '\';sendChatMessage(\'' + identityId + '\');" style="display:inline-block;padding:4px 12px;background:#f0f4ff;color:var(--primary-color);border-radius:16px;cursor:pointer;font-size:12px;margin:4px 4px 0 0;border:1px solid #d0d8f0;">' + q + '</span>';
+                                });
+                                response += '</div>';
+                            }
+                            if (caseMatches.length > 0 && idx === 0) {
+                                response += '<div style="margin:10px 0;border-top:1px solid #eee;"></div>';
+                            }
+                        }
                     });
-                }
-
-                // 第3档: 推荐工具
+                }// 第3档: 推荐工具
                 if (caseMatches.length === 0) {
                     if (toolMatches.length > 0 && knowledgeMatches.length === 0) {
                         response += '<div style="font-weight:600;font-size:14px;margin-bottom:12px;color:#b45309;">🛠️ 推荐 <strong>' + toolMatches.length + '</strong> 个相关工具</div>';
@@ -2944,7 +3169,7 @@
         // 知识库匹配
         function findRelevantKnowledge(message, topN) {
             var msg = message.toLowerCase();
-            var words = msg.split(/[\s,。?？！!,，、]+/).filter(function(w) { return w.length >= 2; });
+            var words = msg.split(/[\s,。？！!,，、]+/).filter(function(w) { return w.length >= 2; });
             var scored = legalKnowledgeBase.map(function(item) {
                 var score = 0;
                 item.keywords.forEach(function(kw) {
@@ -2954,15 +3179,24 @@
                 words.forEach(function(w) {
                     if (item.title.toLowerCase().indexOf(w) >= 0) score += 2;
                     if (item.content.toLowerCase().indexOf(w) >= 0) score += 1;
+                    if (item.relatedTools) {
+                        item.relatedTools.forEach(function(tid) {
+                            var t = findToolById(tid);
+                            if (t && (t.title.toLowerCase().indexOf(w) >= 0 || t.desc.toLowerCase().indexOf(w) >= 0)) score += 1;
+                        });
+                    }
+                    if (item.followUp) {
+                        item.followUp.forEach(function(q) {
+                            if (q.toLowerCase().indexOf(w) >= 0) score += 1;
+                        });
+                    }
                 });
                 return { item: item, score: score };
             }).filter(function(x) { return x.score >= 1; })
               .sort(function(a, b) { return b.score - a.score; })
               .slice(0, topN);
             return scored.map(function(x) { return x.item; });
-        }
-
-        function findToolById(toolId) {
+        }function findToolById(toolId) {
             for (var id in identityConfig) {
                 var f = (identityConfig[id].features || []).find(function(x) { return x.id === toolId; });
                 if (f) return f;
@@ -3270,6 +3504,110 @@
             }
         });
 
+        
+        // ===== 首页重构：首次访问引导 + 场景折叠 + 场景点击 =====
+        var sceneTagMap = {
+            '婚姻家庭': 'citizen', '劳动纠纷': 'citizen', '房屋租赁': 'stu',
+            '交通事故': 'citizen', '消费维权': 'citizen', '合同纠纷': 'entre'
+        };
+        // 首次访问引导
+        (function() {
+            try {
+                if (!localStorage.getItem('fadun_seen_guide')) {
+                    var guide = document.getElementById('firstVisitGuide');
+                    if (guide) {
+                        guide.classList.remove('hidden');
+                        // 点击身份卡片时自动隐藏
+                        document.querySelectorAll('.identity-card').forEach(function(card) {
+                            card.addEventListener('click', function() {
+                                guide.classList.add('hidden');
+                                localStorage.setItem('fadun_seen_guide', '1');
+                            });
+                        });
+                        // 3秒后自动淡出
+                        setTimeout(function() {
+                            if (guide && !guide.classList.contains('hidden')) {
+                                guide.style.opacity = '0';
+                                guide.style.transition = 'opacity 0.8s';
+                                setTimeout(function() { guide.classList.add('hidden'); }, 800);
+                            }
+                        }, 6000);
+                    }
+                }
+            } catch(e) {}
+        })();
+        // ===== 典型案例：方块轮播 =====
+        
+        var caseData = [
+    {
+        "badge": "labor",
+        "bt": "劳动纠纷",
+        "emoji": "💰",
+        "title": "公司拖欠工资，员工追回全部欠薪",
+        "brief": "公司连续3个月未发工资，员工收集证据申请劳动仲裁",
+        "detail": "<div class=\"case-detail-section\"><span class=\"cdt\">📋 案情</span><p>某公司连续3个月未发放员工工资，员工小王多次沟通无果后，收集了工资条、考勤记录、微信聊天记录等证据，向劳动监察大队投诉并申请劳动仲裁。</p></div><div class=\"case-detail-section\"><span class=\"cdt result\">⚖️ 结果</span><p>仲裁委裁决公司支付拖欠工资共计4.2万元，并因未签劳动合同加付双倍工资差额2.8万元，合计7万元。</p></div><div class=\"case-detail-lesson\"><strong>💡 启示：</strong>工资条、考勤记录、工作群聊天记录都是有效证据。拖欠工资可同时向劳动监察投诉和申请仲裁。没签合同还能主张双倍工资。</div><div class=\"case-detail-ref\">📚 相关法律：《劳动合同法》第85条（拖欠工资加付赔偿金）、第82条（未签合同双倍工资）</div>"
+    },
+    {
+        "badge": "rent",
+        "bt": "房屋租赁",
+        "emoji": "🏠",
+        "title": "房东无理克扣押金，租客成功索回",
+        "brief": "房东以墙面污渍为由扣全部押金，租客起诉后胜诉",
+        "detail": "<div class=\"case-detail-section\"><span class=\"cdt\">📋 案情</span><p>租客小李退租时，房东以\"墙面有污渍\"为由扣除全部押金5000元。小李入住时曾拍摄房屋视频，合同中未约定墙面清洁标准。</p></div><div class=\"case-detail-section\"><span class=\"cdt result\">⚖️ 结果</span><p>经居委会调解未果后诉至法院，法院认定扣除理由不充分，判决房东全额退还押金并承担诉讼费。</p></div><div class=\"case-detail-lesson\"><strong>💡 启示：</strong>入住前拍照录像留存证据非常重要。合同中押金退还条件越明确越好，模糊条款通常对租客有利。协商不成可走小额诉讼程序。</div><div class=\"case-detail-ref\">📚 相关法律：《民法典》第708条（租赁合同）、第711条（合理使用租赁物）</div>"
+    },
+    {
+        "badge": "family",
+        "bt": "婚姻家庭",
+        "emoji": "💔",
+        "title": "一方出轨致离婚，无过错方获多分财产",
+        "brief": "丈夫出轨与他人同居，法院判财产按60%/40%分割",
+        "detail": "<div class=\"case-detail-section\"><span class=\"cdt\">📋 案情</span><p>丈夫婚内与他人同居，妻子发现后提起离婚诉讼，要求多分财产并主张精神损害赔偿。妻子提供了聊天记录、转账记录等证据。</p></div><div class=\"case-detail-section\"><span class=\"cdt result\">⚖️ 结果</span><p>法院认定丈夫存在重大过错，判决共同财产按女方60%、男方40%分配，并支持精神损害赔偿3万元。</p></div><div class=\"case-detail-lesson\"><strong>💡 启示：</strong>民法典第1087条保护无过错方权益，第1091条规定过错方需承担损害赔偿责任。出轨证据的合法性很重要，建议通过合法途径收集。</div><div class=\"case-detail-ref\">📚 相关法律：《民法典》第1087条（离婚财产分割）、第1091条（离婚损害赔偿）</div>"
+    },
+    {
+        "badge": "traffic",
+        "bt": "交通事故",
+        "emoji": "🚗",
+        "title": "交通事故对方全责，伤者获赔27万",
+        "brief": "伤者骨折住院45天，法院支持十余项赔偿共计27万元",
+        "detail": "<div class=\"case-detail-section\"><span class=\"cdt\">📋 案情</span><p>张先生被闯红灯的轿车撞伤，造成右腿骨折，住院治疗45天。交警认定对方全责。对方车辆仅投保交强险。</p></div><div class=\"case-detail-section\"><span class=\"cdt result\">⚖️ 结果</span><p>法院判决对方赔偿医疗费、误工费、护理费、残疾赔偿金、精神损害抚慰金等共计27.3万元。交强险赔付限额不足部分由肇事方个人承担。</p></div><div class=\"case-detail-lesson\"><strong>💡 启示：</strong>交通事故赔偿项目多达十余项，及时保留医疗票据、误工证明至关重要。对方保险不足时可申请财产保全。建议使用平台的交通事故赔偿计算器估算赔付金额。</div><div class=\"case-detail-ref\">📚 相关法律：《民法典》第1179条（人身损害赔偿范围）、第1208条（机动车交通事故责任）</div>"
+    },
+    {
+        "badge": "consumer",
+        "bt": "消费维权",
+        "emoji": "📱",
+        "title": "网购翻新机冒充全新，退一赔三",
+        "brief": "商家欺诈卖翻新机，法院判退还货款+三倍赔偿",
+        "detail": "<div class=\"case-detail-section\"><span class=\"cdt\">📋 案情</span><p>王女士在电商平台购买一部手机，商家宣称\"全新正品\"，收货后发现是翻新机。王女士保留了商品页面截图、聊天记录和开箱视频。</p></div><div class=\"case-detail-section\"><span class=\"cdt result\">⚖️ 结果</span><p>法院认定商家构成欺诈，判决退还购机款4999元，并三倍赔偿14997元（退一赔三），合计19996元。</p></div><div class=\"case-detail-lesson\"><strong>💡 启示：</strong>消费者权益保护法第55条\"退一赔三\"是打击欺诈的有力武器。保留购物凭证、商品页面截图、开箱视频是关键证据。金额不足500元的按500元赔偿。</div><div class=\"case-detail-ref\">📚 相关法律：《消费者权益保护法》第55条（欺诈退一赔三）</div>"
+    },
+    {
+        "badge": "debt",
+        "bt": "债权债务",
+        "emoji": "📄",
+        "title": "借条不规范，15万借款险些追不回",
+        "brief": "微信转账未写借条，法院凭聊天记录认定借贷关系",
+        "detail": "<div class=\"case-detail-section\"><span class=\"cdt\">📋 案情</span><p>赵某借给朋友15万元，仅通过微信转账未写借条。朋友逾期不还后否认借款。赵某提供微信聊天记录和转账凭证作为证据。</p></div><div class=\"case-detail-section\"><span class=\"cdt result\">⚖️ 结果</span><p>法院认定微信聊天记录与转账凭证形成完整证据链，判决朋友偿还全部借款及利息。但因未约定利率，利息按LPR计算而非约定的口头利率。</p></div><div class=\"case-detail-lesson\"><strong>💡 启示：</strong>民间借贷一定要写借条，写明借款人、金额、利率、还款日期。微信聊天记录作为证据需保留原始记录，定期截屏备份。诉讼时效3年。</div><div class=\"case-detail-ref\">📚 相关法律：《民法典》第667-680条（借款合同）、第188条（诉讼时效）</div>"
+    }
+];
+
+        function openCaseModal(index) {
+            var c = caseData[index];
+            var body = document.getElementById('caseModalBody');
+            body.innerHTML = '<div style="padding:4px 0;">' +
+                '<span class="c-badge ' + c.badge + '" style="margin-bottom:12px;display:inline-block;">' + c.bt + '</span>' +
+                '<h3 style="font-size:20px;font-weight:700;color:var(--primary-color);margin:12px 0 4px;">' + c.emoji + ' ' + c.title + '</h3>' +
+                c.detail + '</div>';
+            document.getElementById('caseModal').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeCaseModal() {
+            document.getElementById('caseModal').style.display = 'none';
+            document.body.style.overflow = '';
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeCaseModal();
+        });
         window.onload = function() {
             initPages();
             // 任务42：案例计数初始化
