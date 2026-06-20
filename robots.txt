@@ -1,6 +1,4 @@
 User-agent: *
 Allow: /
-Disallow: /admin/
-Disallow: /private/
 
-Sitemap: https://fadun.example.com/sitemap.xml
+Sitemap: https://jiangjiale567-tech.github.io/fadun/sitemap.xml
