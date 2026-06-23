@@ -1363,6 +1363,469 @@
                                 };
                             }
                         }
+                    },
+                    /* ---- 第7批新增工具 ---- */
+                    { 
+                        id: 'company_reg_guide',
+                        icon: '🏢',
+                        title: '公司注册类型选择',
+                        desc: '有限/股份/一人公司/个体户,哪种适合你?',
+                        type: 'checklist',
+                        toolConfig: {
+                            title: '公司注册类型选择与流程指引',
+                            items: [
+                                { id: 's1', text: '【有限公司】股东 1-50 人,以认缴出资额为限承担责任。适合初创团队、中小企业。', required: true },
+                                { id: 's2', text: '【股份公司】发起人 1-200 人,全部资本分为等额股份。适合计划上市或大规模融资的企业。', required: true },
+                                { id: 's3', text: '【一人有限公司】1 个自然人股东。需注意:每年审计,否则股东对债务承担连带责任(公司法第 63 条)。', required: true },
+                                { id: 's4', text: '【个体工商户】无限责任,不设注册资本。适合小本经营(路边店/工作室)。', required: true },
+                                { id: 's5', text: '确定公司名称:行政区划+字号+行业+组织形式。国家企业信用信息公示系统(gsxt.gov.cn)查重。', required: true },
+                                { id: 's6', text: '选择经营范围:参考《国民经济行业分类》。注意前置审批项目(金融/医疗/教育等需许可证)。', required: true },
+                                { id: 's7', text: '确定注册资本:取消最低限额,但认缴不代表不用缴。认缴期限一般为 5-10 年,到期未缴可能被追索。', required: true },
+                                { id: 's8', text: '注册流程:核名→网上提交材料→电子签名→领取营业执照→刻章→银行开户→税务登记(30 天内)', required: true },
+                                { id: 's9', text: '【税率对比】有限公司:企业所得税 25%(小微企业 5%)+ 分红个税 20%。个体户:5-35% 超额累进。', required: false },
+                                { id: 's10', text: '【变更登记】公司名称/地址/股东/经营范围等变更应在 30 日内办理变更登记(市场主体登记管理条例第 24 条)', required: false },
+                                { id: 's11', text: '【注销登记】公司注销需先清算:成立清算组→公告 45 天→税务注销→工商注销→银行账户注销', required: false }
+                            ]
+                        }
+                    },
+                    { 
+                        id: 'company_charter_gen',
+                        icon: '📋',
+                        title: '公司章程生成器',
+                        desc: '把模板章程改成你的章程',
+                        type: 'generator',
+                        toolConfig: {
+                            title: '公司章程必备条款生成器',
+                            fields: [
+                                { name: '公司名称', key: 'coName', type: 'text', placeholder: 'XXX有限公司' },
+                                { name: '注册地址', key: 'address', type: 'text', placeholder: 'xx省xx市xx区xx路xx号' },
+                                { name: '注册资本(万元)', key: 'regCapital', type: 'number', placeholder: '100' },
+                                { name: '股东人数', key: 'shareholderCount', type: 'number', placeholder: '2' },
+                                { name: '法定代表人', key: 'legalRep', type: 'text', placeholder: '张三' },
+                                { name: '认缴期限(年)', key: 'payPeriod', type: 'number', placeholder: '10' },
+                                { name: '股权转让是否需其他股东同意', key: 'transferRestrict', type: 'select', options: ['需要全体股东过半数同意', '自由转让', '需其他股东优先购买权'] },
+                                { name: '利润分配方式', key: 'profitDist', type: 'select', options: ['按实缴出资比例分配', '按认缴出资比例分配', '按约定比例分配'] }
+                            ],
+                            generate: (data) => {
+                                const date = new Date().toLocaleDateString('zh-CN');
+                                return {
+                                    title: data.coName + ' 章程核心条款',
+                                    content: `第一章 总则
+第1条 公司名称:${data.coName}
+第2条 公司住所:${data.address}
+第3条 注册资本:${data.regCapital}万元人民币
+第4条 经营期限:长期
+
+第二章 股东与出资
+第5条 股东以其认缴的出资额为限对公司承担责任。
+第6条 出资方式:货币/实物/知识产权/土地使用权/股权/债权等(公司法第27条)
+第7条 出资期限:自公司成立之日起${data.payPeriod}年内缴足。
+
+第三章 股东会
+第8条 股东会由全体股东组成(有限公司最高权力机构,公司法第36条)
+第9条 修改章程、增减注册资本、合并分立解散须经代表三分之二以上表决权的股东通过。
+第10条 其他事项须经代表过半数表决权的股东通过。
+
+第四章 股权转让
+第11条 ${data.transferRestrict}
+第12条 股东死亡后,${data.transferRestrict === '自由转让' ? '合法继承人可继承股东资格' : '继承人能否取得股东资格由其他股东过半数同意'}(公司法第75条)
+
+第五章 利润分配
+第13条 税后利润提取 10% 法定公积金(累计达注册资本 50% 以上可不再提取)
+第14条 ${data.profitDist}
+
+第六章 公司治理
+第15条 法定代表人:${data.legalRep}
+第16条 董事任期不超过 3 年,监事任期 3 年
+
+第七章 公司解散与清算
+第17条 公司解散后应在 15 日内成立清算组(公司法第183条)
+第18条 清算组应自成立之日起 10 日内通知债权人,60 日内在报纸上公告。`,
+                                    basis: '公司法第 25 条(有限公司章程必备条款)、第 37 条(股东会职权)、第 43 条(表决机制)、第 71 条(股权转让)、第 75 条(继承)'
+                                };
+                            }
+                        }
+                    },
+                    { 
+                        id: 'shareholder_liability',
+                        icon: '🔗',
+                        title: '股东责任风险自测',
+                        desc: '公司欠债追到股东?查这 6 项',
+                        type: 'assessment',
+                        toolConfig: {
+                            title: '股东责任风险等级评估',
+                            questions: [
+                                { question: '公司注册资本是否已经实缴?', options: ['已全部实缴并有验资', '部分实缴', '完全认缴未实缴'] },
+                                { question: '股东个人账户是否用于公司收支?', options: ['完全分开', '偶尔混用', '经常用个人账户走公司账'] },
+                                { question: '公司与股东之间有无关联交易?', options: ['无关联交易', '有但正常定价', '无合同/无定价/随意划转'] },
+                                { question: '公司是否有独立经营场所?', options: ['有独立租赁或自有', '与股东住所/其他公司共用', '无实际经营场所'] },
+                                { question: '公司债务是否已不能清偿?', options: ['正常经营能清偿', '有逾期但可协商', '已有多笔诉讼/执行'] },
+                                { question: '股东是否为公司债务提供个人担保?', options: ['无任何个人担保', '少数合同有', '大量合同均有个人连带担保'] }
+                            ],
+                            evaluate: (answers) => {
+                                let score = 0, risks = [];
+                                if (answers[0] === '完全认缴未实缴') { score += 3; risks.push('❌ 认缴未实缴:债权人可要求股东在未缴范围内补充赔偿'); }
+                                else if (answers[0] === '部分实缴') { score += 1; risks.push('⚠️ 未足额实缴部分存在风险'); }
+                                if (answers[1] === '经常用个人账户走公司账') { score += 4; risks.push('❌ 财务混同:构成人格否认的关键证据(公司法第20条)'); }
+                                else if (answers[1] === '偶尔混用') { score += 1; risks.push('⚠️ 建议完全隔离公私账'); }
+                                if (answers[2] === '无合同/无定价/随意划转') { score += 3; risks.push('❌ 关联交易不规范:可能被认定资产混同'); }
+                                if (answers[3] === '无实际经营场所') { score += 2; risks.push('⚠️ 无独立经营场所,法人与个人难以区分'); }
+                                if (answers[4] === '已有多笔诉讼/执行') { score += 4; risks.push('❌ 资不抵债:债权人很可能起诉请求"刺破公司面纱"'); }
+                                if (answers[5] === '大量合同均有个人连带担保') { score += 2; risks.push('⚠️ 个人担保越多,公司与个人越难分离'); }
+                                let lv = score <= 3 ? '🟢 低风险' : score <= 7 ? '🟡 中风险' : '🔴 高风险';
+                                return { title: '股东责任风险评估', level: lv, score: score + '/16', issues: risks, suggestion: score > 7 ? '建议立即进行法人治理整改,特别是财务隔离。' : '基本合规,建议定期自查。', basis: '公司法第20条(法人人格否认) + 第28条(出资违约) + 九民纪要第10-13条(人格混同认定标准)' };
+                            }
+                        }
+                    },
+                    { 
+                        id: 'contract_key_clause',
+                        icon: '📄',
+                        title: '合同条款模板库',
+                        desc: '违约金/管辖/质保/保密条款生成',
+                        type: 'generator',
+                        toolConfig: {
+                            title: '合同关键条款模板生成器',
+                            fields: [
+                                { name: '合同双方', key: 'parties', type: 'text', placeholder: '甲方:XXX公司,乙方:XXX公司' },
+                                { name: '管辖法院', key: 'jurisdiction', type: 'select', options: ['甲方所在地法院(推荐)', '乙方所在地法院', '合同签订地法院', '中立地仲裁委员会'] },
+                                { name: '违约金比例(%)', key: 'penaltyRate', type: 'number', placeholder: '30' },
+                                { name: '是否有质保期', key: 'hasWarranty', type: 'select', options: ['有,12个月', '有,24个月', '有,36个月', '无质保期'] },
+                                { name: '是否需保密条款', key: 'hasNda', type: 'select', options: ['需要', '不需要'] }
+                            ],
+                            generate: (data) => {
+                                let pct = Math.min(100, Math.max(0, +data.penaltyRate || 30));
+                                let warn = pct > 30 ? '⚠️ 超过 30% 部分法院可调低(民法典第585条)' : '';
+                                return {
+                                    title: '合同关键条款模板',
+                                    content: '一、争议解决条款\n因本合同引起的或与本合同有关的任何争议,双方应友好协商解决;协商不成的,' + (data.jurisdiction === '中立地仲裁委员会' ? '双方同意提交_____仲裁委员会按照其仲裁规则进行仲裁。仲裁裁决是终局的,对双方均有约束力。\n【提示】仲裁一裁终局,不可上诉,适合商业秘密纠纷。费用通常为争议金额的 0.5-3%。' : '任何一方均可向' + data.jurisdiction + '提起诉讼。\n【提示】协议管辖不得违反级别管辖和专属管辖(民事诉讼法第35条)。') + '\n\n二、违约金条款(民法典第585条)\n任何一方违约,应向守约方支付合同总金额 ' + pct + '% 的违约金。' + warn + '\n【提示】违约金过高(超过实际损失 30%)的,法院可依申请减少。过低(低于实际损失)的,法院可增加。\n\n三、质量保证条款\n' + (data.hasWarranty !== '无质保期' ? data.hasWarranty.replace('有,','') + '质保期内,卖方应在收到书面通知后 7 日内免费维修或更换。质保期自验收合格之日起计算。(民法典第620-624条)' : '双方约定按"现状交付",买方应在收货后 3 个工作日内完成验收,逾期视为合格。') + '\n\n四、送达地址条款(保证诉讼/仲裁文书有效送达)\n双方确认以下地址为有效送达地址:_________________。变更地址应提前 3 日书面通知对方,否则按原地址送达即视为已送达。',
+                                    basis: '民法典第470条(合同内容)、第585条(违约金)、第586-588条(定金)、第620-624条(买卖合同的检验),民事诉讼法第35条(协议管辖)'
+                                };
+                            }
+                        }
+                    },
+                    { 
+                        id: 'guarantee_selector',
+                        icon: '🛡️',
+                        title: '担保风险自查',
+                        desc: '当保证人之前先摸个底',
+                        type: 'assessment',
+                        toolConfig: {
+                            title: '保证责任与担保风险评估',
+                            questions: [
+                                { question: '保证方式', options: ['一般保证(先找债务人,还不上的才找保证人)', '连带责任保证(可直接找保证人)', '约定不明(民法典第686条:约定不明=一般保证)'] },
+                                { question: '保证期间', options: ['明确约定了保证期间(6个月/1年等)', '约定不明("承担保证责任直至主债务还清本息为止")', '未约定保证期间'] },
+                                { question: '是否有物的担保(抵押/质押)', options: ['无,仅有保证', '有抵押', '有质押'] },
+                                { question: '主债务是否已到期', options: ['尚未到期', '已到期,债务人未履行', '已到期,债务人已部分履行'] },
+                                { question: '是否约定担保范围', options: ['明确约定(本金+利息+违约金+实现债权的费用)', '仅约定"担保全部债务"', '未约定担保范围'] }
+                            ],
+                            evaluate: (answers) => {
+                                let risk = 0, notes = [];
+                                if (answers[0] === '连带责任保证') { risk += 3; notes.push('⚠️ 连带保证风险高:债权人可直接起诉保证人,无需先追债务人'); }
+                                else if (answers[0] === '约定不明(民法典第686条:约定不明=一般保证)') { risk += 1; notes.push('ℹ️ 民法典第686条:约定不明的,按一般保证(2021年起生效)'); }
+                                if (answers[1] === '约定不明') { risk += 2; notes.push('⚠️ "还清为止"视为保证期间 6 个月(民法典第692条)'); }
+                                else if (answers[1] === '未约定保证期间') { risk += 2; notes.push('⚠️ 未约定保证期间=主债务履行期届满后 6 个月(民法典第692条)'); }
+                                if (answers[3] === '已到期,债务人未履行') { risk += 2; notes.push('⚠️ 主债务已到期未履行,保证人可能随时被追索'); }
+                                if (answers[4] === '未约定担保范围') { risk += 1; notes.push('ℹ️ 未约定范围=担保全部债权(民法典第691条)'); }
+                                let lv = risk <= 3 ? '🟢 可控' : risk <= 6 ? '🟡 中等风险' : '🔴 高风险';
+                                return { title: '担保风险评估', level: lv, score: risk + '/10', issues: notes, suggestion: '作为保证人前务必:1)确认保证方式(一般保证vs连带);2)确认保证期间;3)限制担保金额;4)要求反担保。', basis: '民法典第686条(一般保证vs连带保证)、第691条(担保范围)、第692条(保证期间)、第700条(追偿权)' };
+                            }
+                        }
+                    },
+                    { 
+                        id: 'litigation_jurisdiction',
+                        icon: '🏛️',
+                        title: '管辖与时效判断',
+                        desc: '该去哪个法院起诉?还来得及吗?',
+                        type: 'assessment',
+                        toolConfig: {
+                            title: '诉讼管辖与时效综合判断',
+                            questions: [
+                                { question: '争议类型', options: ['合同纠纷', '侵权纠纷', '不动产纠纷', '股权纠纷'] },
+                                { question: '争议金额', options: ['5万元以下(小额诉讼)', '5-50万元', '50万-3000万', '3000万以上'] },
+                                { question: '被告所在地', options: ['本地(同省/同市)', '外省(跨省)', '境外(含港澳台)'] },
+                                { question: '从知道权利受损至今多久了?', options: ['1年以内', '1-2年', '2-3年', '超过3年'] },
+                                { question: '是否有时效中断事由(催收/起诉/债务人承认)', options: ['有,最近6个月内催收过', '有,但超过1年未催收', '无任何催收记录'] }
+                            ],
+                            evaluate: (answers) => {
+                                let result = [];
+                                if (answers[0] === '不动产纠纷') { result.push('ℹ️ 专属管辖:不动产所在地法院(民诉法第34条)'); }
+                                else if (answers[0] === '侵权纠纷') { result.push('ℹ️ 侵权行为地(发生地+结果地)或被告所在地(民诉法第29条)'); }
+                                else if (answers[0] === '合同纠纷') { result.push('ℹ️ 被告所在地或合同履行地(民诉法第24条)'); }
+                                if (answers[2] === '境外(含港澳台)') { result.push('⚠️ 境外被告:需判断是否有国内连接点,可能需域外送达'); }
+                                if (answers[1] === '5万元以下(小额诉讼)') { result.push('✅ 小额诉讼一审终审,效率高(民诉法第165条)'); }
+                                if (answers[3] === '超过3年') {
+                                    if (answers[4] === '有,最近6个月内催收过') result.push('🟡 超过3年但有时效中断事由,诉讼时效重新计算(民法典第195条)');
+                                    else result.push('🔴 超过3年诉讼时效且无中断事由,可能丧失胜诉权');
+                                } else if (answers[3] === '2-3年') { result.push('🟡 接近3年时效,建议尽快起诉或发送催收函中断时效'); }
+                                else { result.push('✅ 在诉讼时效内'); }
+                                return { title: '管辖与时效分析', items: result, basis: '民事诉讼法第22条(地域管辖)、第24条(合同管辖)、第34条(专属管辖);民法典第188条(诉讼时效3年)、第195条(时效中断)' };
+                            }
+                        }
+                    },
+                    { 
+                        id: 'arbitration_clause',
+                        icon: '⚖️',
+                        title: '仲裁条款起草器',
+                        desc: '写一条法院不会驳回的仲裁条款',
+                        type: 'generator',
+                        toolConfig: {
+                            title: '仲裁条款范本生成器',
+                            fields: [
+                                { name: '选择仲裁机构', key: 'arbBody', type: 'select', options: ['北京仲裁委员会(BAC)', '上海国际经济贸易仲裁委员会(SHIAC)', '深圳国际仲裁院(SCIA)', '中国国际经济贸易仲裁委员会(CIETAC)', '当地仲裁委员会'] },
+                                { name: '仲裁地', key: 'arbPlace', type: 'select', options: ['北京', '上海', '深圳', '与机构所在地一致'] },
+                                { name: '仲裁庭组成', key: 'panel', type: 'select', options: ['独任仲裁员(争议≤100万,推荐)', '3 名仲裁员(争议>100万)'] },
+                                { name: '仲裁语言', key: 'language', type: 'select', options: ['中文', '英文', '中英双语'] },
+                                { name: '争议金额', key: 'amount', type: 'number', placeholder: '预估争议金额(万元)' }
+                            ],
+                            generate: (data) => {
+                                let name = data.arbBody;
+                                let cost = Math.round((+data.amount || 50) * 10000 * 0.02);
+                                let fee = Math.max(5000, Math.min(200000, cost));
+                                return {
+                                    title: '仲裁条款(供合同争议解决条款使用)',
+                                    content: '标准仲裁条款\n因本合同引起的或与本合同有关的任何争议,均应提交' + name + '按照申请仲裁时该会现行有效的仲裁规则进行仲裁。仲裁裁决是终局的,对双方均有约束力。\n\n【仲裁庭组成】' + data.panel + '\n【仲裁地】' + data.arbPlace + '\n【仲裁语言】' + data.language + '\n\n常见错误条款(可能被认定无效):\n❌ "争议可申请仲裁或向法院起诉" → 约定不明,仲裁协议无效(仲裁法司法解释第7条)\n❌ "提交北京仲裁委员会或中国国际经济贸易仲裁委员会" → 两个机构,无效\n❌ "依法仲裁" → 未指定仲裁机构,无效\n\n费用估算:争议金额 ' + data.amount + ' 万元的仲裁费约为 ¥' + fee.toLocaleString() + '。\n对比诉讼:仲裁费通常高于诉讼费(诉讼费约为 ¥' + Math.round(+data.amount*10000*0.025).toLocaleString() + '),但仲裁一裁终局+保密性强。',
+                                    basis: '仲裁法第16条(仲裁协议要件)、第18条(约定不明的仲裁协议无效)、仲裁法司法解释第7条(或裁或审条款无效)'
+                                };
+                            }
+                        }
+                    },
+                    { 
+                        id: 'bankruptcy_warning',
+                        icon: '📉',
+                        title: '破产风险预警',
+                        desc: '公司还能撑多久?10 项指标自检',
+                        type: 'assessment',
+                        toolConfig: {
+                            title: '企业破产风险预警评估',
+                            questions: [
+                                { question: '公司是否已不能清偿到期债务?', options: ['全部能正常清偿', '部分逾期但协商中', '多笔逾期且被催告/起诉'] },
+                                { question: '公司资产是否已低于负债?', options: ['资产>负债,且有流动资金', '资产>负债但无流动资金', '资产<负债,资不抵债'] },
+                                { question: '公司近6个月是否持续亏损?', options: ['盈利或持平', '轻微亏损', '严重亏损'] },
+                                { question: '是否已有法院强制执行?', options: ['无执行案件', '有执行但未执行到位', '被列入失信被执行人'] },
+                                { question: '是否存在税务逾期?', options: ['正常纳税', '有少量逾期', '长期欠税且被催缴'] },
+                                { question: '是否有员工申请劳动仲裁?', options: ['无', '1-2件', '3件以上或因欠薪集体申请'] },
+                                { question: '供应商是否已要求预付或现结?', options: ['正常月结', '少数供应商要求预付', '全部供应商要求预付或现金'] },
+                                { question: '是否有未决诉讼(含仲裁)?', options: ['无', '1-2件,金额不大', '3件以上或金额超过注册资本30%'] }
+                            ],
+                            evaluate: (answers) => {
+                                let score = 0, flags = [];
+                                if (answers[0] === '多笔逾期且被催告/起诉') { score += 4; flags.push('❌ 不能清偿到期债务:构成破产原因(企业破产法第2条)'); }
+                                else if (answers[0] === '部分逾期但协商中') { score += 1; flags.push('⚠️ 注意流动性风险'); }
+                                if (answers[1] === '资产<负债,资不抵债') { score += 4; flags.push('❌ 资不抵债:破产原因之二'); }
+                                else if (answers[1] === '资产>负债但无流动资金') { score += 2; flags.push('⚠️ 流动性危机:有资产但无法变现还债'); }
+                                if (answers[2] === '严重亏损') { score += 3; flags.push('⚠️ 持续严重亏损'); }
+                                if (answers[3] === '被列入失信被执行人') { score += 4; flags.push('❌ 失信被执行人:黑名单,经营受限'); }
+                                if (answers[4] === '长期欠税且被催缴') { score += 3; flags.push('❌ 税务问题:可能导致刑事责任'); }
+                                if (answers[5] === '3件以上或因欠薪集体申请') { score += 3; flags.push('❌ 劳资矛盾尖锐:是破产的重要信号'); }
+                                if (answers[6] === '全部供应商要求预付或现金') { score += 2; flags.push('⚠️ 供应链信任危机'); }
+                                if (answers[7] === '3件以上或金额超过注册资本30%') { score += 2; flags.push('⚠️ 诉讼集中爆发'); }
+                                let lv = score <= 5 ? '🟢 正常经营' : score <= 10 ? '🟡 注意:建议尽快调整经营策略' : score <= 15 ? '🟠 预警:建议咨询破产律师,制定应对方案' : '🔴 紧急:请立即联系专业律师';
+                                let adv = score > 10 ? '如已符合破产原因,可主动申请破产重整以时间换空间(企业破产法第70条)。如需继续经营,注意:个别清偿可能被管理人撤销(破产法第32条)。' : '建议保留至少 3 个月流动资金储备。';
+                                return { title: '破产风险预警报告', level: lv, score: score + '/20', issues: flags, suggestion: adv, basis: '企业破产法第2条(破产原因)、第7条(申请主体)、第32条(个别清偿的撤销)、第113条(清偿顺序)' };
+                            }
+                        }
+                    },
+                    { 
+                        id: 'partnership_agreement',
+                        icon: '🤝',
+                        title: '合伙协议生成器',
+                        desc: '先君子后小人,协议写清楚',
+                        type: 'generator',
+                        toolConfig: {
+                            title: '普通合伙企业合伙协议核心条款',
+                            fields: [
+                                { name: '合伙名称', key: 'firmName', type: 'text', placeholder: 'XXX合伙企业(普通合伙)' },
+                                { name: '合伙人甲姓名', key: 'partnerA', type: 'text', placeholder: '张三' },
+                                { name: '甲出资(万元)', key: 'capA', type: 'number', placeholder: '60' },
+                                { name: '合伙人乙姓名', key: 'partnerB', type: 'text', placeholder: '李四' },
+                                { name: '乙出资(万元)', key: 'capB', type: 'number', placeholder: '40' },
+                                { name: '经营场所', key: 'place', type: 'text', placeholder: 'xx省xx市xx区xx路' },
+                                { name: '经营范围', key: 'scope', type: 'text', placeholder: '商业服务/技术开发等' },
+                                { name: '利润分配方式', key: 'profitShare', type: 'select', options: ['按出资比例', '平均分配', '按约定比例(甲60%乙40%)', '其他'] }
+                            ],
+                            generate: (data) => {
+                                let total = (+data.capA + +data.capB);
+                                return {
+                                    title: data.firmName + ' 合伙协议核心条款',
+                                    content: '一、合伙企业的名称和主要经营场所\n名称:' + data.firmName + '\n经营场所:' + data.place + '\n经营范围:' + data.scope + '\n\n二、合伙人的出资方式、数额和缴付期限\n合伙人甲:' + data.partnerA + ',以货币出资 ' + data.capA + ' 万元,占 ' + Math.round(+data.capA/total*100) + '%。\n合伙人乙:' + data.partnerB + ',以货币出资 ' + data.capB + ' 万元,占 ' + Math.round(+data.capB/total*100) + '%。\n【提示】普通合伙人对合伙债务承担无限连带责任(合伙企业法第39条),这是与有限公司最大的区别。\n\n三、利润分配\n' + (data.profitShare === '按出资比例' ? '按出资比例分配:' : '按约定比例分配:') + '\n甲:' + Math.round(+data.capA/total*100) + '%  乙:' + Math.round(+data.capB/total*100) + '%\n\n四、执行事务合伙人\n【提示】全体合伙人均可执行合伙事务(合伙企业法第26条),但修改合伙协议、增减出资、解散清算须全体一致同意(第31条)。\n\n五、入伙与退伙\n入伙:新合伙人入伙须经全体合伙人同意(第43条)。\n退伙:合伙人退伙,其他合伙人应当与该退伙人按照退伙时的合伙企业财产状况进行结算(第51条)。\n【重要】退伙人对基于其退伙前的原因发生的合伙企业债务,承担无限连带责任(第53条)。\n\n六、争议解决办法\n合伙人之间发生争议:先协商→协商不成的向经营场所所在地人民法院起诉。',
+                                    basis: '合伙企业法第11条(合伙协议形式)、第26条(执行事务合伙人)、第31条(全票决事项)、第33条(利润分配)、第39条(无限连带)、第43条(入伙)、第45-50条(退伙)'
+                                };
+                            }
+                        }
+                    },
+                    { 
+                        id: 'mass_layoff_check',
+                        icon: '📋',
+                        title: '经济性裁员合规评估',
+                        desc: '想一次裁20人?先过这关',
+                        type: 'assessment',
+                        toolConfig: {
+                            title: '经济性裁员合规性评估',
+                            questions: [
+                                { question: '人数是否符合"经济性裁员"标准?', options: ['裁减人员 20 人以上', '裁减不足 20 人但占职工总数 10% 以上', '不符合以上标准(属于个别解除)'] },
+                                { question: '是否满足四种法定情形之一?', options: ['依照破产法重整', '生产经营发生严重困难', '转产/重大技术革新后仍需裁减', '客观经济情况重大变化(如订单断崖式下降)', '以上都不符合'] },
+                                { question: '是否已提前 30 日向工会/全体职工说明?', options: ['已提前 30 日书面说明并听取意见', '已通知但不足 30 日', '未通知'] },
+                                { question: '是否已向劳动行政部门报告?', options: ['已向劳动部门报告裁员方案', '尚未报告', '未计划报告'] },
+                                { question: '是否属于不得裁减的人员?', options: ['无(均不属于)', '部分属于三期女职工', '部分属于工伤或医疗期员工'] }
+                            ],
+                            evaluate: (answers) => {
+                                let score = 0, issues = [];
+                                if (answers[0] === '不符合以上标准(属于个别解除)') { issues.push('ℹ️ 不属于经济性裁员,适用普通解除程序(劳动合同法第39-40条)'); }
+                                else { score += 1; }
+                                if (answers[1] === '以上都不符合') { score += 5; issues.push('❌ 不符合任何法定裁员条件,强行裁员=违法解除,需支付 2N 赔偿金'); }
+                                else { score += 1; }
+                                if (answers[2] === '未通知') { score += 4; issues.push('❌ 未提前30日通知:违反法定程序,裁员决定可能被撤销'); }
+                                else if (answers[2] === '已通知但不足30日') { score += 2; issues.push('⚠️ 不足30日,需支付代通知金(多1个月工资)'); }
+                                if (answers[3] === '未计划报告') { score += 3; issues.push('❌ 不报告=程序违法(劳动合同法第41条)'); }
+                                if (answers[4] === '部分属于三期女职工' || answers[4] === '部分属于工伤或医疗期员工') { score += 4; issues.push('❌ 特殊群体(三期/工伤/医疗期)不得裁员'); }
+                                let lv = score <= 4 ? '🟢 基本合规' : score <= 8 ? '🟡 存在风险' : '🔴 不建议直接操作';
+                                return { title: '经济性裁员合规报告', level: lv, score: score + '/16', issues: issues, suggestion: score > 8 ? '不建议直接操作,理由:程序违法+实体条件不符=违法解除。建议优先协商解除(经济补偿N)或暂停裁员计划。' : '需补足程序:提前30天通知+向劳动部门报告。', basis: '劳动合同法第41条(裁员条件与程序)、第42条(不得裁员情形)、第46条(经济补偿)、第47条(计算方法:N=工作年限×月平均工资)' };
+                            }
+                        }
+                    },
+                    { 
+                        id: 'consumer_complaint',
+                        icon: '📞',
+                        title: '消费者投诉应对指南',
+                        desc: '被投诉了怎么办?8 步合规流程',
+                        type: 'checklist',
+                        toolConfig: {
+                            title: '消费者投诉应对清单',
+                            items: [
+                                { id: 's1', text: '【响应时限】收到投诉后应在 24 小时内回复(12315 平台要求 7 个工作日内处理,但不建议拖)。', required: true },
+                                { id: 's2', text: '【保留证据】保留用户订单记录、聊天记录、发货物流、验收记录,防止恶意投诉。', required: true },
+                                { id: 's3', text: '【区分性质】区分:a)真质量问题(退换);b)主观不满意(协商);c)职业索赔人(依法处理,不私了);d)恶意差评(可起诉名誉侵权)', required: true },
+                                { id: 's4', text: '【七天无理由】除定制/鲜活/数字化商品外,无条件退货,运费由消费者承担(消保法第25条+实施条例第12条)', required: true },
+                                { id: 's5', text: '【三包义务】7日内质量问题可退/换/修;15天内可换/修;修理两次仍不能用的可换货(部分商品三包规定)', required: true },
+                                { id: 's6', text: '【欺诈三倍赔偿】确认是否构成欺诈。若构成(明知假货当正品卖),面临退一赔三(消保法第55条,最低500元)', required: true },
+                                { id: 's7', text: '【12315调解】协商不成时向 12315 投诉,应主动配合调解。调解不成消费者可起诉。', required: false },
+                                { id: 's8', text: '【食品安全】食品类投诉特别敏感:过期/不洁食品,面临退一赔十(食品安全法第148条,最低1000元)', required: false }
+                            ]
+                        }
+                    },
+                    { 
+                        id: 'trade_secret_check',
+                        icon: '🔒',
+                        title: '商业秘密保护体检',
+                        desc: '核心机密有没有漏风?7 项评估',
+                        type: 'assessment',
+                        toolConfig: {
+                            title: '商业秘密保护措施评估',
+                            questions: [
+                                { question: '是否与涉密员工签了保密协议?', options: ['全员签署', '核心岗位签署', '未签署'] },
+                                { question: '是否与核心员工签了竞业限制?', options: ['已签并约定补偿金(不低于30%)', '已签但补偿金低于法定标准', '未签署'] },
+                                { question: '涉密文件是否有分级管理(密级+访问权限)?', options: ['有分级+权限控制+日志', '有基本权限', '无管理,全员可访问'] },
+                                { question: '离职员工如何交接涉密文件?', options: ['有检查清单并签字确认', '口头交代', '无交接'] },
+                                { question: '涉密区域有无物理隔离(门禁/监控)?', options: ['有独立门禁+24小时监控', '有门禁无监控', '开放式办公'] },
+                                { question: '公司技术资料是否登记著作权或专利申请?', options: ['关键技术均已登记', '部分登记', '未做任何登记'] },
+                                { question: '是否定期做保密培训?', options: ['每半年一次', '入职时培训过', '从未培训'] }
+                            ],
+                            evaluate: (answers) => {
+                                let score = 0, risks = [];
+                                if (answers[0] === '未签署') { score += 3; risks.push('❌ 无保密协议:难以证明采取了保密措施(反不正当竞争法第9条)'); }
+                                if (answers[1] === '未签署') { score += 2; risks.push('⚠️ 无竞业限制:核心员工离职可直接加入竞争对手'); }
+                                else if (answers[1] === '已签但补偿金低于法定标准') { risks.push('⚠️ 竞业限制补偿金不得低于前12个月平均工资的30%(最高法劳动争议司法解释一第36条)'); }
+                                if (answers[2] === '无管理,全员可访问') { score += 3; risks.push('❌ 涉密文件无管理:最容易被竞争对手获取'); }
+                                if (answers[3] === '无交接') { score += 2; risks.push('⚠️ 无交接=员工可带走全部资料'); }
+                                if (answers[4] === '开放式办公') { score += 1; risks.push('⚠️ 开放环境不利于商业秘密举证'); }
+                                if (answers[6] === '从未培训') { score += 2; risks.push('⚠️ 员工不知何为商业秘密,无意中泄露风险大'); }
+                                let lv = score <= 3 ? '🟢 保护较好' : score <= 6 ? '🟡 存在漏洞' : '🔴 高风险:请立即整改';
+                                return { title: '商业秘密保护体检报告', level: lv, score: score + '/14', issues: risks, suggestion: score > 6 ? '建议立即采取行动:1)补充保密协议;2)建立文件分级管理制度;3)对涉密区域加装门禁。' : '基本合规,建议每年review保密协议。', basis: '反不正当竞争法第9条(商业秘密定义与侵权)、第17条(赔偿:实际损失/侵权获利/酌情赔偿500万以下)、第21条(刑事责任:最高10年)' };
+                            }
+                        }
+                    },
+                    { 
+                        id: 'trademark_feasibility',
+                        icon: '®️',
+                        title: '商标注册可行性自测',
+                        desc: '注册前先过 6 道关',
+                        type: 'assessment',
+                        toolConfig: {
+                            title: '商标注册可行性评估',
+                            questions: [
+                                { question: '商标是否包含国家名称/国旗/国徽/红十字等禁用标志?', options: ['完全不包含', '包含部分可能需特殊授权', '包含'] },
+                                { question: '商标是否仅为通用名称/型号/图形(如"苹果"用于苹果类商品)?', options: ['有独创性和显著性', '由常见词组成,有一定显著性', '完全是通用名称或行业术语'] },
+                                { question: '是否已做商标近似查询?', options: ['已查,无在先近似商标', '已查,存在近似但可使用', '未查'] },
+                                { question: '商标的商品/服务类别是什么?', options: ['单一类别(第35类/第9类等)', '多个关联类别', '全类45类'] },
+                                { question: '是否之前已有他人使用相同/近似商号?', options: ['查过,无人使用', '有相同商号但不同行业', '有相同商号且同行业'] },
+                                { question: '申请人类型', options: ['公司法人申请', '个体工商户', '个人(需执照)'] }
+                            ],
+                            evaluate: (answers) => {
+                                let score = 0, issues = [];
+                                if (answers[0] === '包含') { score += 5; issues.push('❌ 含禁用标志:商标局主动驳回(商标法第10条)'); }
+                                else if (answers[0] === '包含部分可能需特殊授权') { score += 2; issues.push('⚠️ 需提供授权/说明文件,驳回风险较高'); }
+                                if (answers[1] === '完全是通用名称或行业术语') { score += 4; issues.push('❌ 缺乏显著性:驳回(商标法第11条)'); }
+                                if (answers[2] === '未查') { score += 3; issues.push('⚠️ 强烈建议先查:中国商标网免费查询'); }
+                                else if (answers[2] === '已查,存在近似但可使用') { score += 1; issues.push('⚠️ 近似商标:可能被驳回,需做驳回复审准备'); }
+                                if (answers[4] === '有相同商号且同行业') { score += 3; issues.push('❌ 不仅商标近似,商号冲突更麻烦:可能侵犯在先字号权'); }
+                                let lv = score <= 3 ? '🟢 注册可行性较高,建议委托代理机构提交' : score <= 7 ? '🟡 有驳回风险,建议找代理机构评估后决定' : '🔴 建议修改商标后再提交申请';
+                                return { title: '商标注册可行性评估', level: lv, score: score + '/12', issues: issues, suggestion: '商标注册周期约 6-12 个月。建议:1)找代理机构做专业近似查询;2)核心类别注册(第35类广告/第42类科技/您的行业类);3)同步保护域名+公众号+App名。', basis: '商标法第9条(显著性)、第10条(禁用标志)、第11条(缺乏显著性不予注册)、第28条(近似驳回)、第30条(驳回复审)、第32条(不予注册异议)' };
+                            }
+                        }
+                    },
+                    { 
+                        id: 'small_tax_calc',
+                        icon: '🧾',
+                        title: '小微税负测算',
+                        desc: '一年赚 100 万,实际税交多少?',
+                        type: 'calculator',
+                        toolConfig: {
+                            title: '小微企业税负测算器',
+                            fields: [
+                                { name: '年营业收入(万元)', key: 'revenue', type: 'number', placeholder: '200', required: true },
+                                { name: '年利润总额(万元)', key: 'profit', type: 'number', placeholder: '30', required: true },
+                                { name: '成本中可取得增值税专票的比例', key: 'deductRatio', type: 'select', options: ['80%-100%', '50%-80%', '20%-50%', '20%以下(无发票成本高)'] },
+                                { name: '企业类型', key: 'type', type: 'select', options: ['小规模纳税人', '一般纳税人'] },
+                                { name: '行业', key: 'sector', type: 'select', options: ['服务业(6%/3%)', '商贸业(13%/3%)', '建筑业(9%/3%)'] },
+                                { name: '是否小微企业', key: 'isSmall', type: 'select', options: ['是', '否'] }
+                            ],
+                            calculate: (data) => {
+                                let rev = +data.revenue * 10000;
+                                let profit = +data.profit * 10000;
+                                let ratioMap = {'80%-100%':0.9,'50%-80%':0.65,'20%-50%':0.35,'20%以下(无发票成本高)':0.1};
+                                let deduct = ratioMap[data.deductRatio] || 0.5;
+                                let vatRate = data.type === '小规模纳税人' ? 0.03 : data.sector === '服务业(6%/3%)' ? 0.06 : data.sector === '商贸业(13%/3%)' ? 0.13 : 0.09;
+                                let vat = data.type === '小规模纳税人' ? rev * vatRate / 1.03 : (rev * vatRate / 1.13) * (1 - Math.min(1, deduct * 0.8));
+                                vat = Math.round(vat);
+                                let surcharges = Math.round(vat * 0.12);
+                                let ci = data.isSmall === '是' ? Math.round(profit * 0.25 * 0.20) : Math.round(profit * 0.25);
+                                let dividend = Math.round((profit - ci) * 0.20);
+                                let total = vat + surcharges + ci + dividend;
+                                return {
+                                    result: '年营收 ¥' + (+data.revenue).toLocaleString() + ' 万,利润 ¥' + (+data.profit).toLocaleString() + ' 万',
+                                    items: [
+                                        '增值税:¥' + vat.toLocaleString() + ' (税率:' + (data.type==='小规模纳税人'?'3%':'6%/9%/13%') + ')',
+                                        '附加税:¥' + surcharges.toLocaleString() + ' (增值税的12%)',
+                                        '企业所得税:¥' + ci.toLocaleString() + (data.isSmall === '是' ? ' (小微企业5%优惠税率)' : ' (标准25%税率)'),
+                                        '分红个税:¥' + dividend.toLocaleString() + ' (税后利润×20%)',
+                                        '---',
+                                        '综合税负:¥' + total.toLocaleString(),
+                                        '综合税负率:' + Math.round(total / rev * 10000) / 100 + '%'
+                                    ]
+                                };
+                            }
+                        }
+                    },
+                    { 
+                        id: 'invoice_compliance',
+                        icon: '📑',
+                        title: '发票合规与虚开风险自检',
+                        desc: '管好发票,别掉进虚开的坑',
+                        type: 'checklist',
+                        toolConfig: {
+                            title: '发票合规事项检查清单',
+                            items: [
+                                { id: 's1', text: '【三流一致】发票流=资金流=货物流(服务流)。不一致的一律认定为虚开发票(发票管理办法第22条)', required: true },
+                                { id: 's2', text: '【严禁无业务开票】没有真实交易就开票=虚开。虚开发票超 1 万元即可入刑(刑法第205条)', required: true },
+                                { id: 's3', text: '【严禁多开】实际交易 5 万,要求开 10 万=虚开。即使对方愿意多交税,也是违法。', required: true },
+                                { id: 's4', text: '【严禁让他人代开】自己没有开票资质(如个人),让朋友公司代开发票=虚开。', required: true },
+                                { id: 's5', text: '【专票 vs 普票】专票可抵扣进项(一般纳税人),虚开专票:单张超 1 万或累计超 10 万=3年以下;超 50 万=10年(刑法第205条)', required: true },
+                                { id: 's6', text: '【接受虚开的后果】知道是虚开仍接受的,同样构成虚开发票罪。', required: true },
+                                { id: 's7', text: '【真实案例】公司让员工用差旅费发票报销个人消费(如家庭聚餐发票)=虚开发票,公司补税+罚款+员工个税补缴。', required: false },
+                                { id: 's8', text: '【发票丢失的处理】丢失专票:向税务局报告,接受罚款(1万元以下)。丢失已开具发票:用发票复印件+说明入账。', required: false },
+                                { id: 's9', text: '【红冲/作废】开票有误当月可作废;跨月需红冲。每年大量红冲可能被税务局预警。', required: false }
+                            ]
+                        }
                     }
                 ]
             },
